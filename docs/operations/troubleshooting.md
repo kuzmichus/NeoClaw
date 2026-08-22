@@ -7,10 +7,10 @@
 - `Error creating provider: model "openrouter/free" not found in model_list`
 - OpenRouter returns 400: `"free is not a valid model ID"`
 
-**Cause:** PicoClaw now resolves provider/model in two steps:
+**Cause:** NeoClaw now resolves provider/model in two steps:
 
 - If `provider` is set, the `model` field is sent to that provider unchanged.
-- If `provider` is omitted, PicoClaw infers the provider from the first `/` segment and sends everything after that first `/` as the runtime model ID.
+- If `provider` is omitted, NeoClaw infers the provider from the first `/` segment and sends everything after that first `/` as the runtime model ID.
 
 For OpenRouter free-tier routing, the preferred config is explicit `provider`.
 

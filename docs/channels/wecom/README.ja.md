@@ -2,10 +2,10 @@
 
 # WeCom
 
-PicoClaw は WeCom を公式 WeCom AI Bot WebSocket API に基づく単一の `channels.wecom` チャンネルとして公開します。
+NeoClaw は WeCom を公式 WeCom AI Bot WebSocket API に基づく単一の `channels.wecom` チャンネルとして公開します。
 従来の `wecom`、`wecom_app`、`wecom_aibot` の分割を統一された設定モデルに置き換えました。
 
-> パブリックな Webhook コールバック URL は不要です。PicoClaw は WeCom へのアウトバウンド WebSocket 接続を確立します。
+> パブリックな Webhook コールバック URL は不要です。NeoClaw は WeCom へのアウトバウンド WebSocket 接続を確立します。
 
 ## サポートされる機能
 
@@ -103,7 +103,7 @@ WeCom AI Bot プラットフォームから `bot_id` と `secret` を既にお�
 
 ## ランタイム動作
 
-- PicoClaw はアクティブな WeCom ターンを維持し、可能な限り同じストリームでストリーミング返信を継続します。
+- NeoClaw はアクティブな WeCom ターンを維持し、可能な限り同じストリームでストリーミング返信を継続します。
 - ストリーミング返信の最大持続時間は **5.5 分**、最小送信間隔は **500ms** です。
 - ストリーミングが利用できなくなった場合、返信はアクティブプッシュ配信にフォールバックします。
 - チャットルートの関連付けは **30 分** の非アクティブ後に期限切れになります。

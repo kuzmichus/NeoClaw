@@ -1,8 +1,8 @@
 > Retour au [README](../project/README.fr.md)
 
-# 🖥️ PicoClaw Liste de compatibilité matérielle
+# 🖥️ NeoClaw Liste de compatibilité matérielle
 
-PicoClaw fonctionne sur pratiquement n'importe quel appareil Linux. Cette page répertorie les puces, produits et cartes de développement vérifiés.
+NeoClaw fonctionne sur pratiquement n'importe quel appareil Linux. Cette page répertorie les puces, produits et cartes de développement vérifiés.
 
 **Votre matériel n'est pas listé ?** Soumettez une PR pour l'ajouter ! Les fabricants de matériel sont invités à contribuer et à co-promouvoir.
 
@@ -59,7 +59,7 @@ PicoClaw fonctionne sur pratiquement n'importe quel appareil Linux. Cette page r
 
 ## 2. Produits vérifiés (par date de sortie)
 
-Produits grand public, routeurs et appareils industriels testés avec PicoClaw.
+Produits grand public, routeurs et appareils industriels testés avec NeoClaw.
 
 | Année | Produit | Arch | SoC | RAM | Catégorie |
 |-------|---------|------|-----|-----|-----------|
@@ -97,7 +97,7 @@ Produits grand public, routeurs et appareils industriels testés avec PicoClaw.
 
 ### Téléphones Android (via Termux)
 
-Tout téléphone Android ARM64 (2015+) avec 1 Go+ de RAM. Installez [Termux](https://github.com/termux/termux-app), utilisez `proot` pour exécuter PicoClaw.
+Tout téléphone Android ARM64 (2015+) avec 1 Go+ de RAM. Installez [Termux](https://github.com/termux/termux-app), utilisez `proot` pour exécuter NeoClaw.
 
 > Voir [README : Exécuter sur d'anciens téléphones Android](../project/README.fr.md#-run-on-old-android-phones) pour les instructions de configuration.
 

@@ -1,6 +1,6 @@
 # 📡 Canal MQTT
 
-O PicoClaw suporta qualquer cliente MQTT como canal de mensagens. Dispositivos ou serviços publicam requisições para um broker; o PicoClaw assina, processa e publica as respostas de volta.
+O NeoClaw suporta qualquer cliente MQTT como canal de mensagens. Dispositivos ou serviços publicam requisições para um broker; o NeoClaw assina, processa e publica as respostas de volta.
 
 ## 🚀 Início rápido
 
@@ -45,14 +45,14 @@ mosquitto_sub -t "/picoclaw/assistant/device1/response"
 ## 📨 Estrutura de tópicos
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Cliente → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Cliente
+{prefix}/{agent_id}/{client_id}/request    # Cliente → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Cliente
 ```
 
 | Segmento | Descrição |
 |----------|-----------|
 | `prefix` | Prefixo do tópico configurado no servidor. Padrão: `/picoclaw` |
-| `agent_id` | Identificador da instância do PicoClaw, definido no campo `agent_id` |
+| `agent_id` | Identificador da instância do NeoClaw, definido no campo `agent_id` |
 | `client_id` | Identificador de sessão definido pelo cliente — use um ID estável por dispositivo para manter o contexto da conversa |
 
 ### Payload da mensagem (JSON)
@@ -128,7 +128,7 @@ channel_list:
 
 ## 🔄 Reconexão
 
-O PicoClaw reconecta automaticamente ao broker se a conexão for perdida, com intervalo de 5 segundos. Após a reconexão, a assinatura é restabelecida automaticamente. O ID de cliente no broker permanece o mesmo nas reconexões, permitindo que o broker identifique corretamente a mesma sessão.
+O NeoClaw reconecta automaticamente ao broker se a conexão for perdida, com intervalo de 5 segundos. Após a reconexão, a assinatura é restabelecida automaticamente. O ID de cliente no broker permanece o mesmo nas reconexões, permitindo que o broker identifique corretamente a mesma sessão.
 
 ---
 
@@ -136,5 +136,5 @@ O PicoClaw reconecta automaticamente ao broker se a conexão for perdida, com in
 
 - **TLS**: SSL/TLS é suportado (URL do broker com `ssl://`). A verificação de certificado é ignorada por padrão.
 - **Respostas em streaming**: Respostas em streaming enviam múltiplas mensagens para o tópico de resposta; concatene-as na ordem recebida para obter a resposta completa.
-- **client_id vs ID de sessão**: O `client_id` no caminho do tópico é definido pela sua aplicação cliente e identifica a sessão. É separado do ID de cliente paho usado pelo PicoClaw para se conectar ao broker.
-- **Múltiplas instâncias**: Se várias instâncias do PicoClaw usarem o mesmo `agent_id` no mesmo broker, defina `client_id` distintos para evitar conflitos no nível do broker.
+- **client_id vs ID de sessão**: O `client_id` no caminho do tópico é definido pela sua aplicação cliente e identifica a sessão. É separado do ID de cliente paho usado pelo NeoClaw para se conectar ao broker.
+- **Múltiplas instâncias**: Se várias instâncias do NeoClaw usarem o mesmo `agent_id` no mesmo broker, defina `client_id` distintos para evitar conflitos no nível do broker.

@@ -2,7 +2,7 @@
 
 # Chiffrement des identifiants
 
-PicoClaw prend en charge le chiffrement des valeurs `api_key` dans les entrées de configuration `model_list`.
+NeoClaw prend en charge le chiffrement des valeurs `api_key` dans les entrées de configuration `model_list`.
 Les clés chiffrées sont stockées sous forme de chaînes `enc://<base64>` et déchiffrées automatiquement au démarrage.
 
 ---
@@ -124,7 +124,7 @@ Cela signifie qu'un fichier de configuration divulgué seul ne suffit pas pour r
 
 ### Détection automatique de la clé SSH
 
-Si `PICOCLAW_SSH_KEY_PATH` n'est pas défini, PicoClaw recherche la clé dédiée :
+Si `PICOCLAW_SSH_KEY_PATH` n'est pas défini, NeoClaw recherche la clé dédiée :
 
 ```
 ~/.ssh/picoclaw_ed25519.key
@@ -154,6 +154,6 @@ Aucun re-chiffrement n'est nécessaire.
 ## Considérations de sécurité
 
 - **La phrase secrète et la clé SSH sont toutes deux requises.** La clé SSH agit comme un second facteur — sans elle, le chiffrement/déchiffrement échouera. Exécutez `picoclaw onboard` pour générer la clé si elle n'existe pas.
-- **La clé SSH est en lecture seule à l'exécution.** PicoClaw n'écrit ni ne modifie jamais le fichier de clé SSH.
+- **La clé SSH est en lecture seule à l'exécution.** NeoClaw n'écrit ni ne modifie jamais le fichier de clé SSH.
 - **Les clés en texte clair restent prises en charge.** Les configurations existantes sans `enc://` ne sont pas affectées.
 - **Le format `enc://` est versionné** via le champ `info` de HKDF (`picoclaw-credential-v1`), permettant de futures mises à niveau d'algorithme sans casser les valeurs chiffrées existantes.

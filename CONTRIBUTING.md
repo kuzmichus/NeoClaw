@@ -1,8 +1,8 @@
-# Contributing to PicoClaw
+# Contributing to NeoClaw
 
-Thank you for your interest in contributing to PicoClaw! This project is a community-driven effort to build the lightweight and versatile personal AI assistant. We welcome contributions of all kinds: bug fixes, features, documentation, translations, and testing.
+Thank you for your interest in contributing to NeoClaw! This project is a community-driven effort to build the lightweight and versatile personal AI assistant. We welcome contributions of all kinds: bug fixes, features, documentation, translations, and testing.
 
-PicoClaw itself was substantially developed with AI assistance — we embrace this approach and have built our contribution process around it.
+NeoClaw itself was substantially developed with AI assistance — we embrace this approach and have built our contribution process around it.
 
 ## Table of Contents
 
@@ -31,7 +31,7 @@ We are committed to maintaining a welcoming and respectful community. Be kind, c
 - **Feature requests** — Open an issue using the feature request template; discuss before implementing.
 - **Code** — Fix bugs or implement features. See the workflow below.
 - **Documentation** — Improve READMEs, docs, inline comments, or translations.
-- **Testing** — Run PicoClaw on new hardware, channels, or LLM providers and report your results.
+- **Testing** — Run NeoClaw on new hardware, channels, or LLM providers and report your results.
 
 For substantial new features, please open an issue first to discuss the design before writing code. This prevents wasted effort and ensures alignment with the project's direction.
 
@@ -129,7 +129,7 @@ git rebase upstream/main
 
 ## AI-Assisted Contributions
 
-PicoClaw was built with substantial AI assistance, and we fully embrace AI-assisted development. However, contributors must understand their responsibilities when using AI tools.
+NeoClaw was built with substantial AI assistance, and we fully embrace AI-assisted development. However, contributors must understand their responsibilities when using AI tools.
 
 ### Disclosure Is Required
 
@@ -301,7 +301,7 @@ When in doubt, open an issue before writing code. It costs little and prevents w
 
 ## A Note on the Project's AI-Driven Origin
 
-PicoClaw's architecture was substantially designed and implemented with AI assistance, guided by human oversight. If you find something that looks odd or over-engineered, it may be an artifact of that process — opening an issue to discuss it is always welcome.
+NeoClaw's architecture was substantially designed and implemented with AI assistance, guided by human oversight. If you find something that looks odd or over-engineered, it may be an artifact of that process — opening an issue to discuss it is always welcome.
 
 We believe AI-assisted development done responsibly produces great results. We also believe humans must remain accountable for what they ship. These two beliefs are not in conflict.
 

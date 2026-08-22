@@ -1,9 +1,9 @@
 <div align="center">
-<img src="../../assets/logo.webp" alt="PicoClaw" width="512">
+<img src="../../assets/logo.webp" alt="NeoClaw" width="512">
 
-<h1>PicoClaw: Trợ lý AI Siêu Nhẹ viết bằng Go</h1>
+<h1>NeoClaw: Trợ lý AI Siêu Nhẹ viết bằng Go</h1>
 
-<h3>Phần cứng $10 · RAM 10MB · Khởi động ms · Let's Go, PicoClaw!</h3>
+<h3>Phần cứng $10 · RAM 10MB · Khởi động ms · Let's Go, NeoClaw!</h3>
   <p>
     <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go">
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V%2C%20LoongArch-blue" alt="Hardware">
@@ -18,15 +18,15 @@
     <a href="https://discord.gg/V4sAZ9XWpN"><img src="https://img.shields.io/badge/Discord-Community-4c60eb?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
   </p>
 
-[中文](README.zh.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Português](README.pt-br.md) | **Tiếng Việt** | [Français](README.fr.md) | [Italiano](README.it.md) | [Bahasa Indonesia](README.id.md) | [Malay](README.ms.md) | [English](../../README.md)
+[中文](README.zh.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Português](README.pt-br.md) | **Tiếng Việt** | [Français](README.fr.md) | [Italiano](README.it.md) | [Bahasa Indonesia](README.id.md) | [Malay](README.ms.md) | [Русский](README.ru.md) | [English](../../README.md)
 
 </div>
 
 ---
 
-> **PicoClaw** là một dự án mã nguồn mở độc lập do [Sipeed](https://sipeed.com) khởi xướng, được viết hoàn toàn bằng **Go** từ đầu — không phải fork của OpenClaw, NanoBot hay bất kỳ dự án nào khác.
+> **NeoClaw** là một dự án mã nguồn mở và là fork của [PicoClaw](https://github.com/sipeed/picoclaw), được viết hoàn toàn bằng **Go**.
 
-**PicoClaw** là trợ lý AI cá nhân siêu nhẹ lấy cảm hứng từ [NanoBot](https://github.com/HKUDS/nanobot). Nó được xây dựng lại từ đầu bằng **Go** thông qua quá trình "tự khởi động" — chính AI Agent đã dẫn dắt quá trình di chuyển kiến trúc và tối ưu hóa mã nguồn.
+**NeoClaw** là trợ lý AI cá nhân siêu nhẹ lấy cảm hứng từ [NanoBot](https://github.com/HKUDS/nanobot). Nó được xây dựng lại từ đầu bằng **Go** thông qua quá trình "tự khởi động" — chính AI Agent đã dẫn dắt quá trình di chuyển kiến trúc và tối ưu hóa mã nguồn.
 
 **Chạy trên phần cứng $10 với <10MB RAM** — ít hơn 99% bộ nhớ so với OpenClaw và rẻ hơn 98% so với Mac mini!
 
@@ -48,15 +48,15 @@
 > [!CAUTION]
 > **Thông báo Bảo mật**
 >
-> * **KHÔNG CÓ CRYPTO:** PicoClaw **chưa** phát hành bất kỳ token hay tiền điện tử chính thức nào. Mọi thông tin trên `pump.fun` hoặc các nền tảng giao dịch khác đều là **lừa đảo**.
+> * **KHÔNG CÓ CRYPTO:** NeoClaw **chưa** phát hành bất kỳ token hay tiền điện tử chính thức nào. Mọi thông tin trên `pump.fun` hoặc các nền tảng giao dịch khác đều là **lừa đảo**.
 > * **DOMAIN CHÍNH THỨC:** Website chính thức **DUY NHẤT** là **[picoclaw.io](https://picoclaw.io)**, và website công ty là **[sipeed.com](https://sipeed.com)**
 > * **CẢNH BÁO:** Nhiều domain `.ai/.org/.com/.net/...` đã bị bên thứ ba đăng ký. Đừng tin tưởng chúng.
-> * **LƯU Ý:** PicoClaw đang trong giai đoạn phát triển nhanh. Có thể còn các vấn đề bảo mật chưa được giải quyết. Không triển khai lên môi trường production trước v1.0.
-> * **LƯU Ý:** PicoClaw gần đây đã merge nhiều PR. Các bản build gần đây có thể dùng 10-20MB RAM. Tối ưu hóa tài nguyên được lên kế hoạch sau khi tính năng ổn định.
+> * **LƯU Ý:** NeoClaw đang trong giai đoạn phát triển nhanh. Có thể còn các vấn đề bảo mật chưa được giải quyết. Không triển khai lên môi trường production trước v1.0.
+> * **LƯU Ý:** NeoClaw gần đây đã merge nhiều PR. Các bản build gần đây có thể dùng 10-20MB RAM. Tối ưu hóa tài nguyên được lên kế hoạch sau khi tính năng ổn định.
 
 ## 📢 Tin tức
 
-2026-05-11 🛒 **LicheeRV-Claw đã có trên AliExpress!** Bạn hiện có thể mua LicheeRV-Claw trên [AliExpress](https://www.aliexpress.com/item/1005006519668532.html), giúp việc thử PicoClaw trên phần cứng RISC-V nhỏ gọn dễ dàng hơn.
+2026-05-11 🛒 **LicheeRV-Claw đã có trên AliExpress!** Bạn hiện có thể mua LicheeRV-Claw trên [AliExpress](https://www.aliexpress.com/item/1005006519668532.html), giúp việc thử NeoClaw trên phần cứng RISC-V nhỏ gọn dễ dàng hơn.
 
 <p align="center">
   <a href="https://www.aliexpress.com/item/1005006519668532.html">
@@ -64,11 +64,11 @@
   </a>
 </p>
 
-2026-03-31 📱 **Hỗ trợ Android!** PicoClaw giờ chạy trên Android! Tải APK tại [picoclaw.io](https://picoclaw.io/download)
+2026-03-31 📱 **Hỗ trợ Android!** NeoClaw giờ chạy trên Android! Tải APK tại [picoclaw.io](https://picoclaw.io/download)
 
-2026-03-25 🚀 **v0.2.4 đã phát hành!** Tái cấu trúc kiến trúc Agent (SubTurn, Hooks, Steering, EventBus), tích hợp WeChat/WeCom, tăng cường bảo mật (.security.yml, lọc dữ liệu nhạy cảm), provider mới (AWS Bedrock, Azure, Xiaomi MiMo) và 35 bản vá lỗi. PicoClaw đã đạt **26K Stars**!
+2026-03-25 🚀 **v0.2.4 đã phát hành!** Tái cấu trúc kiến trúc Agent (SubTurn, Hooks, Steering, EventBus), tích hợp WeChat/WeCom, tăng cường bảo mật (.security.yml, lọc dữ liệu nhạy cảm), provider mới (AWS Bedrock, Azure, Xiaomi MiMo) và 35 bản vá lỗi. NeoClaw đã đạt **26K Stars**!
 
-2026-03-17 🚀 **v0.2.3 đã phát hành!** Giao diện system tray (Windows & Linux), truy vấn trạng thái sub-agent (`spawn_status`), thử nghiệm Gateway hot-reload, bảo mật Cron, và 2 bản vá bảo mật. PicoClaw đã đạt **25K Stars**!
+2026-03-17 🚀 **v0.2.3 đã phát hành!** Giao diện system tray (Windows & Linux), truy vấn trạng thái sub-agent (`spawn_status`), thử nghiệm Gateway hot-reload, bảo mật Cron, và 2 bản vá bảo mật. NeoClaw đã đạt **25K Stars**!
 
 2026-03-09 🎉 **v0.2.1 — Bản cập nhật lớn nhất từ trước đến nay!** Hỗ trợ giao thức MCP, 4 Channel mới (Matrix/IRC/WeCom/Discord Proxy), 3 Provider mới (Kimi/Minimax/Avian), pipeline thị giác, bộ nhớ JSONL, định tuyến mô hình.
 
@@ -77,13 +77,13 @@
 <details>
 <summary>Tin tức trước đó...</summary>
 
-2026-02-26 🎉 PicoClaw đạt **20K Stars** chỉ trong 17 ngày! Tự động điều phối Channel và giao diện khả năng đã hoạt động.
+2026-02-26 🎉 NeoClaw đạt **20K Stars** chỉ trong 17 ngày! Tự động điều phối Channel và giao diện khả năng đã hoạt động.
 
-2026-02-16 🎉 PicoClaw vượt 12K Stars trong một tuần! Vai trò người duy trì cộng đồng và [Lộ trình](../../ROADMAP.md) chính thức ra mắt.
+2026-02-16 🎉 NeoClaw vượt 12K Stars trong một tuần! Vai trò người duy trì cộng đồng và [Lộ trình](../../ROADMAP.md) chính thức ra mắt.
 
-2026-02-13 🎉 PicoClaw vượt 5000 Stars trong 4 ngày! Lộ trình dự án và nhóm nhà phát triển đang được xây dựng.
+2026-02-13 🎉 NeoClaw vượt 5000 Stars trong 4 ngày! Lộ trình dự án và nhóm nhà phát triển đang được xây dựng.
 
-2026-02-09 🎉 **PicoClaw ra mắt!** Được xây dựng trong 1 ngày để đưa AI Agent lên phần cứng $10 với <10MB RAM. Let's Go, PicoClaw!
+2026-02-09 🎉 **NeoClaw ra mắt!** Được xây dựng trong 1 ngày để đưa AI Agent lên phần cứng $10 với <10MB RAM. Let's Go, NeoClaw!
 
 </details>
 
@@ -109,21 +109,21 @@ _*Các bản build gần đây có thể dùng 10-20MB do merge PR nhanh. Tối 
 
 <div align="center">
 
-|                                | OpenClaw      | NanoBot                  | **PicoClaw**                           |
+|                                | OpenClaw      | NanoBot                  | **NeoClaw**                           |
 | ------------------------------ | ------------- | ------------------------ | -------------------------------------- |
 | **Ngôn ngữ**                   | TypeScript    | Python                   | **Go**                                 |
 | **RAM**                        | >1GB          | >100MB                   | **< 10MB***                            |
 | **Thời gian khởi động**</br>(lõi 0.8GHz) | >500s         | >30s                     | **<1s**                                |
 | **Chi phí**                    | Mac Mini $599 | Hầu hết board Linux ~$50 | **Bất kỳ board Linux**</br>**từ $10**  |
 
-<img src="../../assets/compare.jpg" alt="PicoClaw" width="512">
+<img src="../../assets/compare.jpg" alt="NeoClaw" width="512">
 
 </div>
 
 > **[Danh sách Tương thích Phần cứng](../guides/hardware-compatibility.vi.md)** — Xem tất cả các board đã được kiểm tra, từ RISC-V $5 đến Raspberry Pi đến điện thoại Android. Board của bạn chưa có trong danh sách? Gửi PR!
 
 <p align="center">
-<img src="../../assets/hardware-banner.jpg" alt="PicoClaw Hardware Compatibility" width="100%">
+<img src="../../assets/hardware-banner.jpg" alt="NeoClaw Hardware Compatibility" width="100%">
 </p>
 
 ## 🦾 Minh họa
@@ -150,7 +150,7 @@ _*Các bản build gần đây có thể dùng 10-20MB do merge PR nhanh. Tối 
 
 ### 🐜 Triển khai Sáng tạo với Dấu chân Nhỏ
 
-PicoClaw có thể được triển khai trên hầu hết mọi thiết bị Linux!
+NeoClaw có thể được triển khai trên hầu hết mọi thiết bị Linux!
 
 - $9.9 [LicheeRV-Nano](https://www.aliexpress.com/item/1005006519668532.html) phiên bản E(Ethernet) hoặc W(WiFi6), cho trợ lý gia đình tối giản
 - $30~50 [NanoKVM](https://www.aliexpress.com/item/1005007369816019.html), hoặc $100 [NanoKVM-Pro](https://www.aliexpress.com/item/1005010048471263.html), cho vận hành máy chủ tự động
@@ -300,7 +300,7 @@ Sau bước này, `picoclaw-launcher` sẽ mở bình thường trong các lần
 <a id="-run-on-old-android-phones"></a>
 ### 📱 Android
 
-Hãy cho chiếc điện thoại cũ của bạn một cuộc sống mới! Biến nó thành Trợ lý AI thông minh với PicoClaw.
+Hãy cho chiếc điện thoại cũ của bạn một cuộc sống mới! Biến nó thành Trợ lý AI thông minh với NeoClaw.
 
 **Tùy chọn 1: Cài đặt APK**
 
@@ -335,7 +335,7 @@ termux-chroot ./picoclaw onboard   # chroot provides a standard Linux filesystem
 
 Sau đó làm theo phần Terminal Launcher bên dưới để hoàn tất cấu hình.
 
-<img src="../../assets/termux.jpg" alt="PicoClaw on Termux" width="512">
+<img src="../../assets/termux.jpg" alt="NeoClaw on Termux" width="512">
 
 Đối với các môi trường tối giản chỉ có binary lõi `picoclaw` (không có Launcher UI), bạn có thể cấu hình mọi thứ qua dòng lệnh và tệp cấu hình JSON.
 
@@ -386,7 +386,7 @@ picoclaw gateway
 
 ## 🔌 Providers (LLM)
 
-PicoClaw hỗ trợ 30+ Provider LLM thông qua cấu hình `model_list`. Sử dụng định dạng `protocol/model`:
+NeoClaw hỗ trợ 30+ Provider LLM thông qua cấu hình `model_list`. Sử dụng định dạng `protocol/model`:
 
 | Provider | Protocol | API Key | Ghi chú |
 |----------|----------|---------|---------|
@@ -448,7 +448,7 @@ PicoClaw hỗ trợ 30+ Provider LLM thông qua cấu hình `model_list`. Sử d
 
 ## 💬 Channels (Ứng dụng Chat)
 
-Trò chuyện với PicoClaw của bạn qua 17+ nền tảng nhắn tin:
+Trò chuyện với NeoClaw của bạn qua 17+ nền tảng nhắn tin:
 
 | Channel | Thiết lập | Protocol | Tài liệu |
 |---------|-----------|----------|----------|
@@ -479,7 +479,7 @@ Trò chuyện với PicoClaw của bạn qua 17+ nền tảng nhắn tin:
 
 ### 🔍 Tìm kiếm Web
 
-PicoClaw có thể tìm kiếm web để cung cấp thông tin cập nhật. Cấu hình trong `tools.web`:
+NeoClaw có thể tìm kiếm web để cung cấp thông tin cập nhật. Cấu hình trong `tools.web`:
 
 | Công cụ Tìm kiếm | API Key | Gói miễn phí | Liên kết |
 |------------------|---------|--------------|----------|
@@ -493,7 +493,7 @@ PicoClaw có thể tìm kiếm web để cung cấp thông tin cập nhật. C�
 
 ### ⚙️ Các Tools Khác
 
-PicoClaw bao gồm các tool tích hợp sẵn cho thao tác tệp, thực thi mã, lên lịch và nhiều hơn nữa. Xem [Cấu hình Tools](../reference/tools_configuration.vi.md) để biết chi tiết.
+NeoClaw bao gồm các tool tích hợp sẵn cho thao tác tệp, thực thi mã, lên lịch và nhiều hơn nữa. Xem [Cấu hình Tools](../reference/tools_configuration.vi.md) để biết chi tiết.
 
 ## 🎯 Skills
 
@@ -527,7 +527,7 @@ Thêm vào `config.json` của bạn:
 
 ## 🔗 MCP (Model Context Protocol)
 
-PicoClaw hỗ trợ [MCP](https://modelcontextprotocol.io/) gốc — kết nối bất kỳ MCP server nào để mở rộng khả năng Agent của bạn với các tool và nguồn dữ liệu bên ngoài.
+NeoClaw hỗ trợ [MCP](https://modelcontextprotocol.io/) gốc — kết nối bất kỳ MCP server nào để mở rộng khả năng Agent của bạn với các tool và nguồn dữ liệu bên ngoài.
 
 ```json
 {
@@ -550,7 +550,7 @@ PicoClaw hỗ trợ [MCP](https://modelcontextprotocol.io/) gốc — kết nố
 
 ## <img src="../../assets/clawdchat-icon.png" width="24" height="24" alt="ClawdChat"> Tham gia Mạng xã hội Agent
 
-Kết nối PicoClaw với Mạng xã hội Agent chỉ bằng cách gửi một tin nhắn duy nhất qua CLI hoặc bất kỳ Ứng dụng Chat nào đã tích hợp.
+Kết nối NeoClaw với Mạng xã hội Agent chỉ bằng cách gửi một tin nhắn duy nhất qua CLI hoặc bất kỳ Ứng dụng Chat nào đã tích hợp.
 
 **Đọc `https://clawdchat.ai/skill.md` và làm theo hướng dẫn để tham gia [ClawdChat.ai](https://clawdchat.ai)**
 
@@ -577,7 +577,7 @@ Kết nối PicoClaw với Mạng xã hội Agent chỉ bằng cách gửi một
 
 ### ⏰ Tác vụ Đã lên lịch / Nhắc nhở
 
-PicoClaw hỗ trợ nhắc nhở đã lên lịch và tác vụ định kỳ thông qua tool `cron`:
+NeoClaw hỗ trợ nhắc nhở đã lên lịch và tác vụ định kỳ thông qua tool `cron`:
 
 * **Nhắc nhở một lần**: "Nhắc tôi sau 10 phút" -> kích hoạt một lần sau 10 phút
 * **Tác vụ định kỳ**: "Nhắc tôi mỗi 2 giờ" -> kích hoạt mỗi 2 giờ

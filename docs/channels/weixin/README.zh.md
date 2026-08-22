@@ -1,6 +1,6 @@
 # 💬 微信个人号渠道 (Weixin)
 
-PicoClaw 支持使用腾讯官方 iLink API 连接您的个人微信账号。
+NeoClaw 支持使用腾讯官方 iLink API 连接您的个人微信账号。
 
 ## 🚀 快速激活
 

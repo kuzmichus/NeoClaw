@@ -2,10 +2,10 @@
 
 # WeCom
 
-PicoClaw exposes WeCom as a single `channels.wecom` channel built on the official WeCom AI Bot WebSocket API.
+NeoClaw exposes WeCom as a single `channels.wecom` channel built on the official WeCom AI Bot WebSocket API.
 This replaces the legacy `wecom`, `wecom_app`, and `wecom_aibot` split with one unified configuration model.
 
-> No public webhook callback URL is required. PicoClaw opens an outbound WebSocket connection to WeCom.
+> No public webhook callback URL is required. NeoClaw opens an outbound WebSocket connection to WeCom.
 
 ## What This Channel Supports
 
@@ -103,7 +103,7 @@ All fields can be overridden via environment variables with the prefix `PICOCLAW
 
 ## Runtime Behavior
 
-- PicoClaw maintains an active WeCom turn so streaming replies can continue on the same stream when possible.
+- NeoClaw maintains an active WeCom turn so streaming replies can continue on the same stream when possible.
 - Streaming replies have a maximum duration of **5.5 minutes** and a minimum send interval of **500ms**.
 - If streaming is no longer available, replies fall back to active push delivery.
 - Chat route associations expire after **30 minutes** of inactivity.

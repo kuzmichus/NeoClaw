@@ -159,7 +159,7 @@ HookManager 的排序规则是：
 tail -f /tmp/picoclaw-hook-review-gate.log
 ```
 
-如果你是在开发 PicoClaw 本体，而不是只想验证协议，那么再看后面的 Go in-process 示例。
+如果你是在开发 NeoClaw 本体，而不是只想验证协议，那么再看后面的 Go in-process 示例。
 
 ## 两个示例的定位
 
@@ -680,12 +680,12 @@ if __name__ == "__main__":
 
 当前 process hook 使用 `JSON-RPC over stdio`：
 
-- PicoClaw 启动外部进程
+- NeoClaw 启动外部进程
 - 请求和响应都按“一行一个 JSON 消息”传输
 - `hook.runtime_event` 是 notification，不需要响应
 - `hook.before_llm` / `hook.after_llm` / `hook.before_tool` / `hook.after_tool` / `hook.approve_tool` 是 request/response
 
-当前宿主不会接受 process hook 主动发起的新 RPC。也就是说，外部 hook 现在只能“响应 PicoClaw 的调用”，不能反向调用宿主去发送 channel 消息。
+当前宿主不会接受 process hook 主动发起的新 RPC。也就是说，外部 hook 现在只能“响应 NeoClaw 的调用”，不能反向调用宿主去发送 channel 消息。
 
 ## 配置字段
 

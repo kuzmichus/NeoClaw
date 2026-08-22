@@ -25,7 +25,7 @@ Talk to your picoclaw through Telegram, Discord, WhatsApp, Matrix, QQ, DingTalk,
 | **OneBot**           | ⭐⭐ Medium        | NapCat/Go-CQHTTP compatible, community ecosystem      | [Docs](../channels/onebot/README.md)                                                                            |
 | **MQTT**             | ⭐ Easy            | Any MQTT client via broker pub/sub                    | [Docs](../channels/mqtt/README.md)                                                                              |
 | **MaixCam**          | ⭐ Easy            | Hardware integration channel for Sipeed AI cameras    | [Docs](../channels/maixcam/README.md)                                                                           |
-| **Pico**             | ⭐ Easy            | Native PicoClaw protocol channel                      |                                                                                                                  |
+| **Pico**             | ⭐ Easy            | Native NeoClaw protocol channel                      |                                                                                                                  |
 
 <a id="telegram"></a>
 <details>
@@ -63,10 +63,10 @@ picoclaw gateway
 
 **4. Telegram command menu (auto-registered at startup)**
 
-PicoClaw now keeps command definitions in one shared registry. On startup, Telegram will automatically register supported bot commands (for example `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) so command menu and runtime behavior stay in sync.
+NeoClaw now keeps command definitions in one shared registry. On startup, Telegram will automatically register supported bot commands (for example `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) so command menu and runtime behavior stay in sync.
 Telegram command menu registration remains channel-local discovery UX; generic command execution is handled centrally in the agent loop via the commands executor.
 
-If command registration fails (network/API transient errors), the channel still starts and PicoClaw retries registration in the background.
+If command registration fails (network/API transient errors), the channel still starts and NeoClaw retries registration in the background.
 
 You can also inspect skills and MCP servers directly from Telegram:
 
@@ -162,7 +162,7 @@ picoclaw gateway
 <details>
 <summary><b>WhatsApp</b> (native via whatsmeow)</summary>
 
-PicoClaw can connect to WhatsApp in two ways:
+NeoClaw can connect to WhatsApp in two ways:
 
 - **Native (recommended):** In-process using [whatsmeow](https://github.com/tulir/whatsmeow). No separate bridge. Set `"use_native": true` and leave `bridge_url` empty. On first run, scan the QR code with WhatsApp (Linked Devices). Session is stored under your workspace (e.g. `workspace/whatsapp/`). The native channel is **optional** to keep the default binary small; build with `-tags whatsapp_native` (e.g. `make build-whatsapp-native` or `go build -tags whatsapp_native ./cmd/...`).
 - **Bridge:** Connect to an external WebSocket bridge. Set `bridge_url` (e.g. `ws://localhost:3001`) and keep `use_native` false.
@@ -191,7 +191,7 @@ If `session_store_path` is empty, the session is stored in `<workspace>/whatsapp
 <details>
 <summary><b>Weixin</b> (WeChat Personal)</summary>
 
-PicoClaw supports connecting to your personal WeChat account using the official Tencent iLink API.
+NeoClaw supports connecting to your personal WeChat account using the official Tencent iLink API.
 
 **1. Login**
 
@@ -234,7 +234,7 @@ QQ Open Platform provides a one-click setup page for OpenClaw-compatible bots:
 
 1. Open [QQ Bot Quick Start](https://q.qq.com/qqbot/openclaw/index.html) and scan the QR code to log in
 2. A bot is created automatically — copy the **App ID** and **App Secret**
-3. Configure PicoClaw:
+3. Configure NeoClaw:
 
 ```json
 {
@@ -392,7 +392,7 @@ picoclaw gateway
 <details>
 <summary><b>WeCom (企业微信)</b></summary>
 
-PicoClaw now exposes WeCom as a single AI Bot channel over WebSocket.
+NeoClaw now exposes WeCom as a single AI Bot channel over WebSocket.
 No public webhook callback URL is required.
 
 See [WeCom Configuration Guide](../channels/wecom/README.md) for the full configuration reference and migration notes.
@@ -440,7 +440,7 @@ picoclaw gateway
 <details>
 <summary><b>Feishu (Lark)</b></summary>
 
-PicoClaw connects to Feishu via WebSocket/SDK mode — no public webhook URL or callback server needed.
+NeoClaw connects to Feishu via WebSocket/SDK mode — no public webhook URL or callback server needed.
 
 **1. Create an app**
 
@@ -553,7 +553,7 @@ The bot will connect to the IRC server and join the specified channels.
 <details>
 <summary><b>OneBot (QQ via OneBot protocol)</b></summary>
 
-OneBot is an open protocol for QQ bots. PicoClaw connects to any OneBot v11 compatible implementation (e.g., [Lagrange](https://github.com/LagrangeDev/Lagrange.Core), [NapCat](https://github.com/NapNeko/NapCatQQ)) via WebSocket.
+OneBot is an open protocol for QQ bots. NeoClaw connects to any OneBot v11 compatible implementation (e.g., [Lagrange](https://github.com/LagrangeDev/Lagrange.Core), [NapCat](https://github.com/NapNeko/NapCatQQ)) via WebSocket.
 
 **1. Set up a OneBot implementation**
 
@@ -593,7 +593,7 @@ picoclaw gateway
 <details>
 <summary><b>MQTT</b></summary>
 
-Any MQTT client can communicate with PicoClaw via a broker. Devices or services publish requests to the broker; PicoClaw subscribes, processes them, and publishes responses back.
+Any MQTT client can communicate with NeoClaw via a broker. Devices or services publish requests to the broker; NeoClaw subscribes, processes them, and publishes responses back.
 
 **1. Configure**
 
@@ -628,8 +628,8 @@ channel_list:
 **Topic format**
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Client → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Client
+{prefix}/{agent_id}/{client_id}/request    # Client → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Client
 ```
 
 `client_id` is set by your client application to identify different devices or sessions.

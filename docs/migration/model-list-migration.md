@@ -103,8 +103,8 @@ Legacy compatibility format:
 
 Resolution rules:
 
-1. If `provider` is set, PicoClaw sends `model` unchanged.
-2. If `provider` is omitted, PicoClaw treats the first `/` segment in `model` as the provider and everything after that first `/` as the runtime model ID.
+1. If `provider` is set, NeoClaw sends `model` unchanged.
+2. If `provider` is omitted, NeoClaw treats the first `/` segment in `model` as the provider and everything after that first `/` as the runtime model ID.
 
 Examples:
 

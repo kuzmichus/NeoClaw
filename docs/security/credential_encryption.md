@@ -1,6 +1,6 @@
 # Credential Encryption
 
-PicoClaw supports encrypting `api_key`/`api_keys` values in `model_list` configuration entries.
+NeoClaw supports encrypting `api_key`/`api_keys` values in `model_list` configuration entries.
 Encrypted keys are stored as `enc://<base64>` strings and decrypted automatically at startup.
 
 ---
@@ -124,7 +124,7 @@ This means a leaked config file alone is not sufficient to recover the API key, 
 
 ### SSH Key Auto-Detection
 
-If `PICOCLAW_SSH_KEY_PATH` is not set, PicoClaw looks for the picoclaw-specific key:
+If `PICOCLAW_SSH_KEY_PATH` is not set, NeoClaw looks for the picoclaw-specific key:
 
 ```
 ~/.ssh/picoclaw_ed25519.key
@@ -154,6 +154,6 @@ No re-encryption is needed.
 ## Security Considerations
 
 - **Both passphrase and SSH key are required.** The SSH key acts as a second factor — without it, encryption/decryption will fail. Run `picoclaw onboard` to generate the key if it doesn't exist.
-- **The SSH key is read-only at runtime.** PicoClaw never writes to or modifies the SSH key file.
+- **The SSH key is read-only at runtime.** NeoClaw never writes to or modifies the SSH key file.
 - **Plaintext keys remain supported.** Existing configs without `enc://` are unaffected.
 - **The `enc://` format is versioned** via the HKDF `info` field (`picoclaw-credential-v1`), allowing future algorithm upgrades without breaking existing encrypted values.

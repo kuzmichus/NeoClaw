@@ -33,7 +33,7 @@ PICOCLAW_HOME=/srv/picoclaw PICOCLAW_CONFIG=/srv/picoclaw/main.json picoclaw gat
 
 ### Configurazione Streaming
 
-Lo streaming del provider usa un double opt-in ed è disattivato per impostazione predefinita. L'agent prova lo streaming solo quando il canale corrente ha `settings.streaming.enabled: true`, l'entry del modello attivo ha `streaming.enabled: true`, e sia il provider sia il canale supportano lo streaming. Se manca una qualsiasi condizione, PicoClaw usa il normale percorso di richiesta non streaming.
+Lo streaming del provider usa un double opt-in ed è disattivato per impostazione predefinita. L'agent prova lo streaming solo quando il canale corrente ha `settings.streaming.enabled: true`, l'entry del modello attivo ha `streaming.enabled: true`, e sia il provider sia il canale supportano lo streaming. Se manca una qualsiasi condizione, NeoClaw usa il normale percorso di richiesta non streaming.
 
 Pico WebUI è il primo canale completamente collegato. Pico crea il primo messaggio assistant con il wire message esistente `message.create`, poi aggiorna lo stesso messaggio con `message.update`; non viene introdotto alcun nuovo tipo di wire message Pico.
 
@@ -78,11 +78,11 @@ Esempio di attivazione:
 
 Le variabili d'ambiente legacy di Telegram restano compatibili: `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLED`, `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_THROTTLE_SECONDS` e `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_MIN_GROWTH_CHARS`. Si applicano solo alle settings Telegram e non attivano né modificano `settings.streaming` di Pico.
 
-Il comportamento in caso di errore è intenzionalmente conservativo: se lo streaming fallisce prima che venga inviato un chunk visibile, PicoClaw riprova una volta tramite il normale percorso `Chat()`. Se un chunk è già stato mostrato all'utente, PicoClaw non invia una seconda risposta non streaming, evitando output duplicato.
+Il comportamento in caso di errore è intenzionalmente conservativo: se lo streaming fallisce prima che venga inviato un chunk visibile, NeoClaw riprova una volta tramite il normale percorso `Chat()`. Se un chunk è già stato mostrato all'utente, NeoClaw non invia una seconda risposta non streaming, evitando output duplicato.
 
 ### Struttura del Workspace
 
-PicoClaw salva i dati nel workspace configurato (predefinito: `~/.picoclaw/workspace`):
+NeoClaw salva i dati nel workspace configurato (predefinito: `~/.picoclaw/workspace`):
 
 ```
 ~/.picoclaw/workspace/
@@ -124,7 +124,7 @@ export PICOCLAW_BUILTIN_SKILLS=/path/to/skills
 
 La dichiarazione dei tool per-agent vive nel frontmatter di `AGENT.md`, non in `config.json`.
 
-Se `tools` è omesso nel frontmatter, l'agent riceve il normale set globale dei tool abilitati. Se `tools` è presente, PicoClaw registra per quell'agent solo i tool runtime elencati.
+Se `tools` è omesso nel frontmatter, l'agent riceve il normale set globale dei tool abilitati. Se `tools` è presente, NeoClaw registra per quell'agent solo i tool runtime elencati.
 
 ```md
 ---
@@ -147,7 +147,7 @@ Note:
 
 ### Discovery Multi-Agent (Automatica)
 
-Quando un agent ha peer spawnabili, PicoClaw inietta automaticamente nel suo system prompt un registry strutturato dei peer. Non serve una chiamata aggiuntiva a un tool `list_agents`.
+Quando un agent ha peer spawnabili, NeoClaw inietta automaticamente nel suo system prompt un registry strutturato dei peer. Non serve una chiamata aggiuntiva a un tool `list_agents`.
 
 Questa discovery serve soprattutto a rendere affidabile la delega tramite `spawn` con `agent_id` esplicito.
 
@@ -185,7 +185,7 @@ In pratica, un agent generalista sceglie un peer in base alla descrizione del su
 
 ### 🔒 Sandbox di Sicurezza
 
-PicoClaw esegue in un ambiente sandboxed per impostazione predefinita. L'agent può accedere solo ai file ed eseguire comandi all'interno del workspace configurato.
+NeoClaw esegue in un ambiente sandboxed per impostazione predefinita. L'agent può accedere solo ai file ed eseguire comandi all'interno del workspace configurato.
 
 #### Configurazione Predefinita
 
@@ -249,7 +249,7 @@ Anche con `restrict_to_workspace: false`, lo strumento `exec` blocca questi coma
 
 #### Limitazione Nota: Processi Figlio degli Strumenti di Build
 
-Il controllo di sicurezza exec ispeziona solo la riga di comando avviata direttamente da PicoClaw. Non ispeziona ricorsivamente i processi figlio generati da strumenti di sviluppo consentiti come `make`, `go run`, `cargo`, `npm run` o script di build personalizzati.
+Il controllo di sicurezza exec ispeziona solo la riga di comando avviata direttamente da NeoClaw. Non ispeziona ricorsivamente i processi figlio generati da strumenti di sviluppo consentiti come `make`, `go run`, `cargo`, `npm run` o script di build personalizzati.
 
 Ciò significa che un comando di primo livello può comunque compilare o avviare altri binari dopo aver superato il controllo iniziale. In pratica, tratta gli script di build, i Makefile, gli script di pacchetti e i binari generati come codice eseguibile che richiede lo stesso livello di revisione di un comando shell diretto.
 
@@ -257,7 +257,7 @@ Per ambienti ad alto rischio:
 
 * Esamina gli script di build prima dell'esecuzione.
 * Preferisci l'approvazione/revisione manuale per i workflow di compilazione ed esecuzione.
-* Esegui PicoClaw in un container o VM se hai bisogno di un isolamento più forte di quello fornito dal controllo integrato.
+* Esegui NeoClaw in un container o VM se hai bisogno di un isolamento più forte di quello fornito dal controllo integrato.
 
 #### Esempi di Errore
 
@@ -309,7 +309,7 @@ Tutti i percorsi condividono la stessa restrizione del workspace — non è poss
 
 ### Heartbeat (Task Periodici)
 
-PicoClaw può eseguire task periodici automaticamente. Crea un file `HEARTBEAT.md` nel tuo workspace:
+NeoClaw può eseguire task periodici automaticamente. Crea un file `HEARTBEAT.md` nel tuo workspace:
 
 ```markdown
 # Periodic Tasks

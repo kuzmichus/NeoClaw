@@ -1,21 +1,21 @@
 ---
 name: picoclaw-agent
-description: "Configure, extend, debug, or contribute to PicoClaw itself. Use when the task is about PicoClaw CLI commands, config.json, gateway, auth, models, skills, MCP servers, cron, routing, sessions, self-evolution, built-in slash commands, or repository internals. Use PicoClaw-native workflows, terminology, paths, and configuration."
+description: "Configure, extend, debug, or contribute to NeoClaw itself. Use when the task is about NeoClaw CLI commands, config.json, gateway, auth, models, skills, MCP servers, cron, routing, sessions, self-evolution, built-in slash commands, or repository internals. Use NeoClaw-native workflows, terminology, paths, and configuration."
 metadata: {"nanobot":{"emoji":"🦞"}}
 ---
 
-# PicoClaw Agent
+# NeoClaw Agent
 
-PicoClaw is a lightweight personal AI assistant and agent framework with a native CLI, chat gateway, MCP integration, installable skills, session routing, scheduled jobs, and self-evolution.
+NeoClaw is a lightweight personal AI assistant and agent framework with a native CLI, chat gateway, MCP integration, installable skills, session routing, scheduled jobs, and self-evolution.
 
-Use this skill when the job is about **PicoClaw itself**: onboarding, configuration, debugging, adding features, extending the CLI, changing routing/session behavior, working on skills or MCP support, or contributing to this repository.
+Use this skill when the job is about **NeoClaw itself**: onboarding, configuration, debugging, adding features, extending the CLI, changing routing/session behavior, working on skills or MCP support, or contributing to this repository.
 
 ## Operating Stance
 
-When this skill is active, stay fully subordinate to PicoClaw's real architecture:
+When this skill is active, stay fully subordinate to NeoClaw's real architecture:
 
-- Prefer PicoClaw commands, config keys, workspace layout, and docs.
-- Follow PicoClaw source and docs for behavior, naming, and workflows.
+- Prefer NeoClaw commands, config keys, workspace layout, and docs.
+- Follow NeoClaw source and docs for behavior, naming, and workflows.
 - Treat repository code and checked-in docs as the source of truth.
 
 ## Quick Start
@@ -151,9 +151,9 @@ Notes:
 
 ## Providers
 
-PicoClaw supports 30+ LLM providers through `model_list`.
+NeoClaw supports 30+ LLM providers through `model_list`.
 
-Credential patterns in PicoClaw are:
+Credential patterns in NeoClaw are:
 
 - `model_list[].api_keys` for most hosted APIs
 - `picoclaw auth login --provider ...` for the built-in auth helper flows (`openai`, `anthropic`, `antigravity`)
@@ -164,7 +164,7 @@ Credential patterns in PicoClaw are:
 
 ### Common Provider Matrix
 
-| Provider | `provider` value | Auth path in PicoClaw |
+| Provider | `provider` value | Auth path in NeoClaw |
 | --- | --- | --- |
 | OpenAI | `openai` | OAuth helper via `picoclaw auth login --provider openai`, or `model_list[].api_keys` |
 | Anthropic | `anthropic` | API key in `model_list[].api_keys`, or helper flow via `picoclaw auth login --provider anthropic` |
@@ -194,7 +194,7 @@ Credential patterns in PicoClaw are:
 
 ### Additional OpenAI-Compatible Vendors
 
-PicoClaw also carries first-class metadata or routing support for additional vendors such as:
+NeoClaw also carries first-class metadata or routing support for additional vendors such as:
 
 - `venice`
 - `vivgrid`
@@ -212,7 +212,7 @@ For the full provider matrix, default API bases, protocol families, and vendor-s
 
 ## Built-in Tool Families
 
-PicoClaw tools are configured under `tools` in `config.json` and registered dynamically at runtime.
+NeoClaw tools are configured under `tools` in `config.json` and registered dynamically at runtime.
 
 Important activation rules:
 
@@ -249,7 +249,7 @@ For per-tool configuration, read `docs/reference/tools_configuration.md`.
 
 ## Specialized Subagents and Spawn
 
-PicoClaw has a first-class subagent model for long-running work, isolated subproblems, and multi-agent specialization.
+NeoClaw has a first-class subagent model for long-running work, isolated subproblems, and multi-agent specialization.
 
 The core idea is:
 
@@ -310,7 +310,7 @@ skills: [deep-research]
 
 ### Automatic Agent Discovery
 
-When an agent has the `spawn` tool and at least one allowed peer, PicoClaw injects a lightweight agent registry into the system prompt automatically.
+When an agent has the `spawn` tool and at least one allowed peer, NeoClaw injects a lightweight agent registry into the system prompt automatically.
 
 That means:
 
@@ -366,7 +366,7 @@ Background specialist research:
 
 ```text
 spawn(
-  task="Search the web for the latest PicoClaw MCP integration patterns and summarize them.",
+  task="Search the web for the latest NeoClaw MCP integration patterns and summarize them.",
   label="mcp-research",
   agent_id="research"
 )
@@ -398,7 +398,7 @@ For live visibility:
 
 ## Voice, Transcription, and TTS
 
-PicoClaw can transcribe inbound audio and synthesize outbound speech, but voice setup is model-driven like the rest of the runtime.
+NeoClaw can transcribe inbound audio and synthesize outbound speech, but voice setup is model-driven like the rest of the runtime.
 
 The important pattern is:
 
@@ -448,16 +448,16 @@ model_list:
 | --- | --- | --- |
 | Groq Whisper | `groq/whisper-large-v3-turbo` | Fast OpenAI-compatible Whisper transcription and a common default choice |
 | OpenAI Whisper | `openai/whisper-1` | Standard Whisper transcription through the OpenAI-compatible audio endpoint |
-| ElevenLabs Scribe | `provider: elevenlabs`, `model: scribe_v1` | Uses PicoClaw's dedicated ElevenLabs transcription path |
+| ElevenLabs Scribe | `provider: elevenlabs`, `model: scribe_v1` | Uses NeoClaw's dedicated ElevenLabs transcription path |
 | Audio-capable chat models | `gemini/gemini-2.5-flash`, `openai/gpt-4o-audio-preview` | Multimodal audio transcription path; some model combinations are still evolving |
 
 Detection behavior that matters:
 
 - `voice.model_name` is the preferred and recommended path
-- if it resolves to an ElevenLabs model, PicoClaw uses the ElevenLabs transcriber
-- if it resolves to a Whisper-compatible model, PicoClaw uses the Whisper transcription path
-- if it resolves to an audio-capable multimodal model, PicoClaw can use audio-model transcription
-- if `voice.model_name` is omitted, PicoClaw still performs compatibility scanning across `model_list` for legacy auto-detected ASR entries
+- if it resolves to an ElevenLabs model, NeoClaw uses the ElevenLabs transcriber
+- if it resolves to a Whisper-compatible model, NeoClaw uses the Whisper transcription path
+- if it resolves to an audio-capable multimodal model, NeoClaw can use audio-model transcription
+- if `voice.model_name` is omitted, NeoClaw still performs compatibility scanning across `model_list` for legacy auto-detected ASR entries
 
 ### TTS (Text -> Voice)
 
@@ -527,22 +527,22 @@ model_list:
 
 | Provider path | Example model | Notes |
 | --- | --- | --- |
-| OpenAI-compatible speech | `openai/tts-1` | Best-supported path; PicoClaw sends an OpenAI-style `/audio/speech` request |
+| OpenAI-compatible speech | `openai/tts-1` | Best-supported path; NeoClaw sends an OpenAI-style `/audio/speech` request |
 | Xiaomi MiMo | `mimo/mimo-v2-tts` | Dedicated MiMo TTS provider path with MP3 output |
 
 Operational notes:
 
 - the preferred selection path is `voice.tts_model_name`
-- if that is missing, PicoClaw can still scan `model_list` for the first API-backed model whose ID contains `tts`
+- if that is missing, NeoClaw can still scan `model_list` for the first API-backed model whose ID contains `tts`
 - the current OpenAI-style TTS request defaults to `voice: alloy` and `response_format: opus`
 - you can override `voice` and `response_format` for a specific TTS model through `model_list[].extra_body`
-- if a provider rejects `response_format`, PicoClaw retries once without that field
+- if a provider rejects `response_format`, NeoClaw retries once without that field
 - `send_tts` is only registered when TTS detection succeeds
 
 
 ## In-Session Slash Commands
 
-PicoClaw's shared slash command registry lives under `pkg/commands`.
+NeoClaw's shared slash command registry lives under `pkg/commands`.
 
 Use these when helping users inside chat channels:
 
@@ -618,11 +618,11 @@ PICOCLAW_GATEWAY_HOST=0.0.0.0
 Use `PICOCLAW_CONFIG` when the user reports "wrong config file" behavior.
 Use `PICOCLAW_HOME` when the user wants a portable or service-managed install.
 
-## PicoClaw-Native Concepts
+## NeoClaw-Native Concepts
 
 ### Model Configuration
 
-PicoClaw is model-centric. The key fields are:
+NeoClaw is model-centric. The key fields are:
 
 - `agents.defaults.model_name`
 - `model_list`
@@ -632,7 +632,7 @@ PicoClaw is model-centric. The key fields are:
 Important behavior:
 
 - `agents.defaults.model_name` must match a `model_name` entry in `model_list`.
-- If `provider` is set, PicoClaw sends `model` to that provider unchanged.
+- If `provider` is set, NeoClaw sends `model` to that provider unchanged.
 - If `provider` is omitted, legacy `provider/model` parsing is still supported.
 
 ### Sessions and Routing
@@ -672,11 +672,11 @@ Prefer this format:
 workspace/skills/<skill-name>/SKILL.md
 ```
 
-PicoClaw only relies on `name` and `description` frontmatter fields for loading and matching.
+NeoClaw only relies on `name` and `description` frontmatter fields for loading and matching.
 
 ### MCP Discovery
 
-PicoClaw supports always-loaded and deferred MCP tools.
+NeoClaw supports always-loaded and deferred MCP tools.
 
 Use:
 
@@ -706,7 +706,7 @@ Notes:
 
 ## Debugging Workflow
 
-Start with the most PicoClaw-native path:
+Start with the most NeoClaw-native path:
 
 1. Check `picoclaw status`.
 2. Confirm which config file is active.
@@ -725,7 +725,7 @@ Useful runtime facts:
 
 ### Where to Find Logs
 
-For gateway and runtime debugging, PicoClaw writes logs under its home directory:
+For gateway and runtime debugging, NeoClaw writes logs under its home directory:
 
 ```text
 ~/.picoclaw/logs/gateway.log
@@ -744,7 +744,7 @@ In practice, check these places first:
 - `~/.picoclaw/logs/` for persisted gateway logs
 - the terminal running `picoclaw gateway` or `picoclaw agent`
 - Docker stdout/stderr via `docker compose -f docker/docker-compose.yml logs -f`
-- launcher or service logs if PicoClaw is being run under another supervisor
+- launcher or service logs if NeoClaw is being run under another supervisor
 
 Useful controls:
 
@@ -784,7 +784,7 @@ When contributing code, these paths matter most:
 
 ## Contribution Rules
 
-When changing PicoClaw:
+When changing NeoClaw:
 
 - Prefer extending existing CLI groups and shared registries instead of adding parallel one-off flows.
 - Keep docs aligned with code for CLI flags, slash commands, and config behavior.
@@ -801,7 +801,7 @@ Check that:
 
 - `agents.defaults.model_name` matches a configured `model_name`
 - the target `model_list` entry is enabled
-- the `provider` and `model` fields use PicoClaw's model-centric rules
+- the `provider` and `model` fields use NeoClaw's model-centric rules
 
 ### OpenRouter `free is not a valid model ID`
 

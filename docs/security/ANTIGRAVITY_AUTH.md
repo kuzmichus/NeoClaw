@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Antigravity** (Google Cloud Code Assist) is a Google-backed AI model provider that offers access to models like Claude Opus 4.6 and Gemini through Google's Cloud infrastructure. This document provides a complete guide on how authentication works, how to fetch models, and how to implement a new provider in PicoClaw.
+**Antigravity** (Google Cloud Code Assist) is a Google-backed AI model provider that offers access to models like Claude Opus 4.6 and Gemini through Google's Cloud infrastructure. This document provides a complete guide on how authentication works, how to fetch models, and how to implement a new provider in NeoClaw.
 
 ---
 
@@ -17,7 +17,7 @@
 7. [Integration Requirements](#integration-requirements)
 8. [API Endpoints](#api-endpoints)
 9. [Configuration](#configuration)
-10. [Creating a New Provider in PicoClaw](#creating-a-new-provider-in-picoclaw)
+10. [Creating a New Provider in NeoClaw](#creating-a-new-provider-in-picoclaw)
 
 ---
 
@@ -378,7 +378,7 @@ const antigravityPlugin = {
   description: "OAuth flow for Google Antigravity (Cloud Code Assist)",
   configSchema: emptyPluginConfigSchema(),
   
-  register(api: PicoClawPluginApi) {
+  register(api: NeoClawPluginApi) {
     api.registerProvider({
       id: "google-antigravity",
       label: "Google Antigravity",
@@ -405,7 +405,7 @@ const antigravityPlugin = {
 
 ```typescript
 type ProviderAuthContext = {
-  config: PicoClawConfig;
+  config: NeoClawConfig;
   agentDir?: string;
   workspaceDir?: string;
   prompter: WizardPrompter;      // UI prompts/notifications
@@ -426,7 +426,7 @@ type ProviderAuthResult = {
     profileId: string;
     credential: AuthProfileCredential;
   }>;
-  configPatch?: Partial<PicoClawConfig>;
+  configPatch?: Partial<NeoClawConfig>;
   defaultModel?: string;
   notes?: string[];
 };
@@ -439,7 +439,7 @@ type ProviderAuthResult = {
 ### 1. Required Environment/Dependencies
 
 - Go ≥ 1.25
-- PicoClaw codebase (`pkg/providers/` and `pkg/auth/`)
+- NeoClaw codebase (`pkg/providers/` and `pkg/auth/`)
 - `crypto` and `net/http` standard library packages
 
 ### 2. Required Headers for API Calls
@@ -612,9 +612,9 @@ Auth profiles are stored in `~/.picoclaw/auth.json`:
 
 ---
 
-## Creating a New Provider in PicoClaw
+## Creating a New Provider in NeoClaw
 
-PicoClaw providers are implemented as Go packages under `pkg/providers/`. To add a new provider:
+NeoClaw providers are implemented as Go packages under `pkg/providers/`. To add a new provider:
 
 ### Step-by-Step Implementation
 

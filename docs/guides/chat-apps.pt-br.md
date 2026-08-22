@@ -25,7 +25,7 @@ Converse com seu picoclaw através do Telegram, Discord, WhatsApp, Matrix, QQ, D
 | **OneBot**           | ⭐⭐ Médio         | Compatível com NapCat/Go-CQHTTP, ecossistema comunitário | [Documentação](../channels/onebot/README.pt-br.md)                                                           |
 | **MQTT**             | ⭐ Fácil           | Qualquer cliente MQTT via broker pub/sub             | [Documentação](../channels/mqtt/README.pt-br.md)                                                            |
 | **MaixCam**          | ⭐ Fácil           | Canal de integração de hardware para câmeras AI Sipeed | [Documentação](../channels/maixcam/README.pt-br.md)                                                            |
-| **Pico**             | ⭐ Fácil           | Canal de protocolo nativo PicoClaw                    |                                                                                                                  |
+| **Pico**             | ⭐ Fácil           | Canal de protocolo nativo NeoClaw                    |                                                                                                                  |
 
 <a id="telegram"></a>
 <details>
@@ -62,10 +62,10 @@ picoclaw gateway
 
 **4. Menu de comandos do Telegram (registrado automaticamente na inicialização)**
 
-O PicoClaw agora mantém definições de comandos em um registro compartilhado. Na inicialização, o Telegram registrará automaticamente os comandos de bot suportados (por exemplo `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) para que o menu de comandos e o comportamento em tempo de execução permaneçam sincronizados.
+O NeoClaw agora mantém definições de comandos em um registro compartilhado. Na inicialização, o Telegram registrará automaticamente os comandos de bot suportados (por exemplo `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) para que o menu de comandos e o comportamento em tempo de execução permaneçam sincronizados.
 O registro do menu de comandos do Telegram permanece como descoberta UX local do canal; a execução genérica de comandos é tratada centralmente no loop do agente via commands executor.
 
-Se o registro de comandos falhar (erros transitórios de rede/API), o canal ainda inicia e o PicoClaw tenta novamente o registro em segundo plano.
+Se o registro de comandos falhar (erros transitórios de rede/API), o canal ainda inicia e o NeoClaw tenta novamente o registro em segundo plano.
 
 Voce tambem pode gerenciar skills instaladas diretamente pelo Telegram:
 
@@ -156,7 +156,7 @@ picoclaw gateway
 <details>
 <summary><b>WhatsApp</b> (nativo via whatsmeow)</summary>
 
-O PicoClaw pode se conectar ao WhatsApp de duas formas:
+O NeoClaw pode se conectar ao WhatsApp de duas formas:
 
 - **Nativo (recomendado):** In-process usando [whatsmeow](https://github.com/tulir/whatsmeow). Sem bridge separado. Defina `"use_native": true` e deixe `bridge_url` vazio. Na primeira execução, escaneie o QR code com o WhatsApp (Dispositivos Vinculados). A sessão é armazenada no seu workspace (ex.: `workspace/whatsapp/`). O canal nativo é **opcional** para manter o binário padrão pequeno; compile com `-tags whatsapp_native` (ex.: `make build-whatsapp-native` ou `go build -tags whatsapp_native ./cmd/...`).
 - **Bridge:** Conecte-se a um bridge WebSocket externo. Defina `bridge_url` (ex.: `ws://localhost:3001`) e mantenha `use_native` como false.
@@ -185,7 +185,7 @@ Se `session_store_path` estiver vazio, a sessão é armazenada em `<workspace>/w
 <details>
 <summary><b>Weixin</b> (WeChat Pessoal)</summary>
 
-O PicoClaw suporta conexão com sua conta pessoal do WeChat usando a API oficial Tencent iLink.
+O NeoClaw suporta conexão com sua conta pessoal do WeChat usando a API oficial Tencent iLink.
 
 **1. Login**
 
@@ -228,7 +228,7 @@ A QQ Open Platform oferece uma página de configuração com um clique para bots
 
 1. Abra o [QQ Bot Quick Start](https://q.qq.com/qqbot/openclaw/index.html) e escaneie o QR code para fazer login
 2. Um bot é criado automaticamente — copie o **App ID** e o **App Secret**
-3. Configure o PicoClaw:
+3. Configure o NeoClaw:
 
 ```json
 {
@@ -411,7 +411,7 @@ picoclaw gateway
 <details>
 <summary><b>WeCom (企业微信)</b></summary>
 
-O PicoClaw suporta três tipos de integração WeCom:
+O NeoClaw suporta três tipos de integração WeCom:
 
 **Opção 1: WeCom Bot (Bot)** - Configuração mais fácil, suporta chats de grupo
 **Opção 2: WeCom App (App Personalizado)** - Mais recursos, mensagens proativas, apenas chat privado
@@ -526,7 +526,7 @@ picoclaw gateway
 <details>
 <summary><b>Feishu (Lark)</b></summary>
 
-O PicoClaw se conecta ao Feishu via modo WebSocket/SDK — não é necessário URL de webhook público nem servidor de callback.
+O NeoClaw se conecta ao Feishu via modo WebSocket/SDK — não é necessário URL de webhook público nem servidor de callback.
 
 **1. Criar um aplicativo**
 
@@ -639,7 +639,7 @@ O bot se conectará ao servidor IRC e entrará nos canais especificados.
 <details>
 <summary><b>OneBot (QQ via protocolo OneBot)</b></summary>
 
-OneBot é um protocolo aberto para bots QQ. O PicoClaw se conecta a qualquer implementação compatível com OneBot v11 (ex.: [Lagrange](https://github.com/LagrangeDev/Lagrange.Core), [NapCat](https://github.com/NapNeko/NapCatQQ)) via WebSocket.
+OneBot é um protocolo aberto para bots QQ. O NeoClaw se conecta a qualquer implementação compatível com OneBot v11 (ex.: [Lagrange](https://github.com/LagrangeDev/Lagrange.Core), [NapCat](https://github.com/NapNeko/NapCatQQ)) via WebSocket.
 
 **1. Configurar uma implementação OneBot**
 
@@ -701,7 +701,7 @@ picoclaw gateway
 <details>
 <summary><b>MQTT</b></summary>
 
-Qualquer cliente MQTT pode se comunicar com o PicoClaw via broker. Dispositivos ou serviços publicam requisições para o broker; o PicoClaw assina, processa e publica as respostas de volta.
+Qualquer cliente MQTT pode se comunicar com o NeoClaw via broker. Dispositivos ou serviços publicam requisições para o broker; o NeoClaw assina, processa e publica as respostas de volta.
 
 **1. Configurar**
 
@@ -736,8 +736,8 @@ channel_list:
 **Formato dos tópicos**
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Cliente → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Cliente
+{prefix}/{agent_id}/{client_id}/request    # Cliente → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Cliente
 ```
 
 O `client_id` é definido pela sua aplicação cliente para identificar dispositivos ou sessões.

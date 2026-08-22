@@ -24,7 +24,7 @@ Berbual dengan picoclaw anda melalui Telegram, Discord, WhatsApp, Matrix, QQ, Di
 | **OneBot**       | Sederhana (QQ melalui protokol OneBot)     |
 | **MQTT**         | Mudah (broker + agent_id)                  |
 | **MaixCam**      | Mudah (integrasi perkakasan Sipeed)        |
-| **Pico**         | Protokol PicoClaw asli                     |
+| **Pico**         | Protokol NeoClaw asli                     |
 
 <details>
 <summary><b>Telegram</b> (Disyorkan)</summary>
@@ -61,10 +61,10 @@ picoclaw gateway
 
 **4. Menu arahan Telegram (auto-register semasa startup)**
 
-PicoClaw kini menyimpan definisi arahan dalam satu registry bersama. Semasa startup, Telegram akan mendaftarkan arahan bot yang disokong secara automatik (contohnya `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) supaya menu arahan dan tingkah laku runtime sentiasa selari.
+NeoClaw kini menyimpan definisi arahan dalam satu registry bersama. Semasa startup, Telegram akan mendaftarkan arahan bot yang disokong secara automatik (contohnya `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) supaya menu arahan dan tingkah laku runtime sentiasa selari.
 Pendaftaran menu arahan Telegram kekal sebagai UX penemuan setempat saluran; pelaksanaan arahan generik dikendalikan secara berpusat dalam gelung agen melalui commands executor.
 
-Jika pendaftaran arahan gagal (ralat sementara rangkaian/API), saluran tetap akan bermula dan PicoClaw akan mencuba semula pendaftaran di latar belakang.
+Jika pendaftaran arahan gagal (ralat sementara rangkaian/API), saluran tetap akan bermula dan NeoClaw akan mencuba semula pendaftaran di latar belakang.
 
 Anda juga boleh mengurus skill yang dipasang terus dari Telegram:
 
@@ -156,7 +156,7 @@ picoclaw gateway
 <details>
 <summary><b>WhatsApp</b> (asli melalui whatsmeow)</summary>
 
-PicoClaw boleh menyambung ke WhatsApp dalam dua cara:
+NeoClaw boleh menyambung ke WhatsApp dalam dua cara:
 
 - **Asli (disyorkan):** Dalam proses menggunakan [whatsmeow](https://github.com/tulir/whatsmeow). Tiada bridge berasingan. Tetapkan `"use_native": true` dan biarkan `bridge_url` kosong. Pada larian pertama, imbas kod QR dengan WhatsApp (Linked Devices). Sesi disimpan di bawah workspace anda (contohnya `workspace/whatsapp/`). Saluran asli ini adalah **pilihan** untuk memastikan binari lalai kekal kecil; bina dengan `-tags whatsapp_native` (contohnya `make build-whatsapp-native` atau `go build -tags whatsapp_native ./cmd/...`).
 - **Bridge:** Sambung ke bridge WebSocket luaran. Tetapkan `bridge_url` (contohnya `ws://localhost:3001`) dan biarkan `use_native` sebagai false.
@@ -336,7 +336,7 @@ picoclaw gateway
 <details>
 <summary><b>WeCom (企业微信)</b></summary>
 
-PicoClaw menyokong tiga jenis integrasi WeCom:
+NeoClaw menyokong tiga jenis integrasi WeCom:
 
 **Pilihan 1: WeCom Bot (Bot)** - Penyediaan lebih mudah, menyokong sembang kumpulan
 **Pilihan 2: WeCom App (Custom App)** - Lebih banyak ciri, pemesejan proaktif, sembang peribadi sahaja
@@ -451,7 +451,7 @@ picoclaw gateway
 <details>
 <summary><b>MQTT</b></summary>
 
-Mana-mana client MQTT boleh berkomunikasi dengan PicoClaw melalui broker. Peranti atau perkhidmatan menerbitkan permintaan ke broker; PicoClaw melanggan, memproses dan menerbitkan respons kembali.
+Mana-mana client MQTT boleh berkomunikasi dengan NeoClaw melalui broker. Peranti atau perkhidmatan menerbitkan permintaan ke broker; NeoClaw melanggan, memproses dan menerbitkan respons kembali.
 
 **1. Konfigurasi**
 
@@ -486,8 +486,8 @@ channel_list:
 **Format topik**
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Client → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Client
+{prefix}/{agent_id}/{client_id}/request    # Client → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Client
 ```
 
 `client_id` ditetapkan oleh aplikasi client anda untuk mengenal pasti peranti atau sesi.

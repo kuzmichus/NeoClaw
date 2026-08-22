@@ -1,9 +1,9 @@
-# Penyahpepijatan PicoClaw
+# Penyahpepijatan NeoClaw
 
-PicoClaw melakukan pelbagai interaksi kompleks di sebalik tabir untuk setiap permintaan yang diterimanya, daripada menghala mesej dan menilai kerumitan, hinggalah melaksanakan tools dan menyesuaikan diri dengan kegagalan model. Keupayaan melihat dengan tepat apa yang sedang berlaku sangat penting, bukan sahaja untuk menyelesaikan masalah, malah untuk benar-benar memahami cara agen ini beroperasi.
-## Memulakan PicoClaw dalam Mod Debug
+NeoClaw melakukan pelbagai interaksi kompleks di sebalik tabir untuk setiap permintaan yang diterimanya, daripada menghala mesej dan menilai kerumitan, hinggalah melaksanakan tools dan menyesuaikan diri dengan kegagalan model. Keupayaan melihat dengan tepat apa yang sedang berlaku sangat penting, bukan sahaja untuk menyelesaikan masalah, malah untuk benar-benar memahami cara agen ini beroperasi.
+## Memulakan NeoClaw dalam Mod Debug
 
-Untuk mendapatkan maklumat terperinci tentang apa yang sedang dilakukan oleh agen (permintaan LLM, panggilan tool, penghalaan mesej), anda boleh memulakan gateway PicoClaw dengan flag debug:
+Untuk mendapatkan maklumat terperinci tentang apa yang sedang dilakukan oleh agen (permintaan LLM, panggilan tool, penghalaan mesej), anda boleh memulakan gateway NeoClaw dengan flag debug:
 
 ```bash
 picoclaw gateway --debug
@@ -15,7 +15,7 @@ Dalam mod ini, sistem akan memformat log dengan lebih terperinci dan memaparkan 
 
 ## Menyahaktifkan Pemotongan Log (Log Penuh)
 
-Secara lalai, PicoClaw memotong rentetan yang sangat panjang (seperti *System Prompt* atau hasil output JSON yang besar) dalam log debug supaya konsol kekal mudah dibaca.
+Secara lalai, NeoClaw memotong rentetan yang sangat panjang (seperti *System Prompt* atau hasil output JSON yang besar) dalam log debug supaya konsol kekal mudah dibaca.
 
 Jika anda perlu memeriksa output penuh sesuatu arahan atau payload tepat yang dihantar kepada model LLM, anda boleh menggunakan flag `--no-truncate`.
 

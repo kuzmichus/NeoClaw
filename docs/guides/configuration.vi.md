@@ -49,7 +49,7 @@ Cũng có thể ghi đè bằng biến môi trường: `PICOCLAW_LOG_LEVEL=info`
 
 ### Bố Cục Workspace
 
-PicoClaw lưu trữ dữ liệu trong workspace đã cấu hình (mặc định: `~/.picoclaw/workspace`):
+NeoClaw lưu trữ dữ liệu trong workspace đã cấu hình (mặc định: `~/.picoclaw/workspace`):
 
 ```
 ~/.picoclaw/workspace/
@@ -69,13 +69,13 @@ PicoClaw lưu trữ dữ liệu trong workspace đã cấu hình (mặc định:
 
 ### Chính sách ngữ cảnh request
 
-`turn_profile` là chính sách tùy chọn trong `agents.defaults.turn_profile` để kiểm soát ngữ cảnh mỗi turn mới mang theo: lịch sử, system prompt, prompt skills và các tool được phép gọi. Nếu không cấu hình, hoặc đặt `"enabled": false`, PicoClaw giữ nguyên hành vi mặc định. Khi đặt `"enabled": true`, chính sách bên dưới áp dụng cho mỗi turn mới.
+`turn_profile` là chính sách tùy chọn trong `agents.defaults.turn_profile` để kiểm soát ngữ cảnh mỗi turn mới mang theo: lịch sử, system prompt, prompt skills và các tool được phép gọi. Nếu không cấu hình, hoặc đặt `"enabled": false`, NeoClaw giữ nguyên hành vi mặc định. Khi đặt `"enabled": true`, chính sách bên dưới áp dụng cho mỗi turn mới.
 
 Mỗi block dùng chung các giá trị `mode`:
 
 | Mode | Ý nghĩa |
 | --- | --- |
-| `default` | Giữ hành vi bình thường của PicoClaw. Block bị thiếu hoặc thiếu `mode` đều được xem là `default`. |
+| `default` | Giữ hành vi bình thường của NeoClaw. Block bị thiếu hoặc thiếu `mode` đều được xem là `default`. |
 | `off` | Tắt block đó cho turn. |
 | `custom` | Dùng danh sách cho phép. Phiên bản này chỉ hỗ trợ `custom` cho `skills` và `tools`; dùng cho `history` hoặc `system_prompt` sẽ lỗi validate. |
 
@@ -84,11 +84,11 @@ Các block:
 | Block | Nội dung kiểm soát |
 | --- | --- |
 | `history` | Đọc lịch sử và tóm tắt, ghi tin nhắn user/assistant/tool, nạp context, compact và summarize. |
-| `system_prompt` | Chèn identity mặc định của PicoClaw, chỉ dẫn workspace, memory, runtime context và summary. System prompt từ request bên ngoài vẫn được dùng khi block này `off`. |
+| `system_prompt` | Chèn identity mặc định của NeoClaw, chỉ dẫn workspace, memory, runtime context và summary. System prompt từ request bên ngoài vẫn được dùng khi block này `off`. |
 | `skills` | Catalog skills và nội dung active skill trong prompt. `custom.allow` chỉ giữ các tên skill được liệt kê. |
 | `tools` | Công cụ hiển thị cho model và được phép thực thi. `custom.allow` chỉ giữ các tool đã đăng ký và được liệt kê. |
 
-Khi `system_prompt.mode` là `off`, tools vẫn hiển thị và không có system prompt bên ngoài, PicoClaw dùng lại quy tắc dùng tool hiện có làm prompt fallback tối thiểu. Nếu `tools.mode` là `off`, fallback này không được thêm.
+Khi `system_prompt.mode` là `off`, tools vẫn hiển thị và không có system prompt bên ngoài, NeoClaw dùng lại quy tắc dùng tool hiện có làm prompt fallback tối thiểu. Nếu `tools.mode` là `off`, fallback này không được thêm.
 
 Ví dụ ngữ cảnh sạch chỉ giữ tool web:
 
@@ -154,7 +154,7 @@ dammi le ultime news
 
 ### 🔒 Sandbox Bảo Mật
 
-PicoClaw chạy trong môi trường sandbox mặc định. Agent chỉ có thể truy cập file và thực thi lệnh trong workspace đã cấu hình.
+NeoClaw chạy trong môi trường sandbox mặc định. Agent chỉ có thể truy cập file và thực thi lệnh trong workspace đã cấu hình.
 
 #### Cấu Hình Mặc Định
 
@@ -218,7 +218,7 @@ Ngay cả khi `restrict_to_workspace: false`, công cụ `exec` chặn các lệ
 
 #### Hạn Chế Đã Biết: Tiến Trình Con Từ Công Cụ Build
 
-Guard bảo mật exec chỉ kiểm tra dòng lệnh mà PicoClaw khởi chạy trực tiếp. Nó không kiểm tra đệ quy các tiến trình con được tạo bởi công cụ phát triển được phép như `make`, `go run`, `cargo`, `npm run`, hoặc script build tùy chỉnh.
+Guard bảo mật exec chỉ kiểm tra dòng lệnh mà NeoClaw khởi chạy trực tiếp. Nó không kiểm tra đệ quy các tiến trình con được tạo bởi công cụ phát triển được phép như `make`, `go run`, `cargo`, `npm run`, hoặc script build tùy chỉnh.
 
 Điều này có nghĩa là lệnh cấp cao nhất vẫn có thể biên dịch hoặc khởi chạy binary khác sau khi vượt qua kiểm tra guard ban đầu. Trong thực tế, hãy coi script build, Makefile, script package, và binary được tạo như mã thực thi cần cùng mức độ review như lệnh shell trực tiếp.
 
@@ -226,7 +226,7 @@ Cho môi trường rủi ro cao hơn:
 
 * Review script build trước khi thực thi.
 * Ưu tiên phê duyệt/review thủ công cho quy trình biên dịch và chạy.
-* Chạy PicoClaw trong container hoặc VM nếu bạn cần cách ly mạnh hơn guard tích hợp.
+* Chạy NeoClaw trong container hoặc VM nếu bạn cần cách ly mạnh hơn guard tích hợp.
 
 #### Ví Dụ Lỗi
 
@@ -278,7 +278,7 @@ Tất cả đường dẫn chia sẻ cùng giới hạn workspace — không có
 
 ### Heartbeat (Tác Vụ Định Kỳ)
 
-PicoClaw có thể thực hiện tác vụ định kỳ tự động. Tạo file `HEARTBEAT.md` trong workspace:
+NeoClaw có thể thực hiện tác vụ định kỳ tự động. Tạo file `HEARTBEAT.md` trong workspace:
 
 ```markdown
 # Tác Vụ Định Kỳ
@@ -362,7 +362,7 @@ Trả lời HEARTBEAT_OK        Người dùng nhận kết quả trực tiếp
 | ------------ | --------------------------------------- | ------------------------------------------------------------ |
 | `gemini`     | LLM (Gemini trực tiếp)                  | [aistudio.google.com](https://aistudio.google.com)           |
 | `zhipu`      | LLM (Zhipu trực tiếp)                   | [bigmodel.cn](https://bigmodel.cn)                           |
-| `volcengine` | LLM (Volcengine trực tiếp)              | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| `volcengine` | LLM (Volcengine trực tiếp)              | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) |
 | `openrouter` | LLM (khuyến nghị, truy cập tất cả mô hình) | [openrouter.ai](https://openrouter.ai)                   |
 | `anthropic`  | LLM (Claude trực tiếp)                  | [console.anthropic.com](https://console.anthropic.com)       |
 | `openai`     | LLM (GPT trực tiếp)                     | [platform.openai.com](https://platform.openai.com)           |
@@ -374,7 +374,7 @@ Trả lời HEARTBEAT_OK        Người dùng nhận kết quả trực tiếp
 
 ### Cấu Hình Mô Hình (model_list)
 
-> **Tính năng mới:** PicoClaw hiện sử dụng cách tiếp cận **lấy mô hình làm trung tâm**. Chỉ cần chỉ định định dạng `vendor/model` (ví dụ: `zhipu/glm-4.7`) để thêm provider mới — **không cần thay đổi code!**
+> **Tính năng mới:** NeoClaw hiện sử dụng cách tiếp cận **lấy mô hình làm trung tâm**. Chỉ cần chỉ định định dạng `vendor/model` (ví dụ: `zhipu/glm-4.7`) để thêm provider mới — **không cần thay đổi code!**
 
 #### Tất Cả Vendor Được Hỗ Trợ
 
@@ -389,12 +389,12 @@ Trả lời HEARTBEAT_OK        Người dùng nhận kết quả trực tiếp
 | **通义千问 (Qwen)**     | `qwen/`         | `https://dashscope.aliyuncs.com/compatible-mode/v1` | OpenAI    | [Lấy](https://dashscope.console.aliyun.com)                      |
 | **Ollama**              | `ollama/`       | `http://localhost:11434/v1`                         | OpenAI    | Cục bộ (không cần key)                                           |
 | **OpenRouter**          | `openrouter/`   | `https://openrouter.ai/api/v1`                      | OpenAI    | [Lấy](https://openrouter.ai/keys)                                |
-| **VolcEngine (Doubao)** | `volcengine/`   | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI    | [Lấy](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| **VolcEngine (Doubao)** | `volcengine/`   | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI    | [Lấy](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) |
 | **Antigravity**         | `antigravity/`  | Google Cloud                                        | Custom    | Chỉ OAuth                                                        |
 
 #### Cân Bằng Tải
 
-Cấu hình nhiều endpoint cho cùng tên mô hình — PicoClaw sẽ tự động round-robin:
+Cấu hình nhiều endpoint cho cùng tên mô hình — NeoClaw sẽ tự động round-robin:
 
 ```json
 {
@@ -411,7 +411,7 @@ Cấu hình `providers` cũ đã **bị deprecated** và đã được loại b�
 
 #### Cấu Hình Streaming
 
-Provider streaming dùng cơ chế double opt-in và bị tắt theo mặc định. Agent chỉ thử streaming khi channel hiện tại có `settings.streaming.enabled: true`, entry model đang dùng có `streaming.enabled: true`, và cả provider lẫn channel đều hỗ trợ streaming. Nếu thiếu bất kỳ điều kiện nào, PicoClaw dùng đường dẫn yêu cầu không streaming thông thường.
+Provider streaming dùng cơ chế double opt-in và bị tắt theo mặc định. Agent chỉ thử streaming khi channel hiện tại có `settings.streaming.enabled: true`, entry model đang dùng có `streaming.enabled: true`, và cả provider lẫn channel đều hỗ trợ streaming. Nếu thiếu bất kỳ điều kiện nào, NeoClaw dùng đường dẫn yêu cầu không streaming thông thường.
 
 Pico WebUI là channel đầu tiên được nối đầy đủ. Pico tạo message assistant đầu tiên bằng wire message hiện có `message.create`, sau đó cập nhật chính message đó bằng `message.update`; không thêm loại wire message Pico mới.
 
@@ -456,11 +456,11 @@ Ví dụ bật streaming:
 
 Các biến môi trường Telegram cũ vẫn tương thích: `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLED`, `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_THROTTLE_SECONDS`, và `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_MIN_GROWTH_CHARS`. Chúng chỉ áp dụng cho Telegram settings và không bật hoặc thay đổi `settings.streaming` của Pico.
 
-Hành vi lỗi được giữ thận trọng: nếu streaming lỗi trước khi gửi bất kỳ chunk hiển thị nào, PicoClaw thử lại một lần qua đường dẫn `Chat()` thông thường. Nếu đã có chunk hiển thị cho người dùng, PicoClaw không gửi thêm một câu trả lời non-streaming thứ hai để tránh lặp output.
+Hành vi lỗi được giữ thận trọng: nếu streaming lỗi trước khi gửi bất kỳ chunk hiển thị nào, NeoClaw thử lại một lần qua đường dẫn `Chat()` thông thường. Nếu đã có chunk hiển thị cho người dùng, NeoClaw không gửi thêm một câu trả lời non-streaming thứ hai để tránh lặp output.
 
 ### Kiến Trúc Provider
 
-PicoClaw định tuyến provider theo họ giao thức:
+NeoClaw định tuyến provider theo họ giao thức:
 
 - **Tương thích OpenAI**: OpenRouter, Groq, Zhipu, endpoint kiểu vLLM và hầu hết các provider khác.
 - **Gemini native**: Google Gemini qua các endpoint native `models/*:generateContent` và `models/*:streamGenerateContent`.
@@ -471,7 +471,7 @@ PicoClaw định tuyến provider theo họ giao thức:
 
 ### Tác Vụ Đã Lên Lịch / Nhắc Nhở
 
-PicoClaw hỗ trợ tác vụ theo lịch qua công cụ `cron`.
+NeoClaw hỗ trợ tác vụ theo lịch qua công cụ `cron`.
 
 ```json
 {

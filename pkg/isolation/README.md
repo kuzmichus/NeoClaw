@@ -147,7 +147,7 @@ Capabilities:
 
 Default mounts include the instance root plus the minimum runtime system paths such as `/usr`, `/bin`, `/lib`, `/lib64`, and `/etc/resolv.conf`.
 
-At runtime, PicoClaw also adds the executable path, its directory, the effective working directory, and absolute path arguments when needed.
+At runtime, NeoClaw also adds the executable path, its directory, the effective working directory, and absolute path arguments when needed.
 
 There is no automatic fallback when `bwrap` is missing.
 
@@ -194,7 +194,7 @@ When isolation is explicitly enabled on an unsupported platform, the higher-leve
 
 ## Logging And Debugging
 
-When isolation is enabled, PicoClaw logs the generated isolation plan.
+When isolation is enabled, NeoClaw logs the generated isolation plan.
 
 Linux log name:
 

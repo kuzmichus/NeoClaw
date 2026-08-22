@@ -4,7 +4,7 @@
 
 ## 🐳 Docker Compose
 
-Anda juga boleh menjalankan PicoClaw menggunakan Docker Compose tanpa memasang apa-apa secara setempat.
+Anda juga boleh menjalankan NeoClaw menggunakan Docker Compose tanpa memasang apa-apa secara setempat.
 
 ```bash
 # 1. Clone repo ini
@@ -66,7 +66,7 @@ docker compose -f docker/docker-compose.yml --profile gateway up -d
 ### 🚀 Quick Start
 
 > [!TIP]
-> Tetapkan API Key anda dalam `~/.picoclaw/config.json`. Dapatkan API Key: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM). Carian web adalah pilihan — dapatkan [Tavily API](https://tavily.com) percuma (1000 pertanyaan percuma/bulan) atau [Brave Search API](https://brave.com/search/api) (2000 pertanyaan percuma/bulan).
+> Tetapkan API Key anda dalam `~/.picoclaw/config.json`. Dapatkan API Key: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM). Carian web adalah pilihan — dapatkan [Tavily API](https://tavily.com) percuma (1000 pertanyaan percuma/bulan) atau [Brave Search API](https://brave.com/search/api) (2000 pertanyaan percuma/bulan).
 
 **1. Inisialisasi**
 
@@ -141,7 +141,7 @@ picoclaw onboard
 ```
 
 > **Baharu**: Format konfigurasi `model_list` membolehkan penambahan penyedia tanpa perubahan kod. Lihat [Konfigurasi Model](#konfigurasi-model-model_list) untuk butiran.
-> `request_timeout` adalah pilihan dan menggunakan saat. Jika diabaikan atau ditetapkan kepada `<= 0`, PicoClaw menggunakan timeout lalai (120s).
+> `request_timeout` adalah pilihan dan menggunakan saat. Jika diabaikan atau ditetapkan kepada `<= 0`, NeoClaw menggunakan timeout lalai (120s).
 
 **3. Dapatkan API Key**
 

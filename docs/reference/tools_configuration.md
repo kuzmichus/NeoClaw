@@ -1,6 +1,6 @@
 # Tools Configuration
 
-PicoClaw's tools configuration is located in the `tools` field of `config.json`.
+NeoClaw's tools configuration is located in the `tools` field of `config.json`.
 
 ## Directory Structure
 
@@ -28,7 +28,7 @@ PicoClaw's tools configuration is located in the `tools` field of `config.json`.
 
 ## Sensitive Data Filtering
 
-Before tool results are sent to the LLM, PicoClaw can filter sensitive values (API keys, tokens, secrets) from the output. This prevents the LLM from seeing its own credentials.
+Before tool results are sent to the LLM, NeoClaw can filter sensitive values (API keys, tokens, secrets) from the output. This prevents the LLM from seeing its own credentials.
 
 See [Sensitive Data Filtering](../security/sensitive_data_filtering.md) for full documentation.
 
@@ -208,7 +208,7 @@ At runtime, the `web_search` tool accepts the following parameters:
 | `count` | integer | no | Number of results to return. Default: `10`, max: `10` |
 | `range` | string | no | Optional time filter: `d` (day), `w` (week), `m` (month), `y` (year) |
 
-If `range` is omitted, PicoClaw performs an unrestricted search.
+If `range` is omitted, NeoClaw performs an unrestricted search.
 For Kagi, `d`, `w`, and `m` map to Kagi lens `time_relative`; `y` maps to a lens `time_after` date one year before the current day.
 
 ### Example `web_search` Call
@@ -260,7 +260,7 @@ PICOCLAW_TOOLS_EXEC_ENABLED=false
 
 ### Default Blocked Command Patterns
 
-By default, PicoClaw blocks the following dangerous commands:
+By default, NeoClaw blocks the following dangerous commands:
 
 - Delete commands: `rm -rf`, `del /f/q`, `rmdir /s`
 - Disk operations: `format`, `mkfs`, `diskpart`, `dd if=`, writing to `/dev/sd*`
@@ -277,7 +277,7 @@ By default, PicoClaw blocks the following dangerous commands:
 
 ### Known Architectural Limitation
 
-The exec guard only validates the top-level command sent to PicoClaw. It does **not** recursively inspect child
+The exec guard only validates the top-level command sent to NeoClaw. It does **not** recursively inspect child
 processes spawned by build tools or scripts after that command starts running.
 
 Examples of workflows that can bypass the direct command guard once the initial command is allowed:
@@ -324,7 +324,7 @@ For schedule types, execution modes (`deliver`, agent turn, and command jobs), p
 
 The MCP tool enables integration with external Model Context Protocol servers.
 
-If you prefer not to edit JSON manually, PicoClaw also provides an MCP configuration manager CLI:
+If you prefer not to edit JSON manually, NeoClaw also provides an MCP configuration manager CLI:
 
 - `picoclaw mcp add` — add or update a server (supports `--deferred` / `--no-deferred`)
 - `picoclaw mcp list` — list all configured servers with status and deferred state
@@ -631,4 +631,4 @@ For example:
 Note: Nested map-style config (for example `tools.mcp.servers.<name>.*`) is configured in `config.json` rather than
 environment variables.
 
-For MCP tools, `tools.mcp.max_inline_text_chars` controls how much text result is kept inline in model context. The threshold is counted in Unicode characters (Go runes), not bytes. For example, `16384` means up to 16,384 characters inline, which may occupy more than 16 KB for multibyte text such as CJK. Above this threshold, PicoClaw saves the MCP text result as a local artifact in the agent workspace and gives the model a short note plus a structured `[file:...]` artifact path instead of injecting the full payload into context.
+For MCP tools, `tools.mcp.max_inline_text_chars` controls how much text result is kept inline in model context. The threshold is counted in Unicode characters (Go runes), not bytes. For example, `16384` means up to 16,384 characters inline, which may occupy more than 16 KB for multibyte text such as CJK. Above this threshold, NeoClaw saves the MCP text result as a local artifact in the agent workspace and gives the model a short note plus a structured `[file:...]` artifact path instead of injecting the full payload into context.

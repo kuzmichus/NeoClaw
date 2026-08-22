@@ -1,6 +1,6 @@
-# Using Antigravity Provider in PicoClaw
+# Using Antigravity Provider in NeoClaw
 
-This guide explains how to set up and use the **Antigravity** (Google Cloud Code Assist) provider in PicoClaw.
+This guide explains how to set up and use the **Antigravity** (Google Cloud Code Assist) provider in NeoClaw.
 
 ## Prerequisites
 
@@ -22,9 +22,9 @@ If you are running on a server (Coolify/Docker) and cannot reach `localhost`, fo
 3.  Complete the login.
 4.  Your browser will redirect to a `localhost:51121` URL (which will fail to load).
 5.  **Copy that final URL** from your browser's address bar.
-6.  **Paste it back into the terminal** where PicoClaw is waiting.
+6.  **Paste it back into the terminal** where NeoClaw is waiting.
 
-PicoClaw will extract the authorization code and complete the process automatically.
+NeoClaw will extract the authorization code and complete the process automatically.
 
 ## 2. Managing Models
 
@@ -59,7 +59,7 @@ If you are deploying via Coolify or Docker, follow these steps to test:
 ## 4. Troubleshooting
 
 *   **Empty Response**: If a model returns an empty reply, it may be restricted for your project. Try `gemini-3-flash` or `claude-opus-4-6-thinking`.
-*   **429 Rate Limit**: Antigravity has strict quotas. PicoClaw will display the "reset time" in the error message if you hit a limit.
+*   **429 Rate Limit**: Antigravity has strict quotas. NeoClaw will display the "reset time" in the error message if you hit a limit.
 *   **404 Not Found**: Ensure you are using a model ID from the `picoclaw auth models` list. Use the short ID (e.g., `gemini-3-flash`) not the full path.
 
 ## 5. Summary of Working Models

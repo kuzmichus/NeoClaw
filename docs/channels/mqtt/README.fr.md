@@ -1,6 +1,6 @@
 # 📡 Canal MQTT
 
-PicoClaw prend en charge n'importe quel client MQTT comme canal de messagerie. Les appareils ou services publient des requêtes vers un broker ; PicoClaw s'abonne, les traite et publie les réponses en retour.
+NeoClaw prend en charge n'importe quel client MQTT comme canal de messagerie. Les appareils ou services publient des requêtes vers un broker ; NeoClaw s'abonne, les traite et publie les réponses en retour.
 
 ## 🚀 Démarrage rapide
 
@@ -45,14 +45,14 @@ mosquitto_sub -t "/picoclaw/assistant/device1/response"
 ## 📨 Structure des topics
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Client → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Client
+{prefix}/{agent_id}/{client_id}/request    # Client → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Client
 ```
 
 | Segment | Description |
 |---------|-------------|
 | `prefix` | Préfixe de topic configuré côté serveur. Défaut : `/picoclaw` |
-| `agent_id` | Identifiant de l'instance PicoClaw, défini dans le champ `agent_id` |
+| `agent_id` | Identifiant de l'instance NeoClaw, défini dans le champ `agent_id` |
 | `client_id` | Identifiant de session défini par le client — utiliser un ID stable par appareil pour maintenir le contexte |
 
 ### Payload du message (JSON)
@@ -128,7 +128,7 @@ channel_list:
 
 ## 🔄 Reconnexion
 
-PicoClaw se reconnecte automatiquement au broker en cas de perte de connexion, avec un intervalle de 5 secondes. L'abonnement est rétabli automatiquement. L'ID client côté broker reste identique à chaque reconnexion.
+NeoClaw se reconnecte automatiquement au broker en cas de perte de connexion, avec un intervalle de 5 secondes. L'abonnement est rétabli automatiquement. L'ID client côté broker reste identique à chaque reconnexion.
 
 ---
 
@@ -136,5 +136,5 @@ PicoClaw se reconnecte automatiquement au broker en cas de perte de connexion, a
 
 - **TLS** : SSL/TLS est supporté (URL broker en `ssl://`). La vérification du certificat est désactivée par défaut.
 - **Réponses en streaming** : Les réponses en streaming envoient plusieurs messages vers le topic de réponse ; les concaténer dans l'ordre pour obtenir la réponse complète.
-- **client_id vs ID de session** : Le `client_id` dans le chemin du topic est défini par votre application cliente. Il est distinct de l'ID client paho utilisé par PicoClaw pour se connecter au broker.
-- **Instances multiples** : Si plusieurs instances PicoClaw utilisent le même `agent_id` sur le même broker, définir des `client_id` distincts pour éviter les conflits.
+- **client_id vs ID de session** : Le `client_id` dans le chemin du topic est défini par votre application cliente. Il est distinct de l'ID client paho utilisé par NeoClaw pour se connecter au broker.
+- **Instances multiples** : Si plusieurs instances NeoClaw utilisent le même `agent_id` sur le même broker, définir des `client_id` distincts pour éviter les conflits.

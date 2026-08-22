@@ -2,10 +2,10 @@
 
 # WeCom
 
-PicoClaw cung cấp WeCom dưới dạng một kênh duy nhất `channels.wecom`, được xây dựng trên API WebSocket chính thức của WeCom AI Bot.
+NeoClaw cung cấp WeCom dưới dạng một kênh duy nhất `channels.wecom`, được xây dựng trên API WebSocket chính thức của WeCom AI Bot.
 Điều này thay thế việc phân tách cũ `wecom`, `wecom_app` và `wecom_aibot` bằng một mô hình cấu hình thống nhất.
 
-> Không cần URL callback webhook công khai. PicoClaw thiết lập kết nối WebSocket đi ra tới WeCom.
+> Không cần URL callback webhook công khai. NeoClaw thiết lập kết nối WebSocket đi ra tới WeCom.
 
 ## Tính năng được hỗ trợ
 
@@ -103,7 +103,7 @@ Tất cả các trường có thể được ghi đè bằng biến môi trườ
 
 ## Hành vi khi chạy
 
-- PicoClaw duy trì một lượt WeCom đang hoạt động để phản hồi streaming có thể tiếp tục trên cùng một luồng khi có thể.
+- NeoClaw duy trì một lượt WeCom đang hoạt động để phản hồi streaming có thể tiếp tục trên cùng một luồng khi có thể.
 - Phản hồi streaming có thời lượng tối đa **5,5 phút** và khoảng cách gửi tối thiểu **500ms**.
 - Nếu streaming không còn khả dụng, phản hồi sẽ chuyển sang gửi push chủ động.
 - Các liên kết tuyến chat hết hạn sau **30 phút** không hoạt động.

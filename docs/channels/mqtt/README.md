@@ -1,6 +1,6 @@
 # 📡 MQTT Channel
 
-PicoClaw supports any MQTT client as a chat channel. Devices or services publish requests to a broker; PicoClaw subscribes, processes them, and publishes responses back.
+NeoClaw supports any MQTT client as a chat channel. Devices or services publish requests to a broker; NeoClaw subscribes, processes them, and publishes responses back.
 
 ## 🚀 Quick Start
 
@@ -45,14 +45,14 @@ mosquitto_sub -t "/picoclaw/assistant/device1/response"
 ## 📨 Topic Structure
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Client → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Client
+{prefix}/{agent_id}/{client_id}/request    # Client → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Client
 ```
 
 | Segment | Description |
 |---------|-------------|
 | `prefix` | Topic prefix, configured server-side. Default: `/picoclaw` |
-| `agent_id` | PicoClaw instance identifier, set in `agent_id` config field |
+| `agent_id` | NeoClaw instance identifier, set in `agent_id` config field |
 | `client_id` | Client-defined session identifier — use a stable ID per device to maintain conversation context |
 
 ### Message Payload (JSON)
@@ -130,7 +130,7 @@ All fields can be set via environment variables:
 
 ## 🔄 Reconnection
 
-PicoClaw automatically reconnects to the broker if the connection is lost, with a 5-second retry interval. On reconnect, the subscription is re-established automatically. The broker-side client ID stays the same across reconnects so the broker correctly identifies it as the same session.
+NeoClaw automatically reconnects to the broker if the connection is lost, with a 5-second retry interval. On reconnect, the subscription is re-established automatically. The broker-side client ID stays the same across reconnects so the broker correctly identifies it as the same session.
 
 ---
 
@@ -138,5 +138,5 @@ PicoClaw automatically reconnects to the broker if the connection is lost, with 
 
 - **TLS**: SSL/TLS is supported (`ssl://` broker URL). Certificate verification is skipped by default.
 - **Streaming**: Streaming responses send multiple messages to the response topic; concatenate them in order.
-- **client_id vs session ID**: The `client_id` in the topic path is set by your client application and identifies the conversation session. It is separate from the broker-level client ID used by PicoClaw's paho connection.
-- **Multiple instances**: If you run multiple PicoClaw instances against the same broker with the same `agent_id`, set distinct `client_id` values to avoid broker-level conflicts.
+- **client_id vs session ID**: The `client_id` in the topic path is set by your client application and identifies the conversation session. It is separate from the broker-level client ID used by NeoClaw's paho connection.
+- **Multiple instances**: If you run multiple NeoClaw instances against the same broker with the same `agent_id`, set distinct `client_id` values to avoid broker-level conflicts.

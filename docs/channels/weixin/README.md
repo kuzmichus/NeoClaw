@@ -1,6 +1,6 @@
 # 💬 Weixin (WeChat Personal) Channel
 
-PicoClaw supports connecting to your personal WeChat account using the official Tencent iLink API.
+NeoClaw supports connecting to your personal WeChat account using the official Tencent iLink API.
 
 ## 🚀 Quick Onboarding
 

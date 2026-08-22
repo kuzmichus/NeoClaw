@@ -49,7 +49,7 @@ PICOCLAW_HOME=/srv/picoclaw PICOCLAW_CONFIG=/srv/picoclaw/main.json picoclaw gat
 
 ### 工作区布局 (Workspace Layout)
 
-PicoClaw 将数据存储在您配置的工作区中（默认：`~/.picoclaw/workspace`）：
+NeoClaw 将数据存储在您配置的工作区中（默认：`~/.picoclaw/workspace`）：
 
 ```
 ~/.picoclaw/workspace/
@@ -69,7 +69,7 @@ PicoClaw 将数据存储在您配置的工作区中（默认：`~/.picoclaw/work
 
 ### Agent 自进化
 
-`evolution` 配置块控制 PicoClaw 的自进化运行时。启用后，Agent 会把已完成的回合记录为学习记录。在更高模式下，它可以聚类重复出现的成功模式、生成技能草稿，并可选择把已接受的草稿应用到工作区技能中。
+`evolution` 配置块控制 NeoClaw 的自进化运行时。启用后，Agent 会把已完成的回合记录为学习记录。在更高模式下，它可以聚类重复出现的成功模式、生成技能草稿，并可选择把已接受的草稿应用到工作区技能中。
 
 ```json
 {
@@ -99,13 +99,13 @@ PicoClaw 将数据存储在您配置的工作区中（默认：`~/.picoclaw/work
 
 ### 请求上下文策略
 
-`turn_profile` 是 `agents.defaults.turn_profile` 下的可选请求上下文策略，用来控制每个新回合是否带入历史、系统提示、技能提示，以及允许调用哪些工具。不写该配置或设置 `"enabled": false` 时，PicoClaw 完全保持原逻辑；设置 `"enabled": true` 后，下面的策略会应用到每个新回合。
+`turn_profile` 是 `agents.defaults.turn_profile` 下的可选请求上下文策略，用来控制每个新回合是否带入历史、系统提示、技能提示，以及允许调用哪些工具。不写该配置或设置 `"enabled": false` 时，NeoClaw 完全保持原逻辑；设置 `"enabled": true` 后，下面的策略会应用到每个新回合。
 
 所有块都使用同一组 `mode`：
 
 | Mode | 含义 |
 | --- | --- |
-| `default` | 保持 PicoClaw 原逻辑。块缺失或 `mode` 缺失都按 `default` 处理。 |
+| `default` | 保持 NeoClaw 原逻辑。块缺失或 `mode` 缺失都按 `default` 处理。 |
 | `off` | 关闭该块。 |
 | `custom` | 使用允许列表。本版本仅支持 `skills` 和 `tools`，在 `history` 或 `system_prompt` 中使用会触发配置校验错误。 |
 
@@ -114,11 +114,11 @@ PicoClaw 将数据存储在您配置的工作区中（默认：`~/.picoclaw/work
 | 块 | 控制内容 |
 | --- | --- |
 | `history` | 是否读取历史和摘要、写入用户/助手/工具消息、写入 context manager，以及是否压缩或总结本轮会话。 |
-| `system_prompt` | 是否注入 PicoClaw 默认身份、工作区指令、记忆、运行时上下文和摘要。关闭后仍可使用外部传入的 system prompt。 |
+| `system_prompt` | 是否注入 NeoClaw 默认身份、工作区指令、记忆、运行时上下文和摘要。关闭后仍可使用外部传入的 system prompt。 |
 | `skills` | 是否加载技能目录和 active skill 提示。`custom.allow` 只保留列出的技能名。 |
 | `tools` | 暴露给模型并允许执行的工具。`custom.allow` 只保留已注册且列出的工具名。 |
 
-当 `system_prompt.mode` 为 `off`、工具仍可见且没有外部 system prompt 时，PicoClaw 会复用现有的工具使用规则作为最小兜底提示。如果 `tools.mode` 为 `off`，则不会添加兜底提示。
+当 `system_prompt.mode` 为 `off`、工具仍可见且没有外部 system prompt 时，NeoClaw 会复用现有的工具使用规则作为最小兜底提示。如果 `tools.mode` 为 `off`，则不会添加兜底提示。
 
 只保留 Web 工具的干净上下文示例：
 
@@ -209,7 +209,7 @@ Session scope 决定了聊天、用户、线程和 space 之间共享多少上�
 Routing 通过 `agents.dispatch.rules` 配置。
 
 每条规则都针对 channel 归一化后的 inbound context 做匹配。
-规则按从上到下顺序检查，第一条命中的规则立即生效。若没有规则命中，PicoClaw 会回退到默认 agent。
+规则按从上到下顺序检查，第一条命中的规则立即生效。若没有规则命中，NeoClaw 会回退到默认 agent。
 
 支持的匹配字段：
 
@@ -277,7 +277,7 @@ Routing 通过 `agents.dispatch.rules` 配置。
 
 ### 🔒 安全沙箱 (Security Sandbox)
 
-PicoClaw 默认在沙箱环境中运行。Agent 只能访问配置的工作区内的文件和执行命令。
+NeoClaw 默认在沙箱环境中运行。Agent 只能访问配置的工作区内的文件和执行命令。
 
 #### 默认配置
 
@@ -341,7 +341,7 @@ PicoClaw 默认在沙箱环境中运行。Agent 只能访问配置的工作区�
 
 #### 已知限制：构建工具的子进程
 
-exec 安全守卫仅检查 PicoClaw 直接启动的命令行。它不会递归检查由 `make`、`go run`、`cargo`、`npm run` 或自定义构建脚本等开发工具产生的子进程。
+exec 安全守卫仅检查 NeoClaw 直接启动的命令行。它不会递归检查由 `make`、`go run`、`cargo`、`npm run` 或自定义构建脚本等开发工具产生的子进程。
 
 这意味着顶层命令通过初始守卫检查后，仍可以编译或启动其他二进制文件。实际上，应将构建脚本、Makefile、包脚本和生成的二进制文件视为与直接 shell 命令同等级别的可执行代码进行审查。
 
@@ -349,7 +349,7 @@ exec 安全守卫仅检查 PicoClaw 直接启动的命令行。它不会递归�
 
 * 执行前审查构建脚本。
 * 对编译并运行的工作流优先使用审批/手动审查。
-* 如果需要比内置守卫更强的隔离，请在容器或虚拟机中运行 PicoClaw。
+* 如果需要比内置守卫更强的隔离，请在容器或虚拟机中运行 NeoClaw。
 
 #### 错误示例
 
@@ -401,7 +401,7 @@ export PICOCLAW_AGENTS_DEFAULTS_RESTRICT_TO_WORKSPACE=false
 
 ### 心跳 / 周期性任务 (Heartbeat)
 
-PicoClaw 可以自动执行周期性任务。在工作区创建 `HEARTBEAT.md` 文件：
+NeoClaw 可以自动执行周期性任务。在工作区创建 `HEARTBEAT.md` 文件：
 
 ```markdown
 # Periodic Tasks
@@ -487,7 +487,7 @@ Agent 读取 HEARTBEAT.md
 | ------------ | --------------------------------------- | ------------------------------------------------------------ |
 | `gemini`     | LLM（Gemini 直连）                      | [aistudio.google.com](https://aistudio.google.com)           |
 | `zhipu`      | LLM（智谱直连）                         | [bigmodel.cn](https://bigmodel.cn)                           |
-| `volcengine` | LLM（火山引擎直连）                     | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| `volcengine` | LLM（火山引擎直连）                     | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) |
 | `openrouter` | LLM（推荐，可访问所有模型）             | [openrouter.ai](https://openrouter.ai)                       |
 | `anthropic`  | LLM（Claude 直连）                      | [console.anthropic.com](https://console.anthropic.com)       |
 | `openai`     | LLM（GPT 直连）                         | [platform.openai.com](https://platform.openai.com)           |
@@ -499,7 +499,7 @@ Agent 读取 HEARTBEAT.md
 
 ### 模型配置 (model_list)
 
-> **新特性：** PicoClaw 现在优先推荐显式 `provider` + 原生 `model` 的配置方式，例如 `"provider": "zhipu", "model": "glm-4.7"`。如果未设置 `provider`，旧的单字段 `provider/model` 写法仍然兼容。
+> **新特性：** NeoClaw 现在优先推荐显式 `provider` + 原生 `model` 的配置方式，例如 `"provider": "zhipu", "model": "glm-4.7"`。如果未设置 `provider`，旧的单字段 `provider/model` 写法仍然兼容。
 
 这一设计同时支持**多 Agent**场景，灵活选择提供商：
 
@@ -527,7 +527,7 @@ Agent 读取 HEARTBEAT.md
 | **LiteLLM Proxy**       | `litellm`         | `http://localhost:4000/v1`                          | OpenAI    | 你的 LiteLLM 代理 Key                                            |
 | **VLLM**                | `vllm`            | `http://localhost:8000/v1`                          | OpenAI    | 本地                                                             |
 | **Cerebras**            | `cerebras`        | `https://api.cerebras.ai/v1`                        | OpenAI    | [获取](https://cerebras.ai)                                      |
-| **火山引擎 (豆包)**     | `volcengine`      | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI    | [获取](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| **火山引擎 (豆包)**     | `volcengine`      | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI    | [获取](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) |
 | **神算云**              | `shengsuanyun`    | `https://router.shengsuanyun.com/api/v1`            | OpenAI    | —                                                                |
 | **BytePlus**            | `byteplus`        | `https://ark.ap-southeast.bytepluses.com/api/v3`    | OpenAI    | [获取](https://www.byteplus.com)                                 |
 | **Vivgrid**             | `vivgrid`         | `https://api.vivgrid.com/v1`                        | OpenAI    | [获取](https://vivgrid.com)                                      |
@@ -577,8 +577,8 @@ Agent 读取 HEARTBEAT.md
 解析规则：
 
 - 推荐显式写成 `"provider": "openai", "model": "gpt-5.4"`。
-- 如果设置了 `provider`，PicoClaw 会将 `model` 原样发送。
-- 如果未设置 `provider`，PicoClaw 会把 `model` 第一个 `/` 之前的字段当作 provider，并把第一个 `/` 之后的全部内容当作最终模型 ID。
+- 如果设置了 `provider`，NeoClaw 会将 `model` 原样发送。
+- 如果未设置 `provider`，NeoClaw 会把 `model` 第一个 `/` 之前的字段当作 provider，并把第一个 `/` 之后的全部内容当作最终模型 ID。
 - 这意味着 `"model": "openrouter/openai/gpt-5.4"` 这样的兼容写法仍然可用，并会把 `openai/gpt-5.4` 发送给 OpenRouter。
 
 #### 流式输出配置
@@ -628,7 +628,7 @@ Provider 流式输出采用双开关，默认关闭。只有当前 channel 的 `
 
 Telegram 旧环境变量仍兼容：`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLED`、`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_THROTTLE_SECONDS`、`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_MIN_GROWTH_CHARS`。这些环境变量只作用于 Telegram settings，不会开启或修改 Pico 的 `settings.streaming`。
 
-失败处理保持保守：如果还没有任何可见 chunk 就失败，PicoClaw 会回退到普通 `Chat()` 路径重试一次；如果已经有 chunk 展示给用户，则不会再发送一条非流式最终答案，避免界面重复输出。
+失败处理保持保守：如果还没有任何可见 chunk 就失败，NeoClaw 会回退到普通 `Chat()` 路径重试一次；如果已经有 chunk 展示给用户，则不会再发送一条非流式最终答案，避免界面重复输出。
 
 #### 各厂商配置示例
 
@@ -743,7 +743,7 @@ Telegram 旧环境变量仍兼容：`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLE
 ```
 
 `api_base` 默认是 `http://localhost:1234/v1`。除非你在 LM Studio 侧启用了认证，否则不需要配置 API Key。
-显式设置 `provider` 后，PicoClaw 会把 `openai/gpt-oss-20b` 原样发送给 LM Studio。旧的兼容写法 `"model": "lmstudio/openai/gpt-oss-20b"` 在未设置 `provider` 时也会解析成相同的上游模型 ID。
+显式设置 `provider` 后，NeoClaw 会把 `openai/gpt-oss-20b` 原样发送给 LM Studio。旧的兼容写法 `"model": "lmstudio/openai/gpt-oss-20b"` 在未设置 `provider` 时也会解析成相同的上游模型 ID。
 
 </details>
 
@@ -760,13 +760,13 @@ Telegram 旧环境变量仍兼容：`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLE
 }
 ```
 
-显式设置 `provider` 后，PicoClaw 会将 `model` 原样发送。因此 `"provider": "litellm", "model": "lite-gpt4"` 会发送 `lite-gpt4`，而 `"provider": "litellm", "model": "openai/gpt-4o"` 会发送 `openai/gpt-4o`。旧的兼容写法 `litellm/lite-gpt4` 和 `litellm/openai/gpt-4o` 在未设置 `provider` 时也会得到相同结果。
+显式设置 `provider` 后，NeoClaw 会将 `model` 原样发送。因此 `"provider": "litellm", "model": "lite-gpt4"` 会发送 `lite-gpt4`，而 `"provider": "litellm", "model": "openai/gpt-4o"` 会发送 `openai/gpt-4o`。旧的兼容写法 `litellm/lite-gpt4` 和 `litellm/openai/gpt-4o` 在未设置 `provider` 时也会得到相同结果。
 
 </details>
 
 #### 负载均衡
 
-为同一模型名称配置多个端点，PicoClaw 会自动轮询：
+为同一模型名称配置多个端点，NeoClaw 会自动轮询：
 
 ```json
 {
@@ -795,7 +795,7 @@ Telegram 旧环境变量仍兼容：`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLE
 
 ### Provider 架构
 
-PicoClaw 按协议族路由提供商：
+NeoClaw 按协议族路由提供商：
 
 - **OpenAI 兼容**：OpenRouter、Groq、智谱、vLLM 风格端点及大多数其他提供商。
 - **Gemini 原生**：Google Gemini 通过原生 `models/*:generateContent` 和 `models/*:streamGenerateContent` 端点接入。
@@ -878,7 +878,7 @@ PicoClaw 按协议族路由提供商：
 
 ### 事件日志
 
-PicoClaw 的 runtime events 会覆盖 agent、channel、gateway、message bus 和 MCP 等运行时组件。默认只打印 `agent.*` 事件，其他事件仍会发布到 runtime event bus，但不会进入日志。
+NeoClaw 的 runtime events 会覆盖 agent、channel、gateway、message bus 和 MCP 等运行时组件。默认只打印 `agent.*` 事件，其他事件仍会发布到 runtime event bus，但不会进入日志。
 
 ```json
 {
@@ -914,7 +914,7 @@ PicoClaw 的 runtime events 会覆盖 agent、channel、gateway、message bus �
 
 ### 定时任务 / 提醒
 
-PicoClaw 通过 `cron` 工具支持 cron 风格的定时任务。Agent 可以设置、列出和取消在指定时间触发的提醒或周期性任务。
+NeoClaw 通过 `cron` 工具支持 cron 风格的定时任务。Agent 可以设置、列出和取消在指定时间触发的提醒或周期性任务。
 
 ```json
 {

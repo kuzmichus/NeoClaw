@@ -2,7 +2,7 @@
 
 # Mã hóa Thông tin Xác thực
 
-PicoClaw hỗ trợ mã hóa các giá trị `api_key` trong các mục cấu hình `model_list`.
+NeoClaw hỗ trợ mã hóa các giá trị `api_key` trong các mục cấu hình `model_list`.
 Các khóa đã mã hóa được lưu trữ dưới dạng chuỗi `enc://<base64>` và được giải mã tự động khi khởi động.
 
 ---
@@ -124,7 +124,7 @@ Khi khóa riêng SSH được cung cấp, việc phá vỡ mã hóa yêu cầu *
 
 ### Tự động Phát hiện Khóa SSH
 
-Nếu `PICOCLAW_SSH_KEY_PATH` không được đặt, PicoClaw tìm khóa chuyên dụng:
+Nếu `PICOCLAW_SSH_KEY_PATH` không được đặt, NeoClaw tìm khóa chuyên dụng:
 
 ```
 ~/.ssh/picoclaw_ed25519.key
@@ -154,6 +154,6 @@ Không cần mã hóa lại.
 ## Lưu ý về Bảo mật
 
 - **Cả cụm mật khẩu và khóa SSH đều bắt buộc.** Khóa SSH đóng vai trò yếu tố thứ hai — không có nó, mã hóa/giải mã sẽ thất bại. Chạy `picoclaw onboard` để tạo khóa nếu chưa tồn tại.
-- **Khóa SSH chỉ đọc khi chạy.** PicoClaw không bao giờ ghi hoặc sửa đổi tệp khóa SSH.
+- **Khóa SSH chỉ đọc khi chạy.** NeoClaw không bao giờ ghi hoặc sửa đổi tệp khóa SSH.
 - **Khóa văn bản thuần vẫn được hỗ trợ.** Các cấu hình hiện có không dùng `enc://` không bị ảnh hưởng.
 - **Định dạng `enc://` được quản lý phiên bản** thông qua trường `info` của HKDF (`picoclaw-credential-v1`), cho phép nâng cấp thuật toán trong tương lai mà không làm hỏng các giá trị đã mã hóa hiện có.

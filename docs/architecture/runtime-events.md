@@ -1,6 +1,6 @@
 # Runtime Events And Event Logging
 
-PicoClaw runtime events are the read-only observation surface for agent, channel, gateway, message bus, and MCP activity. Publishing events and printing logs are separate responsibilities:
+NeoClaw runtime events are the read-only observation surface for agent, channel, gateway, message bus, and MCP activity. Publishing events and printing logs are separate responsibilities:
 
 - Event publishing: components publish `pkg/events.Event` values to the runtime event bus for hooks, tests, diagnostics, and future UI consumers.
 - Event logging: the built-in runtime event logger subscribes to the same bus and prints only the events selected by configuration.

@@ -12,7 +12,7 @@ These tests exist to catch regressions that are easy to miss with unit tests alo
 
 ## Two Layers of Integration Testing
 
-PicoClaw currently uses two related mechanisms:
+NeoClaw currently uses two related mechanisms:
 
 1. Go integration tests, usually in `*_integration_test.go` files and guarded by `//go:build integration`
 2. Docker-backed suites in `integration/suites/` that start real dependencies and run one or more of those Go tests in CI
@@ -58,7 +58,7 @@ It does three things:
 
 - builds and starts a fixture MCP server from [`integration/fixtures/mcp-streamable-server/`](fixtures/mcp-streamable-server/)
 - injects connection details into the runner container through environment variables
-- runs [`TestIntegration_RealConfiguredServer`](../pkg/mcp/manager_real_server_integration_test.go) to verify that PicoClaw can connect to a real server, discover tools, invoke one, and validate the response payload
+- runs [`TestIntegration_RealConfiguredServer`](../pkg/mcp/manager_real_server_integration_test.go) to verify that NeoClaw can connect to a real server, discover tools, invoke one, and validate the response payload
 
 That suite complements [`TestIntegration_StreamableHTTPCompatibility`](../pkg/mcp/manager_integration_test.go), which exercises the same area in-process. Together they cover both protocol behavior and real service wiring.
 
@@ -163,7 +163,7 @@ Describe the real workflow that could break after a merge. The sharper the scena
 
 Examples:
 
-- "PicoClaw can still connect to a streamable MCP server after transport normalization changes."
+- "NeoClaw can still connect to a streamable MCP server after transport normalization changes."
 - "A provider wrapper still parses the real CLI output format after refactors in response handling."
 
 ### 2. Implement the Go test

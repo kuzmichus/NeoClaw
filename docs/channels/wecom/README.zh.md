@@ -2,10 +2,10 @@
 
 # 企业微信（WeCom）
 
-PicoClaw 将企业微信整合为单一的 `channels.wecom` 渠道，基于腾讯官方企业微信 AI Bot WebSocket API 实现。
+NeoClaw 将企业微信整合为单一的 `channels.wecom` 渠道，基于腾讯官方企业微信 AI Bot WebSocket API 实现。
 原有的 `wecom`、`wecom_app`、`wecom_aibot` 三个独立渠道已合并为统一配置模型。
 
-> 本渠道无需公网 Webhook 回调地址。PicoClaw 主动向企业微信建立出站 WebSocket 连接。
+> 本渠道无需公网 Webhook 回调地址。NeoClaw 主动向企业微信建立出站 WebSocket 连接。
 
 ## 支持的功能
 
@@ -103,7 +103,7 @@ picoclaw auth wecom --timeout 10m
 
 ## 运行时行为
 
-- PicoClaw 维护活跃的企业微信 Turn，流式回复尽可能在同一流上继续。
+- NeoClaw 维护活跃的企业微信 Turn，流式回复尽可能在同一流上继续。
 - 流式回复最大持续时长为 **5.5 分钟**，最小发送间隔为 **500ms**。
 - 流式不可用时，回复降级为主动推送。
 - 会话路由关联在 **30 分钟**无活动后过期。

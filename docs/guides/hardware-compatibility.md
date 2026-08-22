@@ -1,6 +1,6 @@
-# 🖥️ PicoClaw Hardware Compatibility List
+# 🖥️ NeoClaw Hardware Compatibility List
 
-PicoClaw runs on virtually any Linux device. This page tracks verified chips, products, and development boards.
+NeoClaw runs on virtually any Linux device. This page tracks verified chips, products, and development boards.
 
 **Your hardware not listed?** Submit a PR to add it! Hardware vendors are welcome to contribute and co-promote.
 
@@ -57,7 +57,7 @@ PicoClaw runs on virtually any Linux device. This page tracks verified chips, pr
 
 ## 2. Verified Products (by release date)
 
-Consumer products, routers, and industrial devices that have been tested with PicoClaw.
+Consumer products, routers, and industrial devices that have been tested with NeoClaw.
 
 | Year | Product | Arch | SoC | RAM | Category |
 |------|---------|------|-----|-----|----------|
@@ -95,7 +95,7 @@ Consumer products, routers, and industrial devices that have been tested with Pi
 
 ### Android Phones (via Termux)
 
-Any ARM64 Android phone (2015+) with 1GB+ RAM. Install [Termux](https://github.com/termux/termux-app), use `proot` to run PicoClaw.
+Any ARM64 Android phone (2015+) with 1GB+ RAM. Install [Termux](https://github.com/termux/termux-app), use `proot` to run NeoClaw.
 
 > See the [Android Termux Guide](android-termux.md) for setup instructions.
 

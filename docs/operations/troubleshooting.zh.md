@@ -9,7 +9,7 @@
 - `Error creating provider: model "openrouter/free" not found in model_list`
 - OpenRouter 返回 400：`"free is not a valid model ID"`
 
-**原因：** PicoClaw 现在按两步解析 provider 和 model：
+**原因：** NeoClaw 现在按两步解析 provider 和 model：
 
 - 如果设置了 `provider`，则会把 `model` 原样发送给该 provider。
 - 如果未设置 `provider`，则会把 `model` 第一个 `/` 之前的字段当作 provider，并把第一个 `/` 之后的全部内容当作最终发送的模型 ID。

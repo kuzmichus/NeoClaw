@@ -1,6 +1,6 @@
 # 📡 MQTT 渠道
 
-PicoClaw 支持将任意 MQTT 客户端作为消息渠道。设备或服务向 Broker 发布请求，PicoClaw 订阅后处理并将响应发布回去。
+NeoClaw 支持将任意 MQTT 客户端作为消息渠道。设备或服务向 Broker 发布请求，NeoClaw 订阅后处理并将响应发布回去。
 
 ## 🚀 快速开始
 
@@ -45,14 +45,14 @@ mosquitto_sub -t "/picoclaw/assistant/device1/response"
 ## 📨 Topic 结构
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # 客户端 → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → 客户端
+{prefix}/{agent_id}/{client_id}/request    # 客户端 → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → 客户端
 ```
 
 | 段 | 说明 |
 |----|------|
 | `prefix` | Topic 前缀，由服务端配置，默认 `/picoclaw` |
-| `agent_id` | PicoClaw 实例标识，对应配置中的 `agent_id` 字段 |
+| `agent_id` | NeoClaw 实例标识，对应配置中的 `agent_id` 字段 |
 | `client_id` | 客户端自定义会话标识——同一设备保持相同 ID 可维持上下文连续性 |
 
 ### 消息体（JSON）
@@ -130,7 +130,7 @@ channel_list:
 
 ## 🔄 断线重连
 
-连接断开后 PicoClaw 会自动以 5 秒间隔重连 Broker，重连成功后自动重新订阅。断线重连时复用相同的 Broker 客户端 ID，Broker 能正确识别为同一连接。
+连接断开后 NeoClaw 会自动以 5 秒间隔重连 Broker，重连成功后自动重新订阅。断线重连时复用相同的 Broker 客户端 ID，Broker 能正确识别为同一连接。
 
 ---
 
@@ -138,5 +138,5 @@ channel_list:
 
 - **TLS**：支持 SSL/TLS（Broker 地址使用 `ssl://`），默认跳过证书验证。
 - **流式响应**：流式输出时会向 response topic 发送多条消息，客户端按顺序拼接即为完整回复。
-- **client_id 与会话 ID 的区别**：topic 路径中的 `client_id` 由客户端应用自行设置，用于区分会话；它与 PicoClaw paho 连接 Broker 时使用的客户端 ID 是两个独立的概念。
-- **多实例部署**：若多个 PicoClaw 实例使用相同 `agent_id` 连接同一 Broker，需为每个实例配置不同的 `client_id` 以避免 Broker 层面的冲突。
+- **client_id 与会话 ID 的区别**：topic 路径中的 `client_id` 由客户端应用自行设置，用于区分会话；它与 NeoClaw paho 连接 Broker 时使用的客户端 ID 是两个独立的概念。
+- **多实例部署**：若多个 NeoClaw 实例使用相同 `agent_id` 连接同一 Broker，需为每个实例配置不同的 `client_id` 以避免 Broker 层面的冲突。

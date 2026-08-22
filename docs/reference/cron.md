@@ -2,11 +2,11 @@
 
 > Back to [README](../README.md)
 
-PicoClaw stores scheduled jobs in the current workspace and can run them either as reminders, full agent turns, or shell commands.
+NeoClaw stores scheduled jobs in the current workspace and can run them either as reminders, full agent turns, or shell commands.
 
 ## Schedule Types
 
-PicoClaw currently uses three schedule forms in the cron tool:
+NeoClaw currently uses three schedule forms in the cron tool:
 
 - `at_seconds`: one-time job, relative to now. After it runs, the job is removed from the store.
 - `every_seconds`: recurring interval, in seconds.
@@ -70,17 +70,17 @@ Jobs are stored with a message payload and can execute in three stable user-faci
 
 This is the default for the cron tool.
 
-When the job fires, PicoClaw sends the saved message back through the agent loop as a new agent turn. Use this for scheduled work that may need reasoning, tools, or a generated reply.
+When the job fires, NeoClaw sends the saved message back through the agent loop as a new agent turn. Use this for scheduled work that may need reasoning, tools, or a generated reply.
 
 ### `deliver: true`
 
-When the job fires, PicoClaw publishes the saved message directly to the target channel and recipient without agent processing.
+When the job fires, NeoClaw publishes the saved message directly to the target channel and recipient without agent processing.
 
 The CLI `picoclaw cron add --deliver` flag uses this mode.
 
 ### `command`
 
-When a cron-tool job includes `command`, PicoClaw runs that shell command through the `exec` tool and publishes the command output back to the channel.
+When a cron-tool job includes `command`, NeoClaw runs that shell command through the `exec` tool and publishes the command output back to the channel.
 
 For command jobs, `deliver` is forced to `false` when the job is created. The saved `message` becomes descriptive text only; the scheduled action is the shell command.
 
@@ -111,7 +111,7 @@ If `tools.exec.enabled` is `false`:
 
 `tools.cron.allow_command` defaults to `true`.
 
-This is not a hard disable switch. If you set `allow_command` to `false`, PicoClaw still allows a command job when the caller explicitly passes `command_confirm: true`.
+This is not a hard disable switch. If you set `allow_command` to `false`, NeoClaw still allows a command job when the caller explicitly passes `command_confirm: true`.
 
 Command jobs also require either an internal channel or a remote channel allowed by `tools.cron.command_allowed_remotes`. Non-command reminders do not have that restriction.
 
@@ -126,7 +126,7 @@ Entries can be either a channel name or a channel plus chat id:
 - `*` allows command jobs from every non-empty channel.
 
 Warning: `*` is potentially dangerous because any remote channel that can talk
-to PicoClaw can schedule shell commands. Use it only when every enabled remote
+to NeoClaw can schedule shell commands. Use it only when every enabled remote
 channel and chat is trusted to request command execution.
 
 This setting only controls the remote-channel gate. It does not bypass `tools.cron.allow_command`, `command_confirm`, `tools.exec.enabled`, or the exec tool's command safety checks.

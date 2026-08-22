@@ -11,7 +11,7 @@
 | ------------ | --------------------------------------- | ------------------------------------------------------------ |
 | `gemini`     | LLM (Gemini direct)                     | [aistudio.google.com](https://aistudio.google.com)           |
 | `zhipu`      | LLM (Zhipu direct)                      | [bigmodel.cn](https://bigmodel.cn)                           |
-| `volcengine` | LLM (Volcengine direct)                 | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw)                 |
+| `volcengine` | LLM (Volcengine direct)                 | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw)                 |
 | `openrouter` | LLM (recommended, access to all models) | [openrouter.ai](https://openrouter.ai)                       |
 | `anthropic`  | LLM (Claude direct)                     | [console.anthropic.com](https://console.anthropic.com)       |
 | `openai`     | LLM (GPT direct)                        | [platform.openai.com](https://platform.openai.com)           |
@@ -29,7 +29,7 @@
 
 ### Configuration des Modèles (model_list)
 
-> **Nouveauté** PicoClaw utilise désormais une approche de configuration **centrée sur le modèle**. Spécifiez simplement le format `vendor/model` (par ex. `zhipu/glm-4.7`) pour ajouter de nouveaux fournisseurs — **aucune modification de code requise !**
+> **Nouveauté** NeoClaw utilise désormais une approche de configuration **centrée sur le modèle**. Spécifiez simplement le format `vendor/model` (par ex. `zhipu/glm-4.7`) pour ajouter de nouveaux fournisseurs — **aucune modification de code requise !**
 
 Cette conception permet également le **support multi-agents** avec une sélection flexible de fournisseurs :
 
@@ -56,7 +56,7 @@ Cette conception permet également le **support multi-agents** avec une sélecti
 | **LiteLLM Proxy**   | `litellm/`        | `http://localhost:4000/v1`                          | OpenAI    | Your LiteLLM proxy key                                            |
 | **VLLM**            | `vllm/`           | `http://localhost:8000/v1`                          | OpenAI    | Local                                                            |
 | **Cerebras**        | `cerebras/`       | `https://api.cerebras.ai/v1`                        | OpenAI    | [Get Key](https://cerebras.ai)                                   |
-| **VolcEngine (Doubao)** | `volcengine/`     | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI    | [Get Key](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw)                        |
+| **VolcEngine (Doubao)** | `volcengine/`     | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI    | [Get Key](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw)                        |
 | **神算云**          | `shengsuanyun/`   | `https://router.shengsuanyun.com/api/v1`            | OpenAI    | -                                                                |
 | **BytePlus**        | `byteplus/`       | `https://ark.ap-southeast.bytepluses.com/api/v3`    | OpenAI    | [Get Key](https://www.byteplus.com)                        |
 | **Vivgrid**         | `vivgrid/`        | `https://api.vivgrid.com/v1`                        | OpenAI    | [Get Key](https://vivgrid.com)                                   |
@@ -227,11 +227,11 @@ Pour l'accès direct à l'API Anthropic ou les endpoints personnalisés qui ne p
 }
 ```
 
-PicoClaw ne supprime que le préfixe externe `litellm/` avant d'envoyer la requête, donc les alias de proxy comme `litellm/lite-gpt4` envoient `lite-gpt4`, tandis que `litellm/openai/gpt-4o` envoie `openai/gpt-4o`.
+NeoClaw ne supprime que le préfixe externe `litellm/` avant d'envoyer la requête, donc les alias de proxy comme `litellm/lite-gpt4` envoient `lite-gpt4`, tandis que `litellm/openai/gpt-4o` envoie `openai/gpt-4o`.
 
 #### Répartition de Charge
 
-Configurez plusieurs endpoints pour le même nom de modèle — PicoClaw effectuera automatiquement un round-robin entre eux :
+Configurez plusieurs endpoints pour le même nom de modèle — NeoClaw effectuera automatiquement un round-robin entre eux :
 
 ```json
 {
@@ -299,7 +299,7 @@ Pour un guide de migration détaillé, voir [migration/model-list-migration.md](
 
 ### Architecture des Fournisseurs
 
-PicoClaw route les fournisseurs par famille de protocoles :
+NeoClaw route les fournisseurs par famille de protocoles :
 
 - Protocole compatible OpenAI : OpenRouter, passerelles compatibles OpenAI, Groq, Zhipu et endpoints de type vLLM.
 - Protocole Gemini natif : Google Gemini via les endpoints natifs `models/*:generateContent` et `models/*:streamGenerateContent`.
@@ -458,5 +458,5 @@ picoclaw agent -m "Hello"
 ---
 
 <div align="center">
-  <img src="../../assets/logo.jpg" alt="PicoClaw Meme" width="512">
+  <img src="../../assets/logo.jpg" alt="NeoClaw Meme" width="512">
 </div>
