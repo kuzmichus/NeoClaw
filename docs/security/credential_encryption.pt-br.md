@@ -2,7 +2,7 @@
 
 # Criptografia de Credenciais
 
-O PicoClaw suporta a criptografia de valores `api_key` nas entradas de configuração `model_list`.
+O NeoClaw suporta a criptografia de valores `api_key` nas entradas de configuração `model_list`.
 As chaves criptografadas são armazenadas como strings `enc://<base64>` e descriptografadas automaticamente na inicialização.
 
 ---
@@ -124,7 +124,7 @@ Isso significa que um arquivo de configuração vazado sozinho não é suficient
 
 ### Detecção Automática da Chave SSH
 
-Se `PICOCLAW_SSH_KEY_PATH` não estiver definido, o PicoClaw procura a chave dedicada:
+Se `PICOCLAW_SSH_KEY_PATH` não estiver definido, o NeoClaw procura a chave dedicada:
 
 ```
 ~/.ssh/picoclaw_ed25519.key
@@ -154,6 +154,6 @@ Nenhuma recriptografia é necessária.
 ## Considerações de Segurança
 
 - **Tanto a frase secreta quanto a chave SSH são obrigatórias.** A chave SSH atua como um segundo fator — sem ela, a criptografia/descriptografia falhará. Execute `picoclaw onboard` para gerar a chave se ela não existir.
-- **A chave SSH é somente leitura em tempo de execução.** O PicoClaw nunca escreve ou modifica o arquivo de chave SSH.
+- **A chave SSH é somente leitura em tempo de execução.** O NeoClaw nunca escreve ou modifica o arquivo de chave SSH.
 - **Chaves em texto simples continuam sendo suportadas.** Configurações existentes sem `enc://` não são afetadas.
 - **O formato `enc://` é versionado** através do campo `info` do HKDF (`picoclaw-credential-v1`), permitindo futuras atualizações de algoritmo sem quebrar valores criptografados existentes.

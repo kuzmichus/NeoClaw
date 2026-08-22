@@ -1,8 +1,8 @@
 > Voltar ao [README](../project/README.pt-br.md)
 
-# 🖥️ PicoClaw Lista de compatibilidade de hardware
+# 🖥️ NeoClaw Lista de compatibilidade de hardware
 
-O PicoClaw roda em praticamente qualquer dispositivo Linux. Esta página registra chips, produtos e placas de desenvolvimento verificados.
+O NeoClaw roda em praticamente qualquer dispositivo Linux. Esta página registra chips, produtos e placas de desenvolvimento verificados.
 
 **Seu hardware não está na lista?** Envie um PR para adicioná-lo! Fabricantes de hardware são bem-vindos para contribuir e co-promover.
 
@@ -59,7 +59,7 @@ O PicoClaw roda em praticamente qualquer dispositivo Linux. Esta página registr
 
 ## 2. Produtos verificados (por data de lançamento)
 
-Produtos de consumo, roteadores e dispositivos industriais testados com o PicoClaw.
+Produtos de consumo, roteadores e dispositivos industriais testados com o NeoClaw.
 
 | Ano | Produto | Arq | SoC | RAM | Categoria |
 |-----|---------|-----|-----|-----|-----------|
@@ -97,7 +97,7 @@ Produtos de consumo, roteadores e dispositivos industriais testados com o PicoCl
 
 ### Celulares Android (via Termux)
 
-Qualquer celular Android ARM64 (2015+) com 1GB+ de RAM. Instale o [Termux](https://github.com/termux/termux-app), use `proot` para rodar o PicoClaw.
+Qualquer celular Android ARM64 (2015+) com 1GB+ de RAM. Instale o [Termux](https://github.com/termux/termux-app), use `proot` para rodar o NeoClaw.
 
 > Veja [README: Rodar em celulares Android antigos](../project/README.pt-br.md#-run-on-old-android-phones) para instruções de configuração.
 

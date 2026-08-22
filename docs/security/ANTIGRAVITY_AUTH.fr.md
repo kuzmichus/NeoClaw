@@ -4,7 +4,7 @@
 
 ## Aperçu
 
-**Antigravity** (Google Cloud Code Assist) est un fournisseur de modèles IA soutenu par Google qui offre l'accès à des modèles tels que Claude Opus 4.6 et Gemini via l'infrastructure cloud de Google. Ce document fournit un guide complet sur le fonctionnement de l'authentification, la récupération des modèles et l'implémentation d'un nouveau fournisseur dans PicoClaw.
+**Antigravity** (Google Cloud Code Assist) est un fournisseur de modèles IA soutenu par Google qui offre l'accès à des modèles tels que Claude Opus 4.6 et Gemini via l'infrastructure cloud de Google. Ce document fournit un guide complet sur le fonctionnement de l'authentification, la récupération des modèles et l'implémentation d'un nouveau fournisseur dans NeoClaw.
 
 ---
 
@@ -19,7 +19,7 @@
 7. [Exigences d'intégration](#exigences-dintégration)
 8. [Points de terminaison API](#points-de-terminaison-api)
 9. [Configuration](#configuration)
-10. [Créer un nouveau fournisseur dans PicoClaw](#créer-un-nouveau-fournisseur-dans-picoclaw)
+10. [Créer un nouveau fournisseur dans NeoClaw](#créer-un-nouveau-fournisseur-dans-picoclaw)
 
 ---
 
@@ -380,7 +380,7 @@ const antigravityPlugin = {
   description: "OAuth flow for Google Antigravity (Cloud Code Assist)",
   configSchema: emptyPluginConfigSchema(),
   
-  register(api: PicoClawPluginApi) {
+  register(api: NeoClawPluginApi) {
     api.registerProvider({
       id: "google-antigravity",
       label: "Google Antigravity",
@@ -407,7 +407,7 @@ const antigravityPlugin = {
 
 ```typescript
 type ProviderAuthContext = {
-  config: PicoClawConfig;
+  config: NeoClawConfig;
   agentDir?: string;
   workspaceDir?: string;
   prompter: WizardPrompter;      // Invites/notifications UI
@@ -428,7 +428,7 @@ type ProviderAuthResult = {
     profileId: string;
     credential: AuthProfileCredential;
   }>;
-  configPatch?: Partial<PicoClawConfig>;
+  configPatch?: Partial<NeoClawConfig>;
   defaultModel?: string;
   notes?: string[];
 };
@@ -441,7 +441,7 @@ type ProviderAuthResult = {
 ### 1. Environnement/dépendances requis
 
 - Go ≥ 1.25
-- Base de code PicoClaw (`pkg/providers/` et `pkg/auth/`)
+- Base de code NeoClaw (`pkg/providers/` et `pkg/auth/`)
 - Packages de la bibliothèque standard `crypto` et `net/http`
 
 ### 2. En-têtes requis pour les appels API
@@ -614,9 +614,9 @@ Les profils d'authentification sont stockés dans `~/.picoclaw/auth.json` :
 
 ---
 
-## Créer un nouveau fournisseur dans PicoClaw
+## Créer un nouveau fournisseur dans NeoClaw
 
-Les fournisseurs PicoClaw sont implémentés en tant que packages Go sous `pkg/providers/`. Pour ajouter un nouveau fournisseur :
+Les fournisseurs NeoClaw sont implémentés en tant que packages Go sous `pkg/providers/`. Pour ajouter un nouveau fournisseur :
 
 ### Implémentation étape par étape
 

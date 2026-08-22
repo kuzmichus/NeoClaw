@@ -2,7 +2,7 @@
 
 ## Overview
 
-PicoClaw supports separating sensitive data (API keys, tokens, secrets, passwords) from the main configuration by storing them in a `.security.yml` file. This improves security by:
+NeoClaw supports separating sensitive data (API keys, tokens, secrets, passwords) from the main configuration by storing them in a `.security.yml` file. This improves security by:
 
 1. **Separation of concerns**: Configuration settings and secrets are in separate files
 2. **Easier sharing**: The main config can be shared without exposing sensitive data
@@ -188,7 +188,7 @@ You can now remove sensitive fields from `config.json` since they're loaded from
 
 ### Step 5: Verify
 
-Restart PicoClaw and verify it loads correctly:
+Restart NeoClaw and verify it loads correctly:
 ```bash
 picoclaw --version
 ```
@@ -641,7 +641,7 @@ rm ~/.picoclaw/config.json.20*.bak ~/.picoclaw/.security.yml.20*.bak
 
 ## Advanced: Encrypted API Keys
 
-PicoClaw supports encrypting API keys in the security file for additional protection.
+NeoClaw supports encrypting API keys in the security file for additional protection.
 
 ### Setup
 

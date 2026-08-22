@@ -4,7 +4,7 @@
 
 ## 概述
 
-**Antigravity**（Google Cloud Code Assist）是由 Google 支持的 AI 模型提供商，通过 Google 的云基础设施提供对 Claude Opus 4.6 和 Gemini 等模型的访问。本文档提供了关于认证工作原理、如何获取模型以及如何在 PicoClaw 中实现新提供商的完整指南。
+**Antigravity**（Google Cloud Code Assist）是由 Google 支持的 AI 模型提供商，通过 Google 的云基础设施提供对 Claude Opus 4.6 和 Gemini 等模型的访问。本文档提供了关于认证工作原理、如何获取模型以及如何在 NeoClaw 中实现新提供商的完整指南。
 
 ---
 
@@ -19,7 +19,7 @@
 7. [集成要求](#集成要求)
 8. [API 端点](#api-端点)
 9. [配置](#配置)
-10. [在 PicoClaw 中创建新提供商](#在-picoclaw-中创建新提供商)
+10. [在 NeoClaw 中创建新提供商](#在-picoclaw-中创建新提供商)
 
 ---
 
@@ -380,7 +380,7 @@ const antigravityPlugin = {
   description: "OAuth flow for Google Antigravity (Cloud Code Assist)",
   configSchema: emptyPluginConfigSchema(),
   
-  register(api: PicoClawPluginApi) {
+  register(api: NeoClawPluginApi) {
     api.registerProvider({
       id: "google-antigravity",
       label: "Google Antigravity",
@@ -407,7 +407,7 @@ const antigravityPlugin = {
 
 ```typescript
 type ProviderAuthContext = {
-  config: PicoClawConfig;
+  config: NeoClawConfig;
   agentDir?: string;
   workspaceDir?: string;
   prompter: WizardPrompter;      // UI 提示/通知
@@ -428,7 +428,7 @@ type ProviderAuthResult = {
     profileId: string;
     credential: AuthProfileCredential;
   }>;
-  configPatch?: Partial<PicoClawConfig>;
+  configPatch?: Partial<NeoClawConfig>;
   defaultModel?: string;
   notes?: string[];
 };
@@ -441,7 +441,7 @@ type ProviderAuthResult = {
 ### 1. 所需环境/依赖
 
 - Go ≥ 1.25
-- PicoClaw 代码库（`pkg/providers/` 和 `pkg/auth/`）
+- NeoClaw 代码库（`pkg/providers/` 和 `pkg/auth/`）
 - `crypto` 和 `net/http` 标准库包
 
 ### 2. API 调用所需的请求头
@@ -614,9 +614,9 @@ export function sanitizeAntigravityThinkingBlocks(
 
 ---
 
-## 在 PicoClaw 中创建新提供商
+## 在 NeoClaw 中创建新提供商
 
-PicoClaw 提供商以 Go 包的形式实现，位于 `pkg/providers/` 下。要添加新提供商：
+NeoClaw 提供商以 Go 包的形式实现，位于 `pkg/providers/` 下。要添加新提供商：
 
 ### 分步实现
 

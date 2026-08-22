@@ -1,4 +1,4 @@
-# PicoClaw Channel System：完整开发指南
+# NeoClaw Channel System：完整开发指南
 
 > **影响范围**: `pkg/channels/`, `pkg/bus/`, `pkg/media/`, `pkg/identity/`, `cmd/picoclaw/internal/gateway/`
 
@@ -1421,7 +1421,7 @@ agentLoop.Stop()               // 停止 Agent
 
 3. **WeCom 现在只有一个 channel**：`"wecom"` 采用 WebSocket AI Bot 实现，带路由持久化；访问控制走统一的 channel 白名单机制，不再保留旧的 webhook/app 双分支。
 
-4. **Pico Protocol**：`pkg/channels/pico/` 实现了一个自定义的 PicoClaw 原生协议 channel，通过 WebSocket webhook (`/pico/ws`) 接收消息。
+4. **Pico Protocol**：`pkg/channels/pico/` 实现了一个自定义的 NeoClaw 原生协议 channel，通过 WebSocket webhook (`/pico/ws`) 接收消息。
 
 5. **WhatsApp 有两种模式**：`"whatsapp"`（Bridge 模式，通过外部 bridge URL 通信）和 `"whatsapp_native"`（原生 whatsmeow 模式，直接连接 WhatsApp）。Manager 根据 `WhatsAppConfig.UseNative` 决定初始化哪个。
 

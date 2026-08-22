@@ -49,7 +49,7 @@ PICOCLAW_HOME=/srv/picoclaw PICOCLAW_CONFIG=/srv/picoclaw/main.json picoclaw gat
 
 ### ワークスペースレイアウト
 
-PicoClaw は設定されたワークスペース（デフォルト: `~/.picoclaw/workspace`）にデータを保存します：
+NeoClaw は設定されたワークスペース（デフォルト: `~/.picoclaw/workspace`）にデータを保存します：
 
 ```
 ~/.picoclaw/workspace/
@@ -69,13 +69,13 @@ PicoClaw は設定されたワークスペース（デフォルト: `~/.picoclaw
 
 ### リクエストコンテキストポリシー
 
-`turn_profile` は `agents.defaults.turn_profile` に置く任意のリクエストコンテキストポリシーです。各ターンに履歴、system prompt、skill prompt、許可ツールを含めるかどうかを制御します。未設定、または `"enabled": false` の場合、PicoClaw は通常動作のままです。`"enabled": true` にすると、このポリシーが各新規ターンに適用されます。
+`turn_profile` は `agents.defaults.turn_profile` に置く任意のリクエストコンテキストポリシーです。各ターンに履歴、system prompt、skill prompt、許可ツールを含めるかどうかを制御します。未設定、または `"enabled": false` の場合、NeoClaw は通常動作のままです。`"enabled": true` にすると、このポリシーが各新規ターンに適用されます。
 
 各ブロックは同じ `mode` を使います。
 
 | Mode | 意味 |
 | --- | --- |
-| `default` | PicoClaw の通常動作を維持します。ブロックまたは `mode` が省略された場合も `default` です。 |
+| `default` | NeoClaw の通常動作を維持します。ブロックまたは `mode` が省略された場合も `default` です。 |
 | `off` | そのブロックを無効にします。 |
 | `custom` | 許可リストを使います。このバージョンでは `skills` と `tools` のみ対応し、`history` や `system_prompt` で使うと検証エラーになります。 |
 
@@ -84,11 +84,11 @@ PicoClaw は設定されたワークスペース（デフォルト: `~/.picoclaw
 | ブロック | 制御する内容 |
 | --- | --- |
 | `history` | 履歴と要約の読み込み、ユーザー/アシスタント/ツールメッセージの保存、コンテキスト取り込み、圧縮と要約。 |
-| `system_prompt` | PicoClaw の既定の identity、ワークスペース指示、メモリ、実行時コンテキスト、要約の注入。`off` でも外部 system prompt は利用できます。 |
+| `system_prompt` | NeoClaw の既定の identity、ワークスペース指示、メモリ、実行時コンテキスト、要約の注入。`off` でも外部 system prompt は利用できます。 |
 | `skills` | Skill カタログと active skill のプロンプト内容。`custom.allow` は列挙した skill 名だけを残します。 |
 | `tools` | モデルに見せ、実行を許可するツール。`custom.allow` は登録済みで列挙されたツール名だけを残します。 |
 
-`system_prompt.mode` が `off` で、ツールが表示され、外部 system prompt がない場合、PicoClaw は既存のツール使用ルールを最小のフォールバックプロンプトとして再利用します。`tools.mode` が `off` の場合、このフォールバックは追加されません。
+`system_prompt.mode` が `off` で、ツールが表示され、外部 system prompt がない場合、NeoClaw は既存のツール使用ルールを最小のフォールバックプロンプトとして再利用します。`tools.mode` が `off` の場合、このフォールバックは追加されません。
 
 Web ツールだけを残すクリーンなコンテキスト例：
 
@@ -154,7 +154,7 @@ dammi le ultime news
 
 ### 🔒 セキュリティサンドボックス
 
-PicoClaw はデフォルトでサンドボックス環境で実行されます。Agent は設定されたワークスペース内のファイルアクセスとコマンド実行のみが可能です。
+NeoClaw はデフォルトでサンドボックス環境で実行されます。Agent は設定されたワークスペース内のファイルアクセスとコマンド実行のみが可能です。
 
 #### デフォルト設定
 
@@ -218,7 +218,7 @@ PicoClaw はデフォルトでサンドボックス環境で実行されます�
 
 #### 既知の制限：ビルドツールの子プロセス
 
-exec セキュリティガードは PicoClaw が直接起動するコマンドラインのみを検査します。`make`、`go run`、`cargo`、`npm run`、またはカスタムビルドスクリプトなどの開発ツールが生成する子プロセスは再帰的に検査しません。
+exec セキュリティガードは NeoClaw が直接起動するコマンドラインのみを検査します。`make`、`go run`、`cargo`、`npm run`、またはカスタムビルドスクリプトなどの開発ツールが生成する子プロセスは再帰的に検査しません。
 
 つまり、トップレベルのコマンドが初期ガードチェックを通過した後、他のバイナリをコンパイルまたは起動できます。実際には、ビルドスクリプト、Makefile、パッケージスクリプト、生成されたバイナリを、直接のシェルコマンドと同等レベルの実行可能コードとしてレビューする必要があります。
 
@@ -226,7 +226,7 @@ exec セキュリティガードは PicoClaw が直接起動するコマンド�
 
 * 実行前にビルドスクリプトをレビューしてください。
 * コンパイル・実行ワークフローには承認/手動レビューを優先してください。
-* ビルトインガードより強力な分離が必要な場合は、コンテナまたは VM 内で PicoClaw を実行してください。
+* ビルトインガードより強力な分離が必要な場合は、コンテナまたは VM 内で NeoClaw を実行してください。
 
 #### エラー例
 
@@ -278,7 +278,7 @@ export PICOCLAW_AGENTS_DEFAULTS_RESTRICT_TO_WORKSPACE=false
 
 ### ハートビート（定期タスク）
 
-PicoClaw は定期タスクを自動実行できます。ワークスペースに `HEARTBEAT.md` ファイルを作成してください：
+NeoClaw は定期タスクを自動実行できます。ワークスペースに `HEARTBEAT.md` ファイルを作成してください：
 
 ```markdown
 # Periodic Tasks
@@ -362,7 +362,7 @@ HEARTBEAT_OK を返信        ユーザーが直接結果を受信
 | ------------ | --------------------------------------- | ------------------------------------------------------------ |
 | `gemini`     | LLM（Gemini 直接）                      | [aistudio.google.com](https://aistudio.google.com)           |
 | `zhipu`      | LLM（Zhipu 直接）                       | [bigmodel.cn](https://bigmodel.cn)                           |
-| `volcengine` | LLM（Volcengine 直接）                  | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| `volcengine` | LLM（Volcengine 直接）                  | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) |
 | `openrouter` | LLM（推奨、全モデルにアクセス可能）     | [openrouter.ai](https://openrouter.ai)                       |
 | `anthropic`  | LLM（Claude 直接）                      | [console.anthropic.com](https://console.anthropic.com)       |
 | `openai`     | LLM（GPT 直接）                         | [platform.openai.com](https://platform.openai.com)           |
@@ -374,7 +374,7 @@ HEARTBEAT_OK を返信        ユーザーが直接結果を受信
 
 ### モデル設定 (model_list)
 
-> **新機能：** PicoClaw は**モデル中心**の設定アプローチを採用しました。`vendor/model` 形式（例：`zhipu/glm-4.7`）を指定するだけで新しい Provider を追加できます — **コード変更不要！**
+> **新機能：** NeoClaw は**モデル中心**の設定アプローチを採用しました。`vendor/model` 形式（例：`zhipu/glm-4.7`）を指定するだけで新しい Provider を追加できます — **コード変更不要！**
 
 #### サポートされている全 Vendor
 
@@ -389,12 +389,12 @@ HEARTBEAT_OK を返信        ユーザーが直接結果を受信
 | **通義千問 (Qwen)**     | `qwen/`                | `https://dashscope.aliyuncs.com/compatible-mode/v1` | OpenAI     | [取得](https://dashscope.console.aliyun.com)                     |
 | **Ollama**              | `ollama/`              | `http://localhost:11434/v1`                         | OpenAI     | ローカル（キー不要）                                             |
 | **OpenRouter**          | `openrouter/`          | `https://openrouter.ai/api/v1`                      | OpenAI     | [取得](https://openrouter.ai/keys)                               |
-| **VolcEngine (Doubao)** | `volcengine/`          | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI     | [取得](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| **VolcEngine (Doubao)** | `volcengine/`          | `https://ark.cn-beijing.volces.com/api/v3`          | OpenAI     | [取得](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) |
 | **Antigravity**         | `antigravity/`         | Google Cloud                                        | Custom     | OAuth のみ                                                       |
 
 #### ロードバランシング
 
-同じモデル名に複数のエンドポイントを設定すると、PicoClaw が自動的にラウンドロビンします：
+同じモデル名に複数のエンドポイントを設定すると、NeoClaw が自動的にラウンドロビンします：
 
 ```json
 {
@@ -411,7 +411,7 @@ HEARTBEAT_OK を返信        ユーザーが直接結果を受信
 
 #### ストリーミング設定
 
-Provider ストリーミングは二重の opt-in 方式で、デフォルトでは無効です。現在の channel に `settings.streaming.enabled: true` があり、アクティブなモデルエントリに `streaming.enabled: true` があり、さらに provider と channel の両方がストリーミングをサポートしている場合にのみ、agent はストリーミングリクエストを試行します。いずれかの条件が欠ける場合、PicoClaw は通常の非ストリーミングリクエスト経路を使います。
+Provider ストリーミングは二重の opt-in 方式で、デフォルトでは無効です。現在の channel に `settings.streaming.enabled: true` があり、アクティブなモデルエントリに `streaming.enabled: true` があり、さらに provider と channel の両方がストリーミングをサポートしている場合にのみ、agent はストリーミングリクエストを試行します。いずれかの条件が欠ける場合、NeoClaw は通常の非ストリーミングリクエスト経路を使います。
 
 Pico WebUI が最初に完全対応した channel です。Pico は既存の `message.create` wire message で最初の assistant メッセージを作成し、その後 `message.update` で同じメッセージを更新します。新しい Pico wire message type は追加されません。
 
@@ -456,11 +456,11 @@ Pico WebUI が最初に完全対応した channel です。Pico は既存の `me
 
 既存の Telegram 環境変数 `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLED`、`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_THROTTLE_SECONDS`、`PICOCLAW_CHANNELS_TELEGRAM_STREAMING_MIN_GROWTH_CHARS` は互換性のため引き続き使えます。これらは Telegram settings にのみ適用され、Pico の `settings.streaming` を有効化または変更しません。
 
-失敗時の動作は保守的です。可視 chunk が送信される前にストリーミングが失敗した場合、PicoClaw は通常の `Chat()` 経路で一度だけ再試行します。すでに chunk がユーザーに表示されている場合は、表示済み出力の重複を避けるため、二つ目の非ストリーミング回答は送信しません。
+失敗時の動作は保守的です。可視 chunk が送信される前にストリーミングが失敗した場合、NeoClaw は通常の `Chat()` 経路で一度だけ再試行します。すでに chunk がユーザーに表示されている場合は、表示済み出力の重複を避けるため、二つ目の非ストリーミング回答は送信しません。
 
 ### Provider アーキテクチャ
 
-PicoClaw はプロトコルファミリーで Provider をルーティングします：
+NeoClaw はプロトコルファミリーで Provider をルーティングします：
 
 - **OpenAI 互換**：OpenRouter、Groq、Zhipu、vLLM スタイルのエンドポイントなど。
 - **Gemini ネイティブ**：Google Gemini のネイティブ `models/*:generateContent` / `models/*:streamGenerateContent` エンドポイント。
@@ -471,7 +471,7 @@ PicoClaw はプロトコルファミリーで Provider をルーティングし�
 
 ### スケジュールタスク / リマインダー
 
-PicoClaw は `cron` ツールを通じて cron スタイルのスケジュールタスクをサポートします。
+NeoClaw は `cron` ツールを通じて cron スタイルのスケジュールタスクをサポートします。
 
 ```json
 {

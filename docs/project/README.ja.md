@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="../../assets/logo.webp" alt="PicoClaw" width="512">
+  <img src="../../assets/logo.webp" alt="NeoClaw" width="512">
 
-  <h1>PicoClaw: Go で書かれた超効率 AI アシスタント</h1>
+  <h1>NeoClaw: Go で書かれた超効率 AI アシスタント</h1>
 
-  <h3>$10 ハードウェア · 10MB RAM · ms 起動 · Let's Go, PicoClaw!</h3>
+  <h3>$10 ハードウェア · 10MB RAM · ms 起動 · Let's Go, NeoClaw!</h3>
   <p>
     <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go">
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V%2C%20LoongArch-blue" alt="Hardware">
@@ -18,15 +18,15 @@
     <a href="https://discord.gg/V4sAZ9XWpN"><img src="https://img.shields.io/badge/Discord-Community-4c60eb?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
   </p>
 
-[中文](README.zh.md) | **日本語** | [한국어](README.ko.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [Italiano](README.it.md) | [Bahasa Indonesia](README.id.md) | [Malay](README.ms.md) | [English](../../README.md)
+[中文](README.zh.md) | **日本語** | [한국어](README.ko.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [Italiano](README.it.md) | [Bahasa Indonesia](README.id.md) | [Malay](README.ms.md) | [Русский](README.ru.md) | [English](../../README.md)
 
 </div>
 
 ---
 
-> **PicoClaw** は [Sipeed](https://sipeed.com) が立ち上げた独立したオープンソースプロジェクトです。完全に **Go 言語**で一から書かれており、OpenClaw、NanoBot、その他のプロジェクトのフォークではありません。
+> **NeoClaw** はオープンソースプロジェクトで、[PicoClaw](https://github.com/sipeed/picoclaw) のフォークです。完全に **Go 言語**で書かれています。
 
-**PicoClaw** は [NanoBot](https://github.com/HKUDS/nanobot) にインスパイアされた超軽量パーソナル AI アシスタントです。**Go** でゼロからリビルドされ、「セルフブートストラッピング」プロセスで構築されました — AI Agent 自身がアーキテクチャの移行とコード最適化を推進しました。
+**NeoClaw** は [NanoBot](https://github.com/HKUDS/nanobot) にインスパイアされた超軽量パーソナル AI アシスタントです。**Go** でゼロからリビルドされ、「セルフブートストラッピング」プロセスで構築されました — AI Agent 自身がアーキテクチャの移行とコード最適化を推進しました。
 
 **$10 のハードウェアで 10MB 未満の RAM で動作** — OpenClaw より 99% 少ないメモリ、Mac mini より 98% 安い！
 
@@ -48,15 +48,15 @@
 > [!CAUTION]
 > **セキュリティに関する注意**
 >
-> * **暗号通貨なし:** PicoClaw には公式トークン/コインは**一切ありません**。`pump.fun` やその他の取引プラットフォームでの主張はすべて**詐欺**です。
+> * **暗号通貨なし:** NeoClaw には公式トークン/コインは**一切ありません**。`pump.fun` やその他の取引プラットフォームでの主張はすべて**詐欺**です。
 > * **公式ドメイン:** **唯一**の公式サイトは **[picoclaw.io](https://picoclaw.io)**、企業サイトは **[sipeed.com](https://sipeed.com)** です。
 > * **注意:** 多くの `.ai/.org/.com/.net/...` ドメインは第三者によって登録されています。信頼しないでください。
-> * **注記:** PicoClaw は初期開発段階にあり、未解決のネットワークセキュリティ問題がある可能性があります。v1.0 リリース前に本番環境へのデプロイは避けてください。
-> * **注記:** PicoClaw は最近多くの PR をマージしており、最新バージョンではメモリフットプリントが大きくなる場合があります（10〜20MB）。機能セットが安定次第、リソース最適化を優先する予定です。
+> * **注記:** NeoClaw は初期開発段階にあり、未解決のネットワークセキュリティ問題がある可能性があります。v1.0 リリース前に本番環境へのデプロイは避けてください。
+> * **注記:** NeoClaw は最近多くの PR をマージしており、最新バージョンではメモリフットプリントが大きくなる場合があります（10〜20MB）。機能セットが安定次第、リソース最適化を優先する予定です。
 
 ## 📢 ニュース
 
-2026-05-11 🛒 **LicheeRV-Claw が AliExpress で購入可能に！** [AliExpress](https://www.aliexpress.com/item/1005006519668532.html) から LicheeRV-Claw を購入できるようになり、コンパクトな RISC-V ハードウェアで PicoClaw を試しやすくなりました。
+2026-05-11 🛒 **LicheeRV-Claw が AliExpress で購入可能に！** [AliExpress](https://www.aliexpress.com/item/1005006519668532.html) から LicheeRV-Claw を購入できるようになり、コンパクトな RISC-V ハードウェアで NeoClaw を試しやすくなりました。
 
 <p align="center">
   <a href="https://www.aliexpress.com/item/1005006519668532.html">
@@ -64,11 +64,11 @@
   </a>
 </p>
 
-2026-03-31 📱 **Android サポート！** PicoClawがAndroidで動作！APKは[picoclaw.io](https://picoclaw.io/download)からダウンロード
+2026-03-31 📱 **Android サポート！** NeoClawがAndroidで動作！APKは[picoclaw.io](https://picoclaw.io/download)からダウンロード
 
-2026-03-25 🚀 **v0.2.4 リリース！** Agent アーキテクチャ全面刷新（SubTurn、Hooks、Steering、EventBus）、WeChat/WeCom 統合、セキュリティ強化（.security.yml、機密データフィルタリング）、新プロバイダー（AWS Bedrock、Azure、Xiaomi MiMo）、35 件のバグ修正。PicoClaw **26K ⭐** 達成！
+2026-03-25 🚀 **v0.2.4 リリース！** Agent アーキテクチャ全面刷新（SubTurn、Hooks、Steering、EventBus）、WeChat/WeCom 統合、セキュリティ強化（.security.yml、機密データフィルタリング）、新プロバイダー（AWS Bedrock、Azure、Xiaomi MiMo）、35 件のバグ修正。NeoClaw **26K ⭐** 達成！
 
-2026-03-17 🚀 **v0.2.3 リリース！** システムトレイ UI（Windows & Linux）、サブエージェントステータス追跡（`spawn_status`）、実験的 Gateway ホットリロード、cron セキュリティゲート、セキュリティ修正 2 件。PicoClaw **25K ⭐** 達成！
+2026-03-17 🚀 **v0.2.3 リリース！** システムトレイ UI（Windows & Linux）、サブエージェントステータス追跡（`spawn_status`）、実験的 Gateway ホットリロード、cron セキュリティゲート、セキュリティ修正 2 件。NeoClaw **25K ⭐** 達成！
 
 2026-03-09 🎉 **v0.2.1 — 最大のアップデート！** MCP プロトコルサポート、4 つの新チャンネル (Matrix/IRC/WeCom/Discord Proxy)、3 つの新プロバイダー (Kimi/Minimax/Avian)、ビジョンパイプライン、JSONL メモリストア、モデルルーティング。
 
@@ -77,13 +77,13 @@
 <details>
 <summary>過去のニュース...</summary>
 
-2026-02-26 🎉 PicoClaw がわずか 17 日で **20K スター** 達成！Channel 自動オーケストレーションとケイパビリティインターフェースが実装されました。
+2026-02-26 🎉 NeoClaw がわずか 17 日で **20K スター** 達成！Channel 自動オーケストレーションとケイパビリティインターフェースが実装されました。
 
-2026-02-16 🎉 PicoClaw が 1 週間で 12K スター達成！コミュニティメンテナーの役割と[ロードマップ](../../ROADMAP.md)が正式に公開されました。
+2026-02-16 🎉 NeoClaw が 1 週間で 12K スター達成！コミュニティメンテナーの役割と[ロードマップ](../../ROADMAP.md)が正式に公開されました。
 
-2026-02-13 🎉 PicoClaw が 4 日間で 5000 スター達成！プロジェクトロードマップと開発者グループの準備が進行中。
+2026-02-13 🎉 NeoClaw が 4 日間で 5000 スター達成！プロジェクトロードマップと開発者グループの準備が進行中。
 
-2026-02-09 🎉 **PicoClaw リリース！** $10 ハードウェアで 10MB 未満の RAM で動く AI Agent を 1 日で構築。Let's Go, PicoClaw!
+2026-02-09 🎉 **NeoClaw リリース！** $10 ハードウェアで 10MB 未満の RAM で動く AI Agent を 1 日で構築。Let's Go, NeoClaw!
 
 </details>
 
@@ -109,21 +109,21 @@ _*最近のバージョンでは急速な PR マージにより 10〜20MB にな
 
 <div align="center">
 
-|                                | OpenClaw      | NanoBot                  | **PicoClaw**                           |
+|                                | OpenClaw      | NanoBot                  | **NeoClaw**                           |
 | ------------------------------ | ------------- | ------------------------ | -------------------------------------- |
 | **言語**                       | TypeScript    | Python                   | **Go**                                 |
 | **RAM**                        | >1GB          | >100MB                   | **< 10MB***                            |
 | **起動時間**</br>(0.8GHz コア) | >500秒        | >30秒                    | **<1秒**                               |
 | **コスト**                     | Mac Mini $599 | 大半の Linux ボード ~$50 | **あらゆる Linux ボード**</br>**最安 $10** |
 
-<img src="../../assets/compare.jpg" alt="PicoClaw" width="512">
+<img src="../../assets/compare.jpg" alt="NeoClaw" width="512">
 
 </div>
 
 > **[ハードウェア互換性リスト](../guides/hardware-compatibility.ja.md)** — テスト済みの全ボード一覧（$5 RISC-V から Raspberry Pi、Android スマートフォンまで）。お使いのボードが未掲載？PR を送ってください！
 
 <p align="center">
-<img src="../../assets/hardware-banner.jpg" alt="PicoClaw Hardware Compatibility" width="100%">
+<img src="../../assets/hardware-banner.jpg" alt="NeoClaw Hardware Compatibility" width="100%">
 </p>
 
 ## 🦾 デモンストレーション
@@ -150,7 +150,7 @@ _*最近のバージョンでは急速な PR マージにより 10〜20MB にな
 
 ### 🐜 革新的な省フットプリントデプロイ
 
-PicoClaw はほぼすべての Linux デバイスにデプロイできます！
+NeoClaw はほぼすべての Linux デバイスにデプロイできます！
 
 - $9.9 [LicheeRV-Nano](https://www.aliexpress.com/item/1005006519668532.html) E(Ethernet) または W(WiFi6) バージョン、最小ホームアシスタントに
 - $30~50 [NanoKVM](https://www.aliexpress.com/item/1005007369816019.html) または $100 [NanoKVM-Pro](https://www.aliexpress.com/item/1005010048471263.html) サーバー自動メンテナンスに
@@ -300,7 +300,7 @@ docker compose -f docker/docker-compose.yml --profile launcher up -d
 <a id="-run-on-old-android-phones"></a>
 ### 📱 Android
 
-10 年前のスマホに第二の人生を！PicoClaw でスマート AI アシスタントに変身させましょう。
+10 年前のスマホに第二の人生を！NeoClaw でスマート AI アシスタントに変身させましょう。
 
 **オプション 1: APK インストール**
 
@@ -335,7 +335,7 @@ termux-chroot ./picoclaw onboard   # chroot で標準的な Linux ファイル�
 
 その後、下記の Terminal Launcher セクションの手順に従って設定を完了してください。
 
-<img src="../../assets/termux.jpg" alt="PicoClaw on Termux" width="512">
+<img src="../../assets/termux.jpg" alt="NeoClaw on Termux" width="512">
 
 `picoclaw` コアバイナリのみが利用可能な最小環境（Launcher UI なし）では、コマンドラインと JSON 設定ファイルですべてを設定できます。
 
@@ -386,7 +386,7 @@ picoclaw gateway
 
 ## 🔌 Provider（LLM）
 
-PicoClaw は `model_list` 設定を通じて 30 以上の LLM Provider をサポートしています。`protocol/model` 形式を使用してください：
+NeoClaw は `model_list` 設定を通じて 30 以上の LLM Provider をサポートしています。`protocol/model` 形式を使用してください：
 
 | Provider | Protocol | API キー | 備考 |
 |----------|----------|---------|------|
@@ -448,7 +448,7 @@ Provider の完全な設定詳細は [Provider とモデル](../guides/providers
 
 ## 💬 Channel（チャットアプリ）
 
-17 以上のメッセージングプラットフォームで PicoClaw と会話できます：
+17 以上のメッセージングプラットフォームで NeoClaw と会話できます：
 
 | Channel | セットアップ | Protocol | ドキュメント |
 |---------|------------|----------|------------|
@@ -479,7 +479,7 @@ Channel の詳細なセットアップ手順は [チャットアプリ設定](..
 
 ### 🔍 Web 検索
 
-PicoClaw は最新情報を提供するために Web を検索できます。`tools.web` で設定してください：
+NeoClaw は最新情報を提供するために Web を検索できます。`tools.web` で設定してください：
 
 | 検索エンジン | API キー | 無料枠 | リンク |
 |------------|---------|--------|-------|
@@ -493,7 +493,7 @@ PicoClaw は最新情報を提供するために Web を検索できます。`to
 
 ### ⚙️ その他のツール
 
-PicoClaw にはファイル操作、コード実行、スケジューリングなどの組み込みツールが含まれています。詳細は [ツール設定](../reference/tools_configuration.ja.md) を参照してください。
+NeoClaw にはファイル操作、コード実行、スケジューリングなどの組み込みツールが含まれています。詳細は [ツール設定](../reference/tools_configuration.ja.md) を参照してください。
 
 ## 🎯 Skill
 
@@ -527,7 +527,7 @@ picoclaw skills install <skill-name>
 
 ## 🔗 MCP（Model Context Protocol）
 
-PicoClaw は [MCP](https://modelcontextprotocol.io/) をネイティブサポートしています — 任意の MCP サーバーに接続して、外部ツールやデータソースで Agent の機能を拡張できます。
+NeoClaw は [MCP](https://modelcontextprotocol.io/) をネイティブサポートしています — 任意の MCP サーバーに接続して、外部ツールやデータソースで Agent の機能を拡張できます。
 
 ```json
 {
@@ -550,7 +550,7 @@ MCP の完全な設定（stdio、SSE、HTTP トランスポート、Tool Discove
 
 ## <img src="../../assets/clawdchat-icon.png" width="24" height="24" alt="ClawdChat"> エージェントソーシャルネットワークに参加
 
-CLI または統合チャットアプリからメッセージを 1 つ送るだけで、PicoClaw をエージェントソーシャルネットワークに接続できます。
+CLI または統合チャットアプリからメッセージを 1 つ送るだけで、NeoClaw をエージェントソーシャルネットワークに接続できます。
 
 **`https://clawdchat.ai/skill.md` を読み、指示に従って [ClawdChat.ai](https://clawdchat.ai) に参加してください**
 
@@ -577,7 +577,7 @@ CLI または統合チャットアプリからメッセージを 1 つ送るだ�
 
 ### ⏰ スケジュールタスク / リマインダー
 
-PicoClaw は `cron` ツールによるスケジュールリマインダーと定期タスクをサポートしています：
+NeoClaw は `cron` ツールによるスケジュールリマインダーと定期タスクをサポートしています：
 
 * **ワンタイムリマインダー**: 「10分後にリマインド」→ 10分後に1回トリガー
 * **定期タスク**: 「2時間ごとにリマインド」→ 2時間ごとにトリガー

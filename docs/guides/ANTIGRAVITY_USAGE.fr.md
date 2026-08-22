@@ -1,8 +1,8 @@
 > Retour au [README](../project/README.fr.md)
 
-# Utiliser le fournisseur Antigravity dans PicoClaw
+# Utiliser le fournisseur Antigravity dans NeoClaw
 
-Ce guide explique comment configurer et utiliser le fournisseur **Antigravity** (Google Cloud Code Assist) dans PicoClaw.
+Ce guide explique comment configurer et utiliser le fournisseur **Antigravity** (Google Cloud Code Assist) dans NeoClaw.
 
 ## Prérequis
 
@@ -18,15 +18,15 @@ picoclaw auth login --provider antigravity
 ```
 
 ### Authentification manuelle (Headless/VPS)
-Si vous exécutez PicoClaw sur un serveur (Coolify/Docker) et ne pouvez pas accéder à `localhost`, suivez ces étapes :
+Si vous exécutez NeoClaw sur un serveur (Coolify/Docker) et ne pouvez pas accéder à `localhost`, suivez ces étapes :
 1.  Exécutez la commande ci-dessus.
 2.  Copiez l'URL fournie et ouvrez-la dans votre navigateur local.
 3.  Complétez la connexion.
 4.  Votre navigateur sera redirigé vers une URL `localhost:51121` (qui ne se chargera pas).
 5.  **Copiez cette URL finale** depuis la barre d'adresse de votre navigateur.
-6.  **Collez-la dans le terminal** où PicoClaw attend.
+6.  **Collez-la dans le terminal** où NeoClaw attend.
 
-PicoClaw extraira automatiquement le code d'autorisation et terminera le processus.
+NeoClaw extraira automatiquement le code d'autorisation et terminera le processus.
 
 ## 2. Gestion des modèles
 
@@ -61,7 +61,7 @@ Si vous déployez via Coolify ou Docker, suivez ces étapes pour tester :
 ## 4. Dépannage
 
 *   **Réponse vide** : Si un modèle renvoie une réponse vide, il peut être restreint pour votre projet. Essayez `gemini-3-flash` ou `claude-opus-4-6-thinking`.
-*   **429 Limite de débit** : Antigravity a des quotas stricts. PicoClaw affichera le « temps de réinitialisation » dans le message d'erreur si vous atteignez une limite.
+*   **429 Limite de débit** : Antigravity a des quotas stricts. NeoClaw affichera le « temps de réinitialisation » dans le message d'erreur si vous atteignez une limite.
 *   **404 Non trouvé** : Assurez-vous d'utiliser un ID de modèle provenant de la liste `picoclaw auth models`. Utilisez l'ID court (par ex. `gemini-3-flash`) et non le chemin complet.
 
 ## 5. Résumé des modèles fonctionnels

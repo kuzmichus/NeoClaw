@@ -4,7 +4,7 @@
 
 ## 概要
 
-**Antigravity**（Google Cloud Code Assist）は、Google が提供する AI モデルプロバイダーで、Google のクラウドインフラストラクチャを通じて Claude Opus 4.6 や Gemini などのモデルへのアクセスを提供します。本ドキュメントでは、認証の仕組み、モデルの取得方法、PicoClaw での新しいプロバイダーの実装方法について完全なガイドを提供します。
+**Antigravity**（Google Cloud Code Assist）は、Google が提供する AI モデルプロバイダーで、Google のクラウドインフラストラクチャを通じて Claude Opus 4.6 や Gemini などのモデルへのアクセスを提供します。本ドキュメントでは、認証の仕組み、モデルの取得方法、NeoClaw での新しいプロバイダーの実装方法について完全なガイドを提供します。
 
 ---
 
@@ -19,7 +19,7 @@
 7. [統合要件](#統合要件)
 8. [API エンドポイント](#api-エンドポイント)
 9. [設定](#設定)
-10. [PicoClaw での新しいプロバイダーの作成](#picoclaw-での新しいプロバイダーの作成)
+10. [NeoClaw での新しいプロバイダーの作成](#picoclaw-での新しいプロバイダーの作成)
 
 ---
 
@@ -380,7 +380,7 @@ const antigravityPlugin = {
   description: "OAuth flow for Google Antigravity (Cloud Code Assist)",
   configSchema: emptyPluginConfigSchema(),
   
-  register(api: PicoClawPluginApi) {
+  register(api: NeoClawPluginApi) {
     api.registerProvider({
       id: "google-antigravity",
       label: "Google Antigravity",
@@ -407,7 +407,7 @@ const antigravityPlugin = {
 
 ```typescript
 type ProviderAuthContext = {
-  config: PicoClawConfig;
+  config: NeoClawConfig;
   agentDir?: string;
   workspaceDir?: string;
   prompter: WizardPrompter;      // UI プロンプト/通知
@@ -428,7 +428,7 @@ type ProviderAuthResult = {
     profileId: string;
     credential: AuthProfileCredential;
   }>;
-  configPatch?: Partial<PicoClawConfig>;
+  configPatch?: Partial<NeoClawConfig>;
   defaultModel?: string;
   notes?: string[];
 };
@@ -441,7 +441,7 @@ type ProviderAuthResult = {
 ### 1. 必要な環境/依存関係
 
 - Go ≥ 1.25
-- PicoClaw コードベース（`pkg/providers/` および `pkg/auth/`）
+- NeoClaw コードベース（`pkg/providers/` および `pkg/auth/`）
 - `crypto` および `net/http` 標準ライブラリパッケージ
 
 ### 2. API 呼び出しに必要なヘッダー
@@ -614,9 +614,9 @@ export function sanitizeAntigravityThinkingBlocks(
 
 ---
 
-## PicoClaw での新しいプロバイダーの作成
+## NeoClaw での新しいプロバイダーの作成
 
-PicoClaw のプロバイダーは `pkg/providers/` 配下の Go パッケージとして実装されます。新しいプロバイダーを追加するには：
+NeoClaw のプロバイダーは `pkg/providers/` 配下の Go パッケージとして実装されます。新しいプロバイダーを追加するには：
 
 ### ステップバイステップの実装
 

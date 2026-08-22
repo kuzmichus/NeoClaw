@@ -1,6 +1,6 @@
 # 📡 Kênh MQTT
 
-PicoClaw hỗ trợ bất kỳ client MQTT nào làm kênh nhắn tin. Thiết bị hoặc dịch vụ publish yêu cầu lên broker; PicoClaw subscribe, xử lý và publish phản hồi trở lại.
+NeoClaw hỗ trợ bất kỳ client MQTT nào làm kênh nhắn tin. Thiết bị hoặc dịch vụ publish yêu cầu lên broker; NeoClaw subscribe, xử lý và publish phản hồi trở lại.
 
 ## 🚀 Bắt đầu nhanh
 
@@ -45,14 +45,14 @@ mosquitto_sub -t "/picoclaw/assistant/device1/response"
 ## 📨 Cấu trúc topic
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Client → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Client
+{prefix}/{agent_id}/{client_id}/request    # Client → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Client
 ```
 
 | Phân đoạn | Mô tả |
 |-----------|-------|
 | `prefix` | Tiền tố topic, cấu hình phía server. Mặc định: `/picoclaw` |
-| `agent_id` | Định danh instance PicoClaw, đặt trong trường `agent_id` |
+| `agent_id` | Định danh instance NeoClaw, đặt trong trường `agent_id` |
 | `client_id` | Định danh phiên do client xác định — dùng ID ổn định cho mỗi thiết bị để duy trì ngữ cảnh hội thoại |
 
 ### Payload tin nhắn (JSON)
@@ -128,7 +128,7 @@ channel_list:
 
 ## 🔄 Kết nối lại
 
-PicoClaw tự động kết nối lại với broker nếu mất kết nối, với khoảng thời gian thử lại 5 giây. Sau khi kết nối lại, subscription được tái thiết lập tự động. Client ID phía broker giữ nguyên qua các lần kết nối lại, giúp broker nhận diện chính xác cùng một phiên.
+NeoClaw tự động kết nối lại với broker nếu mất kết nối, với khoảng thời gian thử lại 5 giây. Sau khi kết nối lại, subscription được tái thiết lập tự động. Client ID phía broker giữ nguyên qua các lần kết nối lại, giúp broker nhận diện chính xác cùng một phiên.
 
 ---
 
@@ -136,5 +136,5 @@ PicoClaw tự động kết nối lại với broker nếu mất kết nối, v�
 
 - **TLS**: Hỗ trợ SSL/TLS (URL broker dùng `ssl://`). Mặc định bỏ qua xác minh chứng chỉ.
 - **Phản hồi streaming**: Phản hồi streaming gửi nhiều tin nhắn đến topic response; ghép nối chúng theo thứ tự để có phản hồi đầy đủ.
-- **client_id và ID phiên**: `client_id` trong đường dẫn topic được đặt bởi ứng dụng client của bạn và xác định phiên hội thoại. Nó khác với client ID paho mà PicoClaw dùng để kết nối broker.
-- **Nhiều instance**: Nếu nhiều instance PicoClaw dùng cùng `agent_id` trên cùng broker, hãy đặt `client_id` riêng biệt cho từng instance để tránh xung đột ở tầng broker.
+- **client_id và ID phiên**: `client_id` trong đường dẫn topic được đặt bởi ứng dụng client của bạn và xác định phiên hội thoại. Nó khác với client ID paho mà NeoClaw dùng để kết nối broker.
+- **Nhiều instance**: Nếu nhiều instance NeoClaw dùng cùng `agent_id` trên cùng broker, hãy đặt `client_id` riêng biệt cho từng instance để tránh xung đột ở tầng broker.

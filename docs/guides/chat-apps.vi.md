@@ -25,7 +25,7 @@ Trò chuyện với picoclaw của bạn qua Telegram, Discord, WhatsApp, Matrix
 | **OneBot**           | ⭐⭐ Trung bình    | Tương thích NapCat/Go-CQHTTP, hệ sinh thái cộng đồng  | [Tài liệu](../channels/onebot/README.vi.md)                                                                     |
 | **MQTT**             | ⭐ Dễ              | Bất kỳ client MQTT nào qua broker pub/sub            | [Tài liệu](../channels/mqtt/README.vi.md)                                                                    |
 | **MaixCam**          | ⭐ Dễ              | Kênh tích hợp phần cứng cho camera AI Sipeed          | [Tài liệu](../channels/maixcam/README.vi.md)                                                                    |
-| **Pico**             | ⭐ Dễ              | Kênh giao thức bản địa PicoClaw                       |                                                                                                                  |
+| **Pico**             | ⭐ Dễ              | Kênh giao thức bản địa NeoClaw                       |                                                                                                                  |
 
 <a id="telegram"></a>
 <details>
@@ -62,10 +62,10 @@ picoclaw gateway
 
 **4. Menu lệnh Telegram (tự động đăng ký khi khởi động)**
 
-PicoClaw hiện lưu trữ định nghĩa lệnh trong một registry chung. Khi khởi động, Telegram sẽ tự động đăng ký các lệnh bot được hỗ trợ (ví dụ `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) để menu lệnh và hành vi runtime luôn đồng bộ.
+NeoClaw hiện lưu trữ định nghĩa lệnh trong một registry chung. Khi khởi động, Telegram sẽ tự động đăng ký các lệnh bot được hỗ trợ (ví dụ `/start`, `/help`, `/show`, `/list`, `/use`, `/btw`) để menu lệnh và hành vi runtime luôn đồng bộ.
 Đăng ký menu lệnh Telegram vẫn là UX khám phá cục bộ của kênh; thực thi lệnh chung được xử lý tập trung trong vòng lặp agent qua commands executor.
 
-Nếu đăng ký lệnh thất bại (lỗi tạm thời mạng/API), kênh vẫn khởi động và PicoClaw thử lại đăng ký trong nền.
+Nếu đăng ký lệnh thất bại (lỗi tạm thời mạng/API), kênh vẫn khởi động và NeoClaw thử lại đăng ký trong nền.
 
 Ban cung co the quan ly skill da cai dat truc tiep tu Telegram:
 
@@ -156,7 +156,7 @@ picoclaw gateway
 <details>
 <summary><b>WhatsApp</b> (native qua whatsmeow)</summary>
 
-PicoClaw có thể kết nối WhatsApp theo hai cách:
+NeoClaw có thể kết nối WhatsApp theo hai cách:
 
 - **Native (khuyến nghị):** In-process sử dụng [whatsmeow](https://github.com/tulir/whatsmeow). Không cần bridge riêng. Đặt `"use_native": true` và để trống `bridge_url`. Lần chạy đầu tiên, quét mã QR bằng WhatsApp (Thiết bị liên kết). Phiên được lưu trong workspace (ví dụ: `workspace/whatsapp/`). Kênh native là **tùy chọn** để giữ binary mặc định nhỏ; build với `-tags whatsapp_native` (ví dụ: `make build-whatsapp-native` hoặc `go build -tags whatsapp_native ./cmd/...`).
 - **Bridge:** Kết nối đến bridge WebSocket bên ngoài. Đặt `bridge_url` (ví dụ: `ws://localhost:3001`) và giữ `use_native` là false.
@@ -185,7 +185,7 @@ Nếu `session_store_path` trống, phiên được lưu tại `<workspace>/what
 <details>
 <summary><b>Weixin</b> (WeChat Cá nhân)</summary>
 
-PicoClaw hỗ trợ kết nối với tài khoản WeChat cá nhân của bạn thông qua API chính thức Tencent iLink.
+NeoClaw hỗ trợ kết nối với tài khoản WeChat cá nhân của bạn thông qua API chính thức Tencent iLink.
 
 **1. Đăng nhập**
 
@@ -228,7 +228,7 @@ QQ Open Platform cung cấp trang thiết lập một chạm cho bot tương th�
 
 1. Mở [QQ Bot Quick Start](https://q.qq.com/qqbot/openclaw/index.html) và quét mã QR để đăng nhập
 2. Bot được tạo tự động — sao chép **App ID** và **App Secret**
-3. Cấu hình PicoClaw:
+3. Cấu hình NeoClaw:
 
 ```json
 {
@@ -411,7 +411,7 @@ picoclaw gateway
 <details>
 <summary><b>WeCom (企业微信)</b></summary>
 
-PicoClaw hỗ trợ ba loại tích hợp WeCom:
+NeoClaw hỗ trợ ba loại tích hợp WeCom:
 
 **Tùy chọn 1: WeCom Bot (Bot)** - Thiết lập dễ hơn, hỗ trợ chat nhóm
 **Tùy chọn 2: WeCom App (App Tùy chỉnh)** - Nhiều tính năng hơn, nhắn tin chủ động, chỉ chat riêng
@@ -527,7 +527,7 @@ picoclaw gateway
 <details>
 <summary><b>Feishu (Lark)</b></summary>
 
-PicoClaw kết nối với Feishu qua chế độ WebSocket/SDK — không cần URL webhook công khai hay máy chủ callback.
+NeoClaw kết nối với Feishu qua chế độ WebSocket/SDK — không cần URL webhook công khai hay máy chủ callback.
 
 **1. Tạo ứng dụng**
 
@@ -640,7 +640,7 @@ Bot sẽ kết nối đến máy chủ IRC và tham gia các kênh đã chỉ đ
 <details>
 <summary><b>OneBot (QQ qua giao thức OneBot)</b></summary>
 
-OneBot là giao thức mở cho bot QQ. PicoClaw kết nối với bất kỳ triển khai tương thích OneBot v11 nào (ví dụ: [Lagrange](https://github.com/LagrangeDev/Lagrange.Core), [NapCat](https://github.com/NapNeko/NapCatQQ)) qua WebSocket.
+OneBot là giao thức mở cho bot QQ. NeoClaw kết nối với bất kỳ triển khai tương thích OneBot v11 nào (ví dụ: [Lagrange](https://github.com/LagrangeDev/Lagrange.Core), [NapCat](https://github.com/NapNeko/NapCatQQ)) qua WebSocket.
 
 **1. Thiết lập triển khai OneBot**
 
@@ -702,7 +702,7 @@ picoclaw gateway
 <details>
 <summary><b>MQTT</b></summary>
 
-Bất kỳ client MQTT nào đều có thể giao tiếp với PicoClaw qua broker. Thiết bị hoặc dịch vụ publish yêu cầu lên broker; PicoClaw subscribe, xử lý và publish phản hồi trở lại.
+Bất kỳ client MQTT nào đều có thể giao tiếp với NeoClaw qua broker. Thiết bị hoặc dịch vụ publish yêu cầu lên broker; NeoClaw subscribe, xử lý và publish phản hồi trở lại.
 
 **1. Cấu hình**
 
@@ -737,8 +737,8 @@ channel_list:
 **Định dạng topic**
 
 ```
-{prefix}/{agent_id}/{client_id}/request    # Client → PicoClaw
-{prefix}/{agent_id}/{client_id}/response   # PicoClaw → Client
+{prefix}/{agent_id}/{client_id}/request    # Client → NeoClaw
+{prefix}/{agent_id}/{client_id}/response   # NeoClaw → Client
 ```
 
 `client_id` do ứng dụng client đặt để phân biệt thiết bị hoặc phiên.

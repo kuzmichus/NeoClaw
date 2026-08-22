@@ -2,7 +2,7 @@
 
 > Back to [Guides](README.md)
 
-This guide covers running the PicoClaw terminal binary on an ARM64 Android phone with Termux. Use the APK from [picoclaw.io](https://picoclaw.io/download/) if you want the Android app experience; use Termux when you want a lightweight command-line install on an older or resource-constrained device.
+This guide covers running the NeoClaw terminal binary on an ARM64 Android phone with Termux. Use the APK from [picoclaw.io](https://picoclaw.io/download/) if you want the Android app experience; use Termux when you want a lightweight command-line install on an older or resource-constrained device.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This guide covers running the PicoClaw terminal binary on an ARM64 Android phone
 - Network access for downloading the release and calling your LLM provider.
 - An API key for at least one configured model provider.
 
-## Install PicoClaw
+## Install NeoClaw
 
 Open Termux and install the packages used by the release archive and chroot wrapper:
 
@@ -44,7 +44,7 @@ Edit the generated config and add at least one model provider API key:
 vim ~/.picoclaw/config.json
 ```
 
-The default workspace is `~/.picoclaw/workspace`. If you want PicoClaw to read or write Android shared storage, run `termux-setup-storage` first and then point the workspace or any file paths at the mounted storage directory.
+The default workspace is `~/.picoclaw/workspace`. If you want NeoClaw to read or write Android shared storage, run `termux-setup-storage` first and then point the workspace or any file paths at the mounted storage directory.
 
 See [Configuration Guide](configuration.md) and [Providers & Model Configuration](providers.md) for the available config fields and provider examples.
 
@@ -62,7 +62,7 @@ For long-running use, start the gateway:
 termux-chroot ./picoclaw gateway
 ```
 
-Keep the Termux session open while PicoClaw is running. Android battery optimization can stop background work, so disable battery optimization for Termux if you expect PicoClaw to keep running after the screen locks.
+Keep the Termux session open while NeoClaw is running. Android battery optimization can stop background work, so disable battery optimization for Termux if you expect NeoClaw to keep running after the screen locks.
 
 ## Update
 
@@ -83,6 +83,6 @@ termux-chroot ./picoclaw version
 |---------|-------|
 | `permission denied` | Run `chmod +x ./picoclaw` after unpacking the archive. |
 | `not found` after running `./picoclaw` | Confirm `uname -m` prints `aarch64` and that you downloaded `picoclaw_Linux_arm64.tar.gz`. |
-| Files or paths behave differently than Linux | Run PicoClaw through `termux-chroot` instead of calling the binary directly. |
+| Files or paths behave differently than Linux | Run NeoClaw through `termux-chroot` instead of calling the binary directly. |
 | Provider requests fail | Check the API key and network access in `~/.picoclaw/config.json`. |
-| PicoClaw stops when the phone sleeps | Disable Android battery optimization for Termux and keep a foreground Termux session active. |
+| NeoClaw stops when the phone sleeps | Disable Android battery optimization for Termux and keep a foreground Termux session active. |

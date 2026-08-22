@@ -4,7 +4,7 @@
 
 ## 🐳 Docker Compose
 
-您也可以使用 Docker Compose 运行 PicoClaw，无需在本地安装任何环境。
+您也可以使用 Docker Compose 运行 NeoClaw，无需在本地安装任何环境。
 
 ```bash
 # 1. 克隆仓库
@@ -69,7 +69,7 @@ docker compose -f docker/docker-compose.yml --profile gateway up -d
 ## 🚀 快速开始
 
 > [!TIP]
-> 在 `~/.picoclaw/config.json` 中设置您的 API Key。获取 API Key: [火山引擎 (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu (智谱)](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM)。网络搜索是 **可选的** — 获取免费的 [Tavily API](https://tavily.com) (每月 1000 次免费查询) 或 [Brave Search API](https://brave.com/search/api) (每月 2000 次免费查询)。
+> 在 `~/.picoclaw/config.json` 中设置您的 API Key。获取 API Key: [火山引擎 (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu (智谱)](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM)。网络搜索是 **可选的** — 获取免费的 [Tavily API](https://tavily.com) (每月 1000 次免费查询) 或 [Brave Search API](https://brave.com/search/api) (每月 2000 次免费查询)。
 
 **1. 初始化 (Initialize)**
 
@@ -147,7 +147,7 @@ picoclaw onboard
 ```
 
 > **新功能**: `model_list` 配置格式支持零代码添加 provider。详见[模型配置](providers.zh.md#模型配置-model_list)章节。
-> `request_timeout` 为可选项，单位为秒。若省略或设置为 `<= 0`，PicoClaw 使用默认超时（120 秒）。
+> `request_timeout` 为可选项，单位为秒。若省略或设置为 `<= 0`，NeoClaw 使用默认超时（120 秒）。
 
 **3. 获取 API Key**
 

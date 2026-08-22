@@ -1,8 +1,8 @@
 > [README](../project/README.ja.md) に戻る
 
-# PicoClaw で Antigravity プロバイダーを使用する
+# NeoClaw で Antigravity プロバイダーを使用する
 
-このガイドでは、PicoClaw で **Antigravity**（Google Cloud Code Assist）プロバイダーをセットアップして使用する方法を説明します。
+このガイドでは、NeoClaw で **Antigravity**（Google Cloud Code Assist）プロバイダーをセットアップして使用する方法を説明します。
 
 ## 前提条件
 
@@ -24,9 +24,9 @@ picoclaw auth login --provider antigravity
 3.  ログインを完了します。
 4.  ブラウザが `localhost:51121` URL にリダイレクトされます（ページは読み込めません）。
 5.  **ブラウザのアドレスバーからその最終 URL をコピーします**。
-6.  **PicoClaw が待機しているターミナルにそれを貼り付けます**。
+6.  **NeoClaw が待機しているターミナルにそれを貼り付けます**。
 
-PicoClaw が自動的に認証コードを抽出し、プロセスを完了します。
+NeoClaw が自動的に認証コードを抽出し、プロセスを完了します。
 
 ## 2. モデルの管理
 
@@ -61,7 +61,7 @@ Coolify または Docker でデプロイしている場合、以下の手順で�
 ## 4. トラブルシューティング
 
 *   **空のレスポンス**：モデルが空の応答を返す場合、プロジェクトで制限されている可能性があります。`gemini-3-flash` または `claude-opus-4-6-thinking` を試してください。
-*   **429 レート制限**：Antigravity には厳格なクォータがあります。制限に達した場合、PicoClaw はエラーメッセージに「リセット時間」を表示します。
+*   **429 レート制限**：Antigravity には厳格なクォータがあります。制限に達した場合、NeoClaw はエラーメッセージに「リセット時間」を表示します。
 *   **404 Not Found**：`picoclaw auth models` リストのモデル ID を使用していることを確認してください。フルパスではなく、短い ID（例：`gemini-3-flash`）を使用してください。
 
 ## 5. 動作確認済みモデルのまとめ

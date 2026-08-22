@@ -1,6 +1,6 @@
 # Runtime Events 与事件日志
 
-PicoClaw 的 runtime event 是运行时观察面，用来描述 agent、channel、gateway、message bus、MCP 等组件发生了什么。事件发布和日志打印是两件事：
+NeoClaw 的 runtime event 是运行时观察面，用来描述 agent、channel、gateway、message bus、MCP 等组件发生了什么。事件发布和日志打印是两件事：
 
 - 事件发布：组件把 `pkg/events.Event` 发布到 runtime event bus，供 hook、测试、调试工具或后续 UI 消费。
 - 事件日志：内置 runtime event logger 订阅同一个 bus，并按配置把匹配的事件打印到日志。

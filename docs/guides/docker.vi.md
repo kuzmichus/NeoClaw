@@ -4,7 +4,7 @@
 
 ## 🐳 Docker Compose
 
-Bạn cũng có thể chạy PicoClaw bằng Docker Compose mà không cần cài đặt gì trên máy.
+Bạn cũng có thể chạy NeoClaw bằng Docker Compose mà không cần cài đặt gì trên máy.
 
 ```bash
 # 1. Clone repo này
@@ -67,7 +67,7 @@ docker compose -f docker/docker-compose.yml --profile gateway up -d
 ### 🚀 Bắt Đầu Nhanh
 
 > [!TIP]
-> Cấu hình API Key trong `~/.picoclaw/config.json`. Lấy API Key: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM). Tìm kiếm web là tùy chọn — lấy miễn phí [Tavily API](https://tavily.com) (1000 truy vấn miễn phí/tháng) hoặc [Brave Search API](https://brave.com/search/api) (2000 truy vấn miễn phí/tháng).
+> Cấu hình API Key trong `~/.picoclaw/config.json`. Lấy API Key: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM). Tìm kiếm web là tùy chọn — lấy miễn phí [Tavily API](https://tavily.com) (1000 truy vấn miễn phí/tháng) hoặc [Brave Search API](https://brave.com/search/api) (2000 truy vấn miễn phí/tháng).
 
 **1. Khởi tạo**
 
@@ -142,7 +142,7 @@ picoclaw onboard
 ```
 
 > **Mới**: Định dạng cấu hình `model_list` cho phép thêm provider mà không cần thay đổi code. Xem [Cấu Hình Mô Hình](#cấu-hình-mô-hình-model_list) để biết chi tiết.
-> `request_timeout` là tùy chọn và tính bằng giây. Nếu bỏ qua hoặc đặt `<= 0`, PicoClaw sử dụng timeout mặc định (120s).
+> `request_timeout` là tùy chọn và tính bằng giây. Nếu bỏ qua hoặc đặt `<= 0`, NeoClaw sử dụng timeout mặc định (120s).
 
 **3. Lấy API Key**
 

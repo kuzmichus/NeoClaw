@@ -1,9 +1,9 @@
 <div align="center">
-<img src="../../assets/logo.webp" alt="PicoClaw" width="512">
+<img src="../../assets/logo.webp" alt="NeoClaw" width="512">
 
-<h1>PicoClaw: Pembantu AI Ultra-Cekap dalam Go</h1>
+<h1>NeoClaw: Pembantu AI Ultra-Cekap dalam Go</h1>
 
-<h3>Perkakasan $10 · RAM 10MB · Boot ms · Jom, PicoClaw!</h3>
+<h3>Perkakasan $10 · RAM 10MB · Boot ms · Jom, NeoClaw!</h3>
   <p>
     <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go">
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V%2C%20LoongArch-blue" alt="Hardware">
@@ -18,15 +18,15 @@
     <a href="https://discord.gg/V4sAZ9XWpN"><img src="https://img.shields.io/badge/Discord-Community-4c60eb?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
   </p>
 
-[中文](README.zh.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [Italiano](README.it.md) | [Bahasa Indonesia](README.id.md) | **Malay** | [English](../../README.md)
+[中文](README.zh.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [Italiano](README.it.md) | [Bahasa Indonesia](README.id.md) | **Malay** | [Русский](README.ru.md) | [English](../../README.md)
 
 </div>
 
 ---
 
-> **PicoClaw** adalah projek sumber terbuka bebas yang dilancarkan oleh [Sipeed](https://sipeed.com), ditulis sepenuhnya dalam **Go** dari awal — bukan cabang OpenClaw, NanoBot, atau projek lain.
+> **NeoClaw** adalah projek sumber terbuka dan merupakan fork kepada [PicoClaw](https://github.com/sipeed/picoclaw), ditulis sepenuhnya dalam **Go**.
 
-**PicoClaw** adalah pembantu AI peribadi ultra-ringan yang terinspirasi oleh [NanoBot](https://github.com/HKUDS/nanobot). Ia dibina semula dari awal dalam **Go** melalui proses "self-bootstrapping" — AI Agent itu sendiri yang memacu migrasi seni bina dan pengoptimuman kod.
+**NeoClaw** adalah pembantu AI peribadi ultra-ringan yang terinspirasi oleh [NanoBot](https://github.com/HKUDS/nanobot). Ia dibina semula dari awal dalam **Go** melalui proses "self-bootstrapping" — AI Agent itu sendiri yang memacu migrasi seni bina dan pengoptimuman kod.
 
 **Berjalan pada perkakasan $10 dengan RAM <10MB** — 99% lebih sedikit memori daripada OpenClaw dan 98% lebih murah daripada Mac mini!
 
@@ -48,15 +48,15 @@
 > [!CAUTION]
 > **Notis Keselamatan**
 >
-> * **TIADA KRIPTO:** PicoClaw **tidak** mengeluarkan sebarang token atau mata wang kripto rasmi. Semua tuntutan di `pump.fun` atau platform dagangan lain adalah **penipuan**.
+> * **TIADA KRIPTO:** NeoClaw **tidak** mengeluarkan sebarang token atau mata wang kripto rasmi. Semua tuntutan di `pump.fun` atau platform dagangan lain adalah **penipuan**.
 > * **DOMAIN RASMI:** Satu-satunya laman web rasmi ialah **[picoclaw.io](https://picoclaw.io)**, dan laman web syarikat ialah **[sipeed.com](https://sipeed.com)**
 > * **BERHATI-HATI:** Banyak domain `.ai/.org/.com/.net/...` telah didaftarkan oleh pihak ketiga. Jangan percayai mereka.
-> * **NOTA:** PicoClaw dalam pembangunan pesat awal. Mungkin terdapat isu keselamatan yang belum diselesaikan. Jangan deploy ke pengeluaran sebelum v1.0.
+> * **NOTA:** NeoClaw dalam pembangunan pesat awal. Mungkin terdapat isu keselamatan yang belum diselesaikan. Jangan deploy ke pengeluaran sebelum v1.0.
 
 
 ## 📢 Berita
 
-2026-05-11 🛒 **LicheeRV-Claw tersedia di AliExpress!** Anda kini boleh membeli LicheeRV-Claw di [AliExpress](https://www.aliexpress.com/item/1005006519668532.html), menjadikannya lebih mudah untuk mencuba PicoClaw pada perkakasan RISC-V yang kompak.
+2026-05-11 🛒 **LicheeRV-Claw tersedia di AliExpress!** Anda kini boleh membeli LicheeRV-Claw di [AliExpress](https://www.aliexpress.com/item/1005006519668532.html), menjadikannya lebih mudah untuk mencuba NeoClaw pada perkakasan RISC-V yang kompak.
 
 <p align="center">
   <a href="https://www.aliexpress.com/item/1005006519668532.html">
@@ -64,11 +64,11 @@
   </a>
 </p>
 
-2026-03-31 📱 **Sokongan Android!** PicoClaw sekarang berjalan di Android! Muat turun APK di [picoclaw.io](https://picoclaw.io/download)
+2026-03-31 📱 **Sokongan Android!** NeoClaw sekarang berjalan di Android! Muat turun APK di [picoclaw.io](https://picoclaw.io/download)
 
-2026-03-25 🚀 **v0.2.4 Dikeluarkan!** Penstrukturan semula seni bina Agent (SubTurn, Hooks, Steering, EventBus), integrasi WeChat/WeCom, penguatan keselamatan (.security.yml, penapisan data sensitif), penyedia baharu (AWS Bedrock, Azure, Xiaomi MiMo), dan 35 pembetulan pepijat. PicoClaw mencapai **26K Stars**!
+2026-03-25 🚀 **v0.2.4 Dikeluarkan!** Penstrukturan semula seni bina Agent (SubTurn, Hooks, Steering, EventBus), integrasi WeChat/WeCom, penguatan keselamatan (.security.yml, penapisan data sensitif), penyedia baharu (AWS Bedrock, Azure, Xiaomi MiMo), dan 35 pembetulan pepijat. NeoClaw mencapai **26K Stars**!
 
-2026-03-17 🚀 **v0.2.3 Dikeluarkan!** UI dulang sistem (Windows & Linux), pertanyaan status sub-agent (`spawn_status`), muat semula panas Gateway eksperimental, kawalan keselamatan Cron, dan 2 pembetulan keselamatan. PicoClaw mencapai **25K Stars**!
+2026-03-17 🚀 **v0.2.3 Dikeluarkan!** UI dulang sistem (Windows & Linux), pertanyaan status sub-agent (`spawn_status`), muat semula panas Gateway eksperimental, kawalan keselamatan Cron, dan 2 pembetulan keselamatan. NeoClaw mencapai **25K Stars**!
 
 2026-03-09 🎉 **v0.2.1 — Kemas kini terbesar setakat ini!** Sokongan protokol MCP, 4 saluran baharu (Matrix/IRC/WeCom/Discord Proxy), 3 penyedia baharu (Kimi/Minimax/Avian), saluran paip visi, storan memori JSONL, penghalaan model.
 
@@ -77,13 +77,13 @@
 <details>
 <summary>Berita terdahulu...</summary>
 
-2026-02-26 🎉 PicoClaw mencapai **20K Stars** hanya dalam 17 hari! Orkestrasi saluran automatik dan antara muka keupayaan kini aktif.
+2026-02-26 🎉 NeoClaw mencapai **20K Stars** hanya dalam 17 hari! Orkestrasi saluran automatik dan antara muka keupayaan kini aktif.
 
-2026-02-16 🎉 PicoClaw melepasi 12K Stars dalam seminggu! Peranan penyelenggara komuniti dan [Peta Jalan](../../ROADMAP.md) dilancarkan secara rasmi.
+2026-02-16 🎉 NeoClaw melepasi 12K Stars dalam seminggu! Peranan penyelenggara komuniti dan [Peta Jalan](../../ROADMAP.md) dilancarkan secara rasmi.
 
-2026-02-13 🎉 PicoClaw melepasi 5000 Stars dalam 4 hari! Peta jalan projek dan kumpulan pembangun sedang dalam proses.
+2026-02-13 🎉 NeoClaw melepasi 5000 Stars dalam 4 hari! Peta jalan projek dan kumpulan pembangun sedang dalam proses.
 
-2026-02-09 🎉 **PicoClaw Dikeluarkan!** Dibina dalam 1 hari untuk membawa AI Agent ke perkakasan $10 dengan RAM <10MB. Jom, PicoClaw!
+2026-02-09 🎉 **NeoClaw Dikeluarkan!** Dibina dalam 1 hari untuk membawa AI Agent ke perkakasan $10 dengan RAM <10MB. Jom, NeoClaw!
 
 </details>
 
@@ -109,21 +109,21 @@ _*Binaan terkini mungkin menggunakan 10-20MB disebabkan penggabungan PR yang pes
 
 <div align="center">
 
-|                                | OpenClaw      | NanoBot                  | **PicoClaw**                           |
+|                                | OpenClaw      | NanoBot                  | **NeoClaw**                           |
 | ------------------------------ | ------------- | ------------------------ | -------------------------------------- |
 | **Bahasa**                     | TypeScript    | Python                   | **Go**                                 |
 | **RAM**                        | >1GB          | >100MB                   | **< 10MB***                            |
 | **Masa Boot** (teras 0.8GHz)   | >500s         | >30s                     | **<1s**                                |
 | **Kos**                        | Mac Mini $599 | Kebanyakan papan Linux ~$50 | **Mana-mana papan Linux dari $10**  |
 
-<img src="../../assets/compare.jpg" alt="PicoClaw" width="512">
+<img src="../../assets/compare.jpg" alt="NeoClaw" width="512">
 
 </div>
 
 > **[Senarai Keserasian Perkakasan](../guides/hardware-compatibility.md)** — Lihat semua papan yang diuji, dari RISC-V $5 hingga Raspberry Pi hingga telefon Android.
 
 <p align="center">
-<img src="../../assets/hardware-banner.jpg" alt="Keserasian Perkakasan PicoClaw" width="100%">
+<img src="../../assets/hardware-banner.jpg" alt="Keserasian Perkakasan NeoClaw" width="100%">
 </p>
 
 ## 🦾 Demonstrasi
@@ -150,7 +150,7 @@ _*Binaan terkini mungkin menggunakan 10-20MB disebabkan penggabungan PR yang pes
 
 ### 🐜 Deployment Jejak Rendah yang Inovatif
 
-PicoClaw boleh digunakan pada hampir mana-mana peranti Linux!
+NeoClaw boleh digunakan pada hampir mana-mana peranti Linux!
 
 - $9.9 [LicheeRV-Nano](https://www.aliexpress.com/item/1005006519668532.html) untuk pembantu rumah minimal
 - $30~50 [NanoKVM](https://www.aliexpress.com/item/1005007369816019.html) untuk operasi pelayan automatik
@@ -296,7 +296,7 @@ Selepas langkah sekali ini, `picoclaw-launcher` akan dibuka secara normal pada p
 
 ### 📱 Android
 
-Berikan telefon lama anda kehidupan baru! Jadikannya Pembantu AI pintar dengan PicoClaw.
+Berikan telefon lama anda kehidupan baru! Jadikannya Pembantu AI pintar dengan NeoClaw.
 
 **Pilihan 1: Pasang APK**
 
@@ -331,7 +331,7 @@ termux-chroot ./picoclaw onboard   # chroot menyediakan susun atur sistem fail L
 
 Kemudian ikuti bahagian Pelancar Terminal di bawah untuk melengkapkan konfigurasi.
 
-<img src="../../assets/termux.jpg" alt="PicoClaw pada Termux" width="512">
+<img src="../../assets/termux.jpg" alt="NeoClaw pada Termux" width="512">
 
 Untuk persekitaran minimal di mana hanya binari teras `picoclaw` tersedia (tiada UI Pelancar), anda boleh mengkonfigurasi semua melalui baris arahan dan fail konfigurasi JSON.
 
@@ -380,7 +380,7 @@ picoclaw gateway
 
 ## 🔌 Penyedia (LLM)
 
-PicoClaw menyokong 30+ penyedia LLM melalui konfigurasi `model_list`. Gunakan format `protokol/model`:
+NeoClaw menyokong 30+ penyedia LLM melalui konfigurasi `model_list`. Gunakan format `protokol/model`:
 
 | Penyedia | Protokol | Kunci API | Nota |
 |----------|----------|-----------|------|
@@ -446,7 +446,7 @@ Untuk butiran konfigurasi penyedia penuh, lihat [Penyedia & Model](../guides/pro
 
 ## 💬 Saluran (Aplikasi Sembang)
 
-Bercakap dengan PicoClaw anda melalui 17+ platform pemesejan:
+Bercakap dengan NeoClaw anda melalui 17+ platform pemesejan:
 
 | Saluran | Persediaan | Protokol | Dok |
 |---------|-----------|----------|-----|
@@ -477,7 +477,7 @@ Untuk arahan persediaan saluran terperinci, lihat [Konfigurasi Aplikasi Sembang]
 
 ### 🔍 Carian Web
 
-PicoClaw boleh mencari web untuk menyediakan maklumat terkini. Konfigurasikan dalam `tools.web`:
+NeoClaw boleh mencari web untuk menyediakan maklumat terkini. Konfigurasikan dalam `tools.web`:
 
 | Enjin Carian | Kunci API | Peringkat Percuma | Pautan |
 |-------------|-----------|-------------------|--------|
@@ -491,7 +491,7 @@ PicoClaw boleh mencari web untuk menyediakan maklumat terkini. Konfigurasikan da
 
 ### ⚙️ Alat Lain
 
-PicoClaw menyertakan alat terbina dalam untuk operasi fail, pelaksanaan kod, penjadualan, dan banyak lagi. Lihat [Konfigurasi Alat](../reference/tools_configuration.md) untuk butiran.
+NeoClaw menyertakan alat terbina dalam untuk operasi fail, pelaksanaan kod, penjadualan, dan banyak lagi. Lihat [Konfigurasi Alat](../reference/tools_configuration.md) untuk butiran.
 
 ## 🎯 Kemahiran
 
@@ -525,7 +525,7 @@ Untuk butiran lanjut, lihat [Konfigurasi Alat - Kemahiran](../reference/tools_co
 
 ## 🔗 MCP (Protokol Konteks Model)
 
-PicoClaw menyokong [MCP](https://modelcontextprotocol.io/) secara natif — sambungkan mana-mana pelayan MCP untuk melanjutkan keupayaan Agent anda dengan alat dan sumber data luaran.
+NeoClaw menyokong [MCP](https://modelcontextprotocol.io/) secara natif — sambungkan mana-mana pelayan MCP untuk melanjutkan keupayaan Agent anda dengan alat dan sumber data luaran.
 
 ```json
 {
@@ -548,7 +548,7 @@ Untuk konfigurasi MCP penuh (pengangkutan stdio, SSE, HTTP, Penemuan Alat), liha
 
 ## <img src="../../assets/clawdchat-icon.png" width="24" height="24" alt="ClawdChat"> Sertai Rangkaian Sosial Agent
 
-Sambungkan PicoClaw ke Rangkaian Sosial Agent dengan menghantar satu mesej melalui CLI atau mana-mana Aplikasi Sembang yang disepadukan.
+Sambungkan NeoClaw ke Rangkaian Sosial Agent dengan menghantar satu mesej melalui CLI atau mana-mana Aplikasi Sembang yang disepadukan.
 
 **Baca `https://clawdchat.ai/skill.md` dan ikuti arahan untuk menyertai [ClawdChat.ai](https://clawdchat.ai)**
 
@@ -575,7 +575,7 @@ Sambungkan PicoClaw ke Rangkaian Sosial Agent dengan menghantar satu mesej melal
 
 ### ⏰ Tugasan Berjadual / Peringatan
 
-PicoClaw menyokong peringatan berjadual dan tugasan berulang melalui alat `cron`:
+NeoClaw menyokong peringatan berjadual dan tugasan berulang melalui alat `cron`:
 
 * **Peringatan sekali**: "Ingatkan saya dalam 10 minit" -> pencetus sekali selepas 10 minit
 * **Tugasan berulang**: "Ingatkan saya setiap 2 jam" -> pencetus setiap 2 jam

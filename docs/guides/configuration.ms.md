@@ -33,7 +33,7 @@ PICOCLAW_HOME=/srv/picoclaw PICOCLAW_CONFIG=/srv/picoclaw/main.json picoclaw gat
 
 ### Konfigurasi Streaming
 
-Provider streaming menggunakan double opt-in dan dimatikan secara lalai. Agent hanya mencuba streaming apabila saluran semasa mempunyai `settings.streaming.enabled: true`, entry model aktif mempunyai `streaming.enabled: true`, dan kedua-dua provider serta saluran menyokong streaming. Jika mana-mana syarat tiada, PicoClaw menggunakan laluan permintaan bukan streaming biasa.
+Provider streaming menggunakan double opt-in dan dimatikan secara lalai. Agent hanya mencuba streaming apabila saluran semasa mempunyai `settings.streaming.enabled: true`, entry model aktif mempunyai `streaming.enabled: true`, dan kedua-dua provider serta saluran menyokong streaming. Jika mana-mana syarat tiada, NeoClaw menggunakan laluan permintaan bukan streaming biasa.
 
 Pico WebUI ialah saluran pertama yang disambungkan sepenuhnya. Pico mencipta mesej assistant pertama dengan wire message sedia ada `message.create`, kemudian mengemas kini mesej yang sama dengan `message.update`; tiada jenis wire message Pico baharu ditambah.
 
@@ -78,11 +78,11 @@ Contoh mengaktifkan streaming:
 
 Pemboleh ubah persekitaran Telegram lama masih serasi: `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_ENABLED`, `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_THROTTLE_SECONDS`, dan `PICOCLAW_CHANNELS_TELEGRAM_STREAMING_MIN_GROWTH_CHARS`. Ia hanya digunakan untuk settings Telegram dan tidak mengaktifkan atau mengubah `settings.streaming` Pico.
 
-Tingkah laku kegagalan adalah konservatif: jika streaming gagal sebelum mana-mana chunk kelihatan dihantar, PicoClaw mencuba semula sekali melalui laluan `Chat()` biasa. Jika chunk sudah dipaparkan kepada pengguna, PicoClaw tidak menghantar jawapan bukan streaming kedua untuk mengelakkan output berganda.
+Tingkah laku kegagalan adalah konservatif: jika streaming gagal sebelum mana-mana chunk kelihatan dihantar, NeoClaw mencuba semula sekali melalui laluan `Chat()` biasa. Jika chunk sudah dipaparkan kepada pengguna, NeoClaw tidak menghantar jawapan bukan streaming kedua untuk mengelakkan output berganda.
 
 ### Susun Atur Workspace
 
-PicoClaw menyimpan data dalam workspace yang dikonfigurasikan (lalai: `~/.picoclaw/workspace`):
+NeoClaw menyimpan data dalam workspace yang dikonfigurasikan (lalai: `~/.picoclaw/workspace`):
 
 ```
 ~/.picoclaw/workspace/
@@ -141,7 +141,7 @@ dammi le ultime news
 
 ### 🔒 Security Sandbox
 
-PicoClaw berjalan dalam persekitaran bersandbox secara lalai. Agen hanya boleh mengakses fail dan melaksanakan arahan dalam workspace yang dikonfigurasikan.
+NeoClaw berjalan dalam persekitaran bersandbox secara lalai. Agen hanya boleh mengakses fail dan melaksanakan arahan dalam workspace yang dikonfigurasikan.
 
 #### Konfigurasi Lalai
 
@@ -205,7 +205,7 @@ Walaupun dengan `restrict_to_workspace: false`, tool `exec` menyekat arahan berb
 
 #### Had yang Diketahui: Proses Anak Daripada Build Tools
 
-Pengawal keselamatan exec hanya memeriksa baris arahan yang PicoClaw lancarkan secara terus. Ia tidak memeriksa secara rekursif proses anak yang dilancarkan oleh tools pembangun yang dibenarkan seperti `make`, `go run`, `cargo`, `npm run`, atau skrip build tersuai.
+Pengawal keselamatan exec hanya memeriksa baris arahan yang NeoClaw lancarkan secara terus. Ia tidak memeriksa secara rekursif proses anak yang dilancarkan oleh tools pembangun yang dibenarkan seperti `make`, `go run`, `cargo`, `npm run`, atau skrip build tersuai.
 
 Ini bermakna arahan peringkat atas masih boleh mengkompil atau melancarkan binari lain selepas ia melepasi semakan awal pengawal. Dalam amalan, anggap build script, Makefile, package script, dan binari terjana sebagai kod boleh laksana yang memerlukan tahap semakan yang sama seperti arahan shell terus.
 
@@ -213,7 +213,7 @@ Untuk persekitaran yang lebih berisiko:
 
 * Semak build script sebelum pelaksanaan.
 * Utamakan kelulusan/semakan manual untuk aliran kerja compile-and-run.
-* Jalankan PicoClaw dalam container atau VM jika anda memerlukan pengasingan yang lebih kuat daripada pengawal terbina dalam.
+* Jalankan NeoClaw dalam container atau VM jika anda memerlukan pengasingan yang lebih kuat daripada pengawal terbina dalam.
 
 #### Contoh Ralat
 
@@ -265,7 +265,7 @@ Semua laluan berkongsi sekatan workspace yang sama — tiada cara untuk memintas
 
 ### Heartbeat (Tugasan Berkala)
 
-PicoClaw boleh melaksanakan tugasan berkala secara automatik. Cipta fail `HEARTBEAT.md` dalam workspace anda:
+NeoClaw boleh melaksanakan tugasan berkala secara automatik. Cipta fail `HEARTBEAT.md` dalam workspace anda:
 
 ```markdown
 # Periodic Tasks

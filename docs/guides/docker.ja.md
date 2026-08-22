@@ -4,7 +4,7 @@
 
 ## 🐳 Docker Compose
 
-Docker Compose を使用して PicoClaw を実行できます。ローカルに何もインストールする必要はありません。
+Docker Compose を使用して NeoClaw を実行できます。ローカルに何もインストールする必要はありません。
 
 ```bash
 # 1. リポジトリをクローン
@@ -69,7 +69,7 @@ docker compose -f docker/docker-compose.yml --profile gateway up -d
 ## 🚀 クイックスタート
 
 > [!TIP]
-> `~/.picoclaw/config.json` に API Key を設定してください。API Key の取得先: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM)。Web 検索は**オプション**です — 無料の [Tavily API](https://tavily.com) (月 1000 回無料) または [Brave Search API](https://brave.com/search/api) (月 2000 回無料) を取得できます。
+> `~/.picoclaw/config.json` に API Key を設定してください。API Key の取得先: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=NeoClaw&utm_content=NeoClaw&utm_medium=devrel&utm_source=OWO&utm_term=NeoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM)。Web 検索は**オプション**です — 無料の [Tavily API](https://tavily.com) (月 1000 回無料) または [Brave Search API](https://brave.com/search/api) (月 2000 回無料) を取得できます。
 
 **1. 初期化**
 
@@ -144,7 +144,7 @@ picoclaw onboard
 ```
 
 > **新機能**: `model_list` 設定形式により、コード変更なしで provider を追加できます。詳細は[モデル設定](providers.ja.md#モデル設定-model_list)を参照してください。
-> `request_timeout` はオプションで、単位は秒です。省略または `<= 0` に設定した場合、PicoClaw はデフォルトのタイムアウト（120 秒）を使用します。
+> `request_timeout` はオプションで、単位は秒です。省略または `<= 0` に設定した場合、NeoClaw はデフォルトのタイムアウト（120 秒）を使用します。
 
 **3. API Key の取得**
 

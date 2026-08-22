@@ -2,7 +2,7 @@
 
 # 凭据加密
 
-PicoClaw 支持对 `model_list` 配置条目中的 `api_key` 值进行加密。
+NeoClaw 支持对 `model_list` 配置条目中的 `api_key` 值进行加密。
 加密后的密钥以 `enc://<base64>` 字符串形式存储，并在启动时自动解密。
 
 ---
@@ -123,7 +123,7 @@ GCM 认证标签会自动附加到密文之后。任何篡改都会导致解密�
 
 ### SSH 密钥自动检测
 
-如果未设置 `PICOCLAW_SSH_KEY_PATH`，PicoClaw 会查找专用密钥：
+如果未设置 `PICOCLAW_SSH_KEY_PATH`，NeoClaw 会查找专用密钥：
 
 ```
 ~/.ssh/picoclaw_ed25519.key
@@ -153,6 +153,6 @@ GCM 认证标签会自动附加到密文之后。任何篡改都会导致解密�
 ## 安全注意事项
 
 - **密码短语和 SSH 密钥都是必需的。** SSH 密钥作为第二因子 — 没有它，加密/解密将失败。如果密钥不存在，运行 `picoclaw onboard` 生成。
-- **SSH 密钥在运行时为只读。** PicoClaw 不会写入或修改 SSH 密钥文件。
+- **SSH 密钥在运行时为只读。** NeoClaw 不会写入或修改 SSH 密钥文件。
 - **仍然支持明文密钥。** 不使用 `enc://` 的现有配置不受影响。
 - **`enc://` 格式通过版本控制**，通过 HKDF `info` 字段（`picoclaw-credential-v1`）实现，允许未来升级算法而不破坏现有加密值。

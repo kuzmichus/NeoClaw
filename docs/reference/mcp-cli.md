@@ -2,7 +2,7 @@
 
 > Back to [README](../README.md)
 
-PicoClaw includes an `mcp` CLI command group for managing MCP server entries in `config.json`.
+NeoClaw includes an `mcp` CLI command group for managing MCP server entries in `config.json`.
 
 This CLI acts as a **configuration manager**:
 
@@ -12,7 +12,7 @@ This CLI acts as a **configuration manager**:
 
 ## Where It Writes
 
-The CLI updates the same config file used by the rest of PicoClaw:
+The CLI updates the same config file used by the rest of NeoClaw:
 
 - `PICOCLAW_CONFIG` if set
 - otherwise `~/.picoclaw/config.json`
@@ -20,7 +20,7 @@ The CLI updates the same config file used by the rest of PicoClaw:
 When the CLI writes the file, it:
 
 - saves atomically
-- preserves the standard 2-space JSON formatting used by PicoClaw
+- preserves the standard 2-space JSON formatting used by NeoClaw
 - validates the generated JSON before writing
 
 Behavior notes:
@@ -135,8 +135,8 @@ Parsing behavior:
 
 - CLI flags can appear before the name, between the name and target, or after the URL for remote transports
 - for `stdio`, the most robust form is `-- <command> [args...]`
-- use the `--` separator when the stdio command itself has arguments that may look like PicoClaw CLI flags
-- without `--`, PicoClaw treats the first two non-flag tokens as `<name>` and `<command-or-url>`
+- use the `--` separator when the stdio command itself has arguments that may look like NeoClaw CLI flags
+- without `--`, NeoClaw treats the first two non-flag tokens as `<name>` and `<command-or-url>`
 
 Secret handling:
 
@@ -210,18 +210,18 @@ For `http` / `streamable-http` / `sse`:
 
 Overwrite behavior:
 
-- if `<name>` already exists, PicoClaw asks for confirmation
+- if `<name>` already exists, NeoClaw asks for confirmation
 - use `--force` to skip the prompt
 
 Local path validation:
 
 - if the command looks like a local path such as `./server.py` or `/opt/mcp/server`
-- PicoClaw checks that the file exists
+- NeoClaw checks that the file exists
 - on non-Windows platforms, it also checks that the file is executable
 
 Clear URL/transport error:
 
-- if the target looks like `https://...` but transport is still `stdio`, PicoClaw returns an explicit error telling you to use `--transport http` or `--transport sse`
+- if the target looks like `https://...` but transport is still `stdio`, NeoClaw returns an explicit error telling you to use `--transport http` or `--transport sse`
 
 ## `picoclaw mcp remove`
 
@@ -233,7 +233,7 @@ picoclaw mcp remove <name>
 
 This removes the named entry from `tools.mcp.servers`.
 
-If the removed server was the last configured MCP server, PicoClaw also disables `tools.mcp.enabled`.
+If the removed server was the last configured MCP server, NeoClaw also disables `tools.mcp.enabled`.
 
 ## `picoclaw mcp list`
 
@@ -258,8 +258,8 @@ Output fields:
 
 Notes:
 
-- without `--status`, PicoClaw prints configuration state only
-- with `--status`, PicoClaw tries to connect to each enabled server and reports `ok (N tools)` or `error`
+- without `--status`, NeoClaw prints configuration state only
+- with `--status`, NeoClaw tries to connect to each enabled server and reports `ok (N tools)` or `error`
 - to see the full list of tools a server exposes, use `picoclaw mcp show <name>`
 
 ## `picoclaw mcp show`
@@ -349,7 +349,7 @@ For common cases:
 1. Add the server with `picoclaw mcp add` (include `--deferred` if you want tools hidden by default).
 2. Verify connectivity and inspect the exposed tools with `picoclaw mcp show <name>`.
 3. Check all servers at a glance with `picoclaw mcp list --status`.
-4. Start PicoClaw normally so the configured MCP server is loaded by the host.
+4. Start NeoClaw normally so the configured MCP server is loaded by the host.
 
 For advanced cases:
 

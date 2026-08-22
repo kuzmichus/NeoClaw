@@ -1,9 +1,9 @@
-# PicoClaw Web
+# NeoClaw Web
 
-`web/` contains the standalone WebUI launcher for PicoClaw.
+`web/` contains the standalone WebUI launcher for NeoClaw.
 It is not just a frontend: it is a small launcher service that bundles a React dashboard, exposes a backend API, manages launcher authentication, and starts or attaches to the `picoclaw gateway` process.
 
-![PicoClaw Launcher](./picoclaw-launcher.png)
+![NeoClaw Launcher](./picoclaw-launcher.png)
 
 ## What This Directory Provides
 
@@ -25,7 +25,7 @@ This directory is a small monorepo:
   - Vite + React 19 + TanStack Router SPA.
   - Provides the launcher dashboard and chat UI.
 
-At runtime the launcher and the main PicoClaw engine are separate processes:
+At runtime the launcher and the main NeoClaw engine are separate processes:
 
 1. The launcher starts the web backend on port `18800` by default.
 2. The launcher serves the dashboard and handles dashboard authentication.
@@ -65,7 +65,7 @@ The UI currently supports English and Simplified Chinese, plus light and dark th
 
 ### Config Resolution
 
-The launcher uses the same PicoClaw config file as the main binary.
+The launcher uses the same NeoClaw config file as the main binary.
 
 - Default app config path: `~/.picoclaw/config.json`
 - Override with environment variable: `PICOCLAW_CONFIG`
@@ -95,7 +95,7 @@ If the target config file does not exist, the launcher tries to bootstrap it aut
 picoclaw onboard
 ```
 
-The launcher looks for the main PicoClaw binary in this order:
+The launcher looks for the main NeoClaw binary in this order:
 
 1. `PICOCLAW_BINARY`
 2. A `picoclaw` binary in the same directory as the launcher

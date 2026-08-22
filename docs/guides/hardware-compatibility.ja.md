@@ -1,8 +1,8 @@
 > [README](../project/README.ja.md) に戻る
 
-# 🖥️ PicoClaw ハードウェア互換性リスト
+# 🖥️ NeoClaw ハードウェア互換性リスト
 
-PicoClaw はほぼすべての Linux デバイスで動作します。このページでは、検証済みのチップ、製品、開発ボードを記録しています。
+NeoClaw はほぼすべての Linux デバイスで動作します。このページでは、検証済みのチップ、製品、開発ボードを記録しています。
 
 **お使いのハードウェアがリストにない場合は？** PR を送信して追加してください！ハードウェアベンダーの貢献と共同プロモーションを歓迎します。
 
@@ -59,7 +59,7 @@ PicoClaw はほぼすべての Linux デバイスで動作します。このペ�
 
 ## 2. 検証済み製品（発売日順）
 
-PicoClaw でテスト済みのコンシューマー製品、ルーター、産業用デバイス。
+NeoClaw でテスト済みのコンシューマー製品、ルーター、産業用デバイス。
 
 | 年 | 製品 | アーキテクチャ | SoC | RAM | カテゴリ |
 |----|------|----------------|-----|-----|----------|
@@ -97,7 +97,7 @@ PicoClaw でテスト済みのコンシューマー製品、ルーター、産�
 
 ### Android スマートフォン（Termux 経由）
 
-1GB 以上の RAM を搭載した ARM64 Android スマートフォン（2015年以降）。[Termux](https://github.com/termux/termux-app) をインストールし、`proot` を使用して PicoClaw を実行します。
+1GB 以上の RAM を搭載した ARM64 Android スマートフォン（2015年以降）。[Termux](https://github.com/termux/termux-app) をインストールし、`proot` を使用して NeoClaw を実行します。
 
 > セットアップ手順は [README：古い Android スマートフォンで実行](../project/README.ja.md#-run-on-old-android-phones) を参照してください。
 
