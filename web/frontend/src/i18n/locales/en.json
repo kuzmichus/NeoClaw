@@ -1,6 +1,7 @@
 {
   "navigation": {
     "chat": "Chat",
+    "sessions": "Sessions",
     "model_group": "Models",
     "models": "Models",
     "credentials": "Credentials",
@@ -144,6 +145,23 @@
       },
       "restartRequired": "Configuration changes require a gateway restart to take effect."
     }
+  },
+  "sessions": {
+    "refresh": "Refresh",
+    "startPhrase": "Starting phrase",
+    "channel": "Channel",
+    "messages": "Messages",
+    "updated": "Updated",
+    "empty": "No sessions yet",
+    "loading": "Loading...",
+    "loadMore": "Load more",
+    "loadFailed": "Failed to load sessions",
+    "openInChat": "Open in Chat",
+    "unknownChannel": "Unknown",
+    "openFailed": "Failed to open this session in chat",
+    "deleteFailed": "Failed to delete session",
+    "deleteTitle": "Delete session?",
+    "deleteDescription": "The session \"{{phrase}}\" will be permanently deleted."
   },
   "common": {
     "cancel": "Cancel",
