@@ -3,6 +3,7 @@ import "dayjs/locale/bn"
 import "dayjs/locale/cs"
 import "dayjs/locale/en"
 import "dayjs/locale/pt-br"
+import "dayjs/locale/ru"
 import "dayjs/locale/zh-cn"
 import localizedFormat from "dayjs/plugin/localizedFormat"
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -15,6 +16,7 @@ import ptBr from "./locales/pt-br.json"
 import bnIn from "./locales/bn-in.json"
 import zh from "./locales/zh.json"
 import cs from "./locales/cs.json"
+import ru from "./locales/ru.json"
 
 dayjs.extend(relativeTime)
 dayjs.extend(localizedFormat)
@@ -44,6 +46,9 @@ i18n
       cs: {
         translation: cs,
       },
+      ru: {
+        translation: ru,
+      },
     },
     fallbackLng: "en",
     debug: false,
@@ -62,6 +67,8 @@ i18n.on("languageChanged", (lng) => {
     dayjs.locale("bn")
   } else if (lng.startsWith("cs")) {
     dayjs.locale("cs")
+  } else if (lng.startsWith("ru")) {
+    dayjs.locale("ru")
   } else {
     dayjs.locale("en")
   }

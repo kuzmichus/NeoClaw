@@ -300,6 +300,9 @@ export function AppHeader() {
             <DropdownMenuItem onClick={() => i18n.changeLanguage("cs")}>
               Čeština
             </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => i18n.changeLanguage("ru")}>
+              Русский
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 

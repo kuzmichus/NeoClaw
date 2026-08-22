@@ -28,6 +28,11 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:18800",
         changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyReq) => {
+            proxyReq.setHeader("origin", "http://localhost:18800");
+          });
+        },
       },
       "/pico/media": {
         target: "http://localhost:18800",
