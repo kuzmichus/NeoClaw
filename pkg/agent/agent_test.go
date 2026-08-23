@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -6580,6 +6581,94 @@ func TestResolveMediaRefs_ImageInjectsPathTag(t *testing.T) {
 	}
 }
 
+func TestResolveMediaRefs_CurrentTurnTextFileInlined(t *testing.T) {
+	store := media.NewFileMediaStore()
+	dir := t.TempDir()
+
+	docPath := filepath.Join(dir, "notes.md")
+	content := "# Title\n\nSome notes."
+	if err := os.WriteFile(docPath, []byte(content), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	ref, err := store.Store(docPath, media.MediaMeta{
+		Filename:    "notes.md",
+		ContentType: "text/markdown",
+	}, "test")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	messages := []providers.Message{
+		{Role: "user", Content: "review this", Media: []string{ref}},
+	}
+	result := resolveMediaRefs(messages, store, config.DefaultMaxMediaSize, 0)
+
+	want := "review this [file:" + docPath + "]\n\n" +
+		"--- attached file: notes.md ---\n" +
+		content + "\n" +
+		"--- end of attached file ---"
+	if result[0].Content != want {
+		t.Fatalf("expected content %q, got %q", want, result[0].Content)
+	}
+}
+
+func TestResolveMediaRefs_HistoricalTextFileNotInlined(t *testing.T) {
+	store := media.NewFileMediaStore()
+	dir := t.TempDir()
+
+	docPath := filepath.Join(dir, "old.txt")
+	if err := os.WriteFile(docPath, []byte("historical content"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	ref, err := store.Store(docPath, media.MediaMeta{ContentType: "text/plain"}, "test")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	messages := []providers.Message{
+		{Role: "user", Content: "older question", Media: []string{ref}},
+		{Role: "assistant", Content: "earlier reply"},
+	}
+	result := resolveMediaRefs(messages, store, config.DefaultMaxMediaSize, len(messages))
+
+	if strings.Contains(result[0].Content, "historical content") {
+		t.Fatalf("historical text attachment must not be inlined, got %q", result[0].Content)
+	}
+	if !strings.Contains(result[0].Content, "[file:"+docPath+"]") {
+		t.Fatalf("expected path tag in content, got %q", result[0].Content)
+	}
+}
+
+func TestResolveMediaRefs_OversizeOrBinaryTextNotInlined(t *testing.T) {
+	store := media.NewFileMediaStore()
+	dir := t.TempDir()
+
+	bigPath := filepath.Join(dir, "big.txt")
+	big := bytes.Repeat([]byte("a"), maxInlineTextAttachmentBytes+1)
+	if err := os.WriteFile(bigPath, big, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	binaryPath := filepath.Join(dir, "fake.txt")
+	if err := os.WriteFile(binaryPath, []byte{0xFF, 0xFE, 0x00, 0x01}, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	bigRef, _ := store.Store(bigPath, media.MediaMeta{ContentType: "text/plain"}, "test")
+	binaryRef, _ := store.Store(binaryPath, media.MediaMeta{ContentType: "text/plain"}, "test")
+
+	messages := []providers.Message{
+		{Role: "user", Content: "look", Media: []string{bigRef, binaryRef}},
+	}
+	result := resolveMediaRefs(messages, store, config.DefaultMaxMediaSize, 0)
+
+	if strings.Contains(result[0].Content, "--- attached file:") {
+		t.Fatalf("oversize or non-UTF-8 attachments must not be inlined, got %q", result[0].Content)
+	}
+	if !strings.Contains(result[0].Content, "[file:"+bigPath+"]") ||
+		!strings.Contains(result[0].Content, "[file:"+binaryPath+"]") {
+		t.Fatalf("expected path tags for both files, got %q", result[0].Content)
+	}
+}
+
 func TestResolveMediaRefs_ToolRoleImageAppendedAsUserMessage(t *testing.T) {
 	store := media.NewFileMediaStore()
 	dir := t.TempDir()
@@ -7013,7 +7102,10 @@ func TestResolveMediaRefs_NoGenericTagAppendsPath(t *testing.T) {
 	}
 	result := resolveMediaRefs(messages, store, config.DefaultMaxMediaSize, 0)
 
-	expected := "here is my data [file:" + csvPath + "]"
+	expected := "here is my data [file:" + csvPath + "]\n\n" +
+		"--- attached file: data.csv ---\n" +
+		"a,b,c\n" +
+		"--- end of attached file ---"
 	if result[0].Content != expected {
 		t.Fatalf("expected content %q, got %q", expected, result[0].Content)
 	}

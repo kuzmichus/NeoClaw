@@ -11,8 +11,10 @@ import (
 	"encoding/base64"
 	"io"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/h2non/filetype"
 
@@ -46,6 +48,61 @@ func currentTurnMessages(messages []providers.Message, currentTurnStart int) []p
 	return messages[currentTurnStart:]
 }
 
+// maxInlineTextAttachmentBytes caps how large a text-like attachment may be
+// for its contents to be inlined into the prompt instead of only exposing a
+// [file:/path] tag for tool-based reading.
+const maxInlineTextAttachmentBytes = 64 * 1024
+
+// isInlineTextMimeType reports whether files of this MIME type can be read
+// as plain text and inlined into the prompt.
+func isInlineTextMimeType(mimeType string) bool {
+	if strings.HasPrefix(mimeType, "text/") {
+		return true
+	}
+	switch mimeType {
+	case "application/json",
+		"application/xml",
+		"application/x-yaml",
+		"application/yaml":
+		return true
+	}
+	return false
+}
+
+// readInlineTextFile reads a file as UTF-8 text for prompt inlining.
+// Returns ok=false when the file cannot be read, exceeds the inline size
+// cap, or is not valid UTF-8.
+func readInlineTextFile(localPath string) (string, bool) {
+	data, err := os.ReadFile(localPath)
+	if err != nil || len(data) == 0 || len(data) > maxInlineTextAttachmentBytes {
+		return "", false
+	}
+	if !utf8.Valid(data) {
+		return "", false
+	}
+	return string(data), true
+}
+
+// formatInlineTextBlock renders an inlined text attachment with explicit
+// delimiters so the model can tell attached content apart from user text.
+func formatInlineTextBlock(filename, localPath, content string) string {
+	name := strings.TrimSpace(filename)
+	if name == "" {
+		name = filepath.Base(localPath)
+	}
+
+	var b strings.Builder
+	b.WriteString("--- attached file: ")
+	b.WriteString(name)
+	b.WriteString(" ---\n")
+	b.WriteString(content)
+	if !strings.HasSuffix(content, "\n") {
+		b.WriteString("\n")
+	}
+	b.WriteString("--- end of attached file ---")
+	return b.String()
+}
+
 // resolveMediaRefs resolves media:// refs in messages.
 // For user messages: images get path tags only ([image:/path]) so the LLM
 // can decide whether to view them via load_image or operate on the file.
@@ -55,7 +112,10 @@ func currentTurnMessages(messages []providers.Message, currentTurnStart int) []p
 // LLM APIs enforce.
 // Only tool messages from the current turn may emit the synthetic user
 // follow-up; historical tool results stay as plain path-tagged history.
-// Non-image files always get path tags regardless of role.
+// Non-image files always get path tags regardless of role. Small text-like
+// attachments on the current-turn user message are additionally inlined into
+// the prompt so the model sees their content without a read_file round trip;
+// historical messages only ever get path tags to avoid context bloat.
 // Returns a new slice; original messages are not mutated.
 func resolveMediaRefs(
 	messages []providers.Message,
@@ -91,6 +151,7 @@ func resolveMediaRefs(
 		msg := m
 		resolved := make([]string, 0, len(m.Media))
 		var pathTags []string
+		var inlineBlocks []string
 
 		for _, ref := range m.Media {
 			if !strings.HasPrefix(ref, "media://") {
@@ -124,6 +185,18 @@ func resolveMediaRefs(
 			mime := detectMIME(localPath, meta)
 			pathTags = append(pathTags, buildPathTag(mime, localPath))
 
+			if m.Role == "user" &&
+				idx >= currentTurnStart &&
+				info.Size() <= maxInlineTextAttachmentBytes &&
+				isInlineTextMimeType(mime) {
+				if text, ok := readInlineTextFile(localPath); ok {
+					inlineBlocks = append(
+						inlineBlocks,
+						formatInlineTextBlock(meta.Filename, localPath, text),
+					)
+				}
+			}
+
 			if m.Role == "tool" && idx >= currentTurnStart && strings.HasPrefix(mime, "image/") {
 				dataURL := encodeImageToDataURL(localPath, mime, info, maxSize)
 				if dataURL != "" {
@@ -135,6 +208,9 @@ func resolveMediaRefs(
 		msg.Media = resolved
 		if len(pathTags) > 0 {
 			msg.Content = injectPathTags(msg.Content, pathTags)
+		}
+		if len(inlineBlocks) > 0 {
+			msg.Content = strings.Join(append([]string{msg.Content}, inlineBlocks...), "\n\n")
 		}
 		result = append(result, msg)
 
