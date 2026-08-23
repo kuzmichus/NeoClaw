@@ -23,6 +23,7 @@ import (
 	"github.com/sipeed/picoclaw/pkg/config"
 	"github.com/sipeed/picoclaw/pkg/identity"
 	"github.com/sipeed/picoclaw/pkg/logger"
+	"github.com/sipeed/picoclaw/pkg/media"
 	"github.com/sipeed/picoclaw/pkg/utils"
 )
 
@@ -42,6 +43,41 @@ var allowedInlineImageMIMETypes = map[string]struct{}{
 	"image/gif":  {},
 	"image/webp": {},
 	"image/bmp":  {},
+}
+
+// inlineAttachmentTypes lists the attachment type values accepted in the
+// attachments[] payload objects. Entries with other types are ignored.
+var inlineAttachmentTypes = map[string]struct{}{
+	"":         {},
+	"image":    {},
+	"file":     {},
+	"document": {},
+}
+
+// isInlineDocumentMimeType reports whether the MIME type may be sent as a
+// file attachment. Text-like types are allowed broadly because they are
+// either materialized to a scratch file or read as text; binary documents
+// are allowlisted explicitly.
+func isInlineDocumentMimeType(mimeType string) bool {
+	if strings.HasPrefix(mimeType, "text/") {
+		return true
+	}
+	switch mimeType {
+	case "application/pdf",
+		"application/json",
+		"application/xml",
+		"application/x-yaml",
+		"application/yaml":
+		return true
+	}
+	return false
+}
+
+// inlineMedia is a single media entry parsed from an inbound payload.
+type inlineMedia struct {
+	dataURL     string
+	filename    string
+	contentType string
 }
 
 func outboundMessageIsThought(msg bus.OutboundMessage) bool {
@@ -1195,7 +1231,27 @@ func (c *PicoChannel) handleMessage(pc *picoConn, msg PicoMessage) {
 // handleMessageSend processes an inbound message.send from a client.
 func (c *PicoChannel) handleMessageSend(pc *picoConn, msg PicoMessage) {
 	content, _ := msg.Payload["content"].(string)
-	media, err := parseInlineImageMedia(msg.Payload)
+	items, err := parseInlineMedia(msg.Payload)
+	if err != nil {
+		errMsg := newErrorWithPayload("invalid_media", err.Error(), map[string]any{
+			"request_id": msg.ID,
+		})
+		pc.writeJSON(errMsg)
+		return
+	}
+
+	sessionID := msg.SessionID
+	if sessionID == "" {
+		sessionID = pc.sessionID
+	}
+
+	if msg.ID == "" {
+		msg.ID = uuid.NewString()
+	}
+
+	chatID := "pico:" + sessionID
+
+	media, err := c.resolveInboundMedia(items, channels.BuildMediaScope(c.Name(), chatID, msg.ID))
 	if err != nil {
 		errMsg := newErrorWithPayload("invalid_media", err.Error(), map[string]any{
 			"request_id": msg.ID,
@@ -1212,12 +1268,6 @@ func (c *PicoChannel) handleMessageSend(pc *picoConn, msg PicoMessage) {
 		return
 	}
 
-	sessionID := msg.SessionID
-	if sessionID == "" {
-		sessionID = pc.sessionID
-	}
-
-	chatID := "pico:" + sessionID
 	senderID := "pico-user"
 
 	metadata := map[string]string{
@@ -1254,6 +1304,169 @@ func (c *PicoChannel) handleMessageSend(pc *picoConn, msg PicoMessage) {
 	c.HandleInboundContext(c.ctx, chatID, content, media, inboundCtx, sender)
 }
 
+// resolveInboundMedia converts parsed inline media entries into the media
+// list published on the bus. Images stay as inline data URLs so they reach
+// the model directly; document attachments are decoded to scratch files and
+// registered in the MediaStore under the message scope, producing media://
+// refs that the agent resolves into [file:/path] tags.
+func (c *PicoChannel) resolveInboundMedia(items []inlineMedia, scope string) ([]string, error) {
+	if len(items) == 0 {
+		return nil, nil
+	}
+
+	media := make([]string, 0, len(items))
+	for i, item := range items {
+		if strings.HasPrefix(item.dataURL, "data:image/") {
+			media = append(media, item.dataURL)
+			continue
+		}
+
+		ref, err := c.materializeInlineDocument(item, scope)
+		if err != nil {
+			return nil, fmt.Errorf("media[%d]: %w", i, err)
+		}
+		media = append(media, ref)
+	}
+	return media, nil
+}
+
+// materializeInlineDocument decodes a non-image data URL into a scratch file
+// and registers it with the MediaStore.
+func (c *PicoChannel) materializeInlineDocument(item inlineMedia, scope string) (string, error) {
+	store := c.GetMediaStore()
+	if store == nil {
+		return "", fmt.Errorf("media storage is unavailable")
+	}
+
+	mimeType, data, err := decodeInlineDataURL(item.dataURL)
+	if err != nil {
+		return "", err
+	}
+
+	dir := filepath.Join(media.TempDir(), "pico-inline-"+sanitizePathSegment(scope))
+	if mkErr := os.MkdirAll(dir, 0o700); mkErr != nil {
+		return "", fmt.Errorf("failed to create media directory: %w", mkErr)
+	}
+
+	path, err := writeUniqueFile(dir, sanitizeDocumentFilename(item.filename, mimeType), data)
+	if err != nil {
+		return "", fmt.Errorf("failed to store media file: %w", err)
+	}
+
+	ref, err := store.Store(path, media.MediaMeta{
+		Filename:    item.filename,
+		ContentType: mimeType,
+		Source:      c.Name(),
+	}, scope)
+	if err != nil {
+		_ = os.Remove(path)
+		return "", fmt.Errorf("failed to register media file: %w", err)
+	}
+
+	logger.DebugCF("pico", "Stored document attachment", map[string]any{
+		"filename":     item.filename,
+		"content_type": mimeType,
+		"size":         len(data),
+	})
+	return ref, nil
+}
+
+// sanitizePathSegment makes a scope safe to use as a single directory name.
+func sanitizePathSegment(segment string) string {
+	replacement := strings.Map(func(r rune) rune {
+		switch {
+		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9', r == '-', r == '_':
+			return r
+		default:
+			return '_'
+		}
+	}, segment)
+	if len(replacement) > 80 {
+		replacement = replacement[:80]
+	}
+	return replacement
+}
+
+// defaultExtensionByMIME maps supported document MIME types to a canonical
+// file extension used when deriving scratch file names.
+var defaultExtensionByMIME = map[string]string{
+	"application/pdf":    ".pdf",
+	"application/json":   ".json",
+	"application/xml":    ".xml",
+	"application/x-yaml": ".yaml",
+	"application/yaml":   ".yaml",
+	"text/plain":         ".txt",
+	"text/markdown":      ".md",
+	"text/csv":           ".csv",
+	"text/html":          ".html",
+}
+
+// documentExtensionFor returns a file extension for the given MIME type.
+func documentExtensionFor(mimeType string) string {
+	if ext, ok := defaultExtensionByMIME[strings.ToLower(strings.TrimSpace(mimeType))]; ok {
+		return ext
+	}
+	return ".bin"
+}
+
+// sanitizeDocumentFilename returns a safe file name for the scratch copy,
+// preserving the original extension when possible.
+func sanitizeDocumentFilename(filename, mimeType string) string {
+	name := filepath.Base(strings.TrimSpace(filename))
+	if name == "." || name == "/" || name == "" {
+		name = ""
+	}
+	name = strings.Map(func(r rune) rune {
+		switch {
+		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9',
+			r == '.', r == '-', r == '_', r == ' ':
+			return r
+		default:
+			return '_'
+		}
+	}, name)
+	name = strings.TrimSpace(name)
+
+	const maxNameLen = 120
+	if len(name) > maxNameLen {
+		ext := filepath.Ext(name)
+		stemLen := maxNameLen - len(ext)
+		if stemLen < 1 {
+			stemLen = 1
+			ext = ""
+		}
+		name = name[:stemLen] + ext
+	}
+
+	if name == "" || name == "_" {
+		return "document" + documentExtensionFor(mimeType)
+	}
+	if filepath.Ext(name) == "" && !strings.Contains(name, ".") {
+		name += documentExtensionFor(mimeType)
+	}
+	return name
+}
+
+// writeUniqueFile writes data to dir/name, appending a numeric suffix when
+// the target name already exists. The caller owns the returned path.
+func writeUniqueFile(dir, name string, data []byte) (string, error) {
+	path := filepath.Join(dir, name)
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return path, os.WriteFile(path, data, 0o600)
+	}
+
+	ext := filepath.Ext(name)
+	stem := strings.TrimSuffix(name, ext)
+	for i := 2; ; i++ {
+		candidate := filepath.Join(dir, fmt.Sprintf("%s-%d%s", stem, i, ext))
+		if _, err := os.Stat(candidate); os.IsNotExist(err) {
+			return candidate, os.WriteFile(candidate, data, 0o600)
+		} else if err != nil {
+			return "", err
+		}
+	}
+}
+
 // truncate truncates a string to maxLen runes.
 func truncate(s string, maxLen int) string {
 	runes := []rune(s)
@@ -1263,17 +1476,17 @@ func truncate(s string, maxLen int) string {
 	return string(runes[:maxLen]) + "..."
 }
 
-func parseInlineImageMedia(payload map[string]any) ([]string, error) {
+func parseInlineMedia(payload map[string]any) ([]inlineMedia, error) {
 	if len(payload) == 0 {
 		return nil, nil
 	}
 
-	media, err := parseInlineImageValues(payload["media"])
+	media, err := parseInlineMediaValues(payload["media"])
 	if err != nil {
 		return nil, err
 	}
 
-	attachments, err := parseInlineImageAttachments(payload["attachments"])
+	attachments, err := parseInlineMediaAttachments(payload["attachments"])
 	if err != nil {
 		return nil, err
 	}
@@ -1282,46 +1495,46 @@ func parseInlineImageMedia(payload map[string]any) ([]string, error) {
 	return media, nil
 }
 
-func parseInlineImageValues(raw any) ([]string, error) {
+func parseInlineMediaValues(raw any) ([]inlineMedia, error) {
 	if raw == nil {
 		return nil, nil
 	}
 	switch values := raw.(type) {
 	case []any:
-		media := make([]string, 0, len(values))
+		media := make([]inlineMedia, 0, len(values))
 		for i, item := range values {
-			value, err := inlineImageValue(item)
+			dataURL, err := inlineMediaDataURL(item)
 			if err != nil {
 				return nil, fmt.Errorf("media[%d]: %w", i, err)
 			}
-			if err := validateInlineImageDataURL(value); err != nil {
+			if err := validateInlineDataURL(dataURL); err != nil {
 				return nil, fmt.Errorf("media[%d]: %w", i, err)
 			}
-			media = append(media, value)
+			media = append(media, inlineMedia{dataURL: dataURL})
 		}
 		return media, nil
 	case []string:
-		media := make([]string, 0, len(values))
+		media := make([]inlineMedia, 0, len(values))
 		for i, value := range values {
 			value = strings.TrimSpace(value)
-			if err := validateInlineImageDataURL(value); err != nil {
+			if err := validateInlineDataURL(value); err != nil {
 				return nil, fmt.Errorf("media[%d]: %w", i, err)
 			}
-			media = append(media, value)
+			media = append(media, inlineMedia{dataURL: value})
 		}
 		return media, nil
 	case string:
 		value := strings.TrimSpace(values)
-		if err := validateInlineImageDataURL(value); err != nil {
+		if err := validateInlineDataURL(value); err != nil {
 			return nil, err
 		}
-		return []string{value}, nil
+		return []inlineMedia{{dataURL: value}}, nil
 	default:
 		return nil, fmt.Errorf("media must be a string or array of strings")
 	}
 }
 
-func parseInlineImageAttachments(raw any) ([]string, error) {
+func parseInlineMediaAttachments(raw any) ([]inlineMedia, error) {
 	if raw == nil {
 		return nil, nil
 	}
@@ -1331,7 +1544,7 @@ func parseInlineImageAttachments(raw any) ([]string, error) {
 		return nil, fmt.Errorf("attachments must be an array")
 	}
 
-	media := make([]string, 0, len(values))
+	media := make([]inlineMedia, 0, len(values))
 	for i, item := range values {
 		attachment, ok := item.(map[string]any)
 		if !ok {
@@ -1340,34 +1553,54 @@ func parseInlineImageAttachments(raw any) ([]string, error) {
 
 		attachmentType, _ := attachment["type"].(string)
 		attachmentType = strings.ToLower(strings.TrimSpace(attachmentType))
-		if attachmentType != "" && attachmentType != "image" {
+		if _, known := inlineAttachmentTypes[attachmentType]; !known {
 			continue
 		}
 
-		value, err := inlineImageValue(attachment)
+		dataURL, err := inlineMediaDataURL(attachment)
+		explicit := attachmentType != ""
 		if err != nil {
-			if attachmentType == "image" {
+			if explicit {
 				return nil, fmt.Errorf("attachments[%d]: %w", i, err)
 			}
 			continue
 		}
-		if !strings.HasPrefix(value, "data:") {
+		if !strings.HasPrefix(dataURL, "data:") {
 			continue
 		}
-		if err := validateInlineImageDataURL(value); err != nil {
-			return nil, fmt.Errorf("attachments[%d]: %w", i, err)
+		if err := validateInlineDataURL(dataURL); err != nil {
+			if explicit {
+				return nil, fmt.Errorf("attachments[%d]: %w", i, err)
+			}
+			continue
 		}
-		media = append(media, value)
+		entry := inlineMedia{
+			dataURL:     dataURL,
+			filename:    inlineAttachmentString(attachment, "filename", "name"),
+			contentType: strings.ToLower(inlineAttachmentString(attachment, "content_type", "contentType")),
+		}
+		media = append(media, entry)
 	}
 	return media, nil
 }
 
-func inlineImageValue(item any) (string, error) {
+func inlineAttachmentString(attachment map[string]any, keys ...string) string {
+	for _, key := range keys {
+		if raw, ok := attachment[key].(string); ok {
+			if value := strings.TrimSpace(raw); value != "" {
+				return value
+			}
+		}
+	}
+	return ""
+}
+
+func inlineMediaDataURL(item any) (string, error) {
 	switch value := item.(type) {
 	case string:
 		value = strings.TrimSpace(value)
 		if value == "" {
-			return "", fmt.Errorf("image payload is empty")
+			return "", fmt.Errorf("media payload is empty")
 		}
 		return value, nil
 	case map[string]any:
@@ -1376,41 +1609,57 @@ func inlineImageValue(item any) (string, error) {
 				return strings.TrimSpace(raw), nil
 			}
 		}
-		return "", fmt.Errorf("image payload must include url or data_url")
+		return "", fmt.Errorf("media payload must include url or data_url")
 	default:
-		return "", fmt.Errorf("image payload must be a string or object")
+		return "", fmt.Errorf("media payload must be a string or object")
 	}
 }
 
-func validateInlineImageDataURL(mediaURL string) error {
+// decodeInlineDataURL parses and validates an inline base64 data URL,
+// returning its MIME type and decoded payload.
+func decodeInlineDataURL(mediaURL string) (string, []byte, error) {
 	if mediaURL == "" {
-		return fmt.Errorf("image payload is empty")
+		return "", nil, fmt.Errorf("media payload is empty")
 	}
-	if !strings.HasPrefix(mediaURL, "data:image/") {
-		return fmt.Errorf("only inline image data URLs are supported")
+	if !strings.HasPrefix(mediaURL, "data:") {
+		return "", nil, fmt.Errorf("only inline data URLs are supported")
 	}
 
 	header, data, found := strings.Cut(mediaURL, ",")
 	if !found || strings.TrimSpace(data) == "" {
-		return fmt.Errorf("image data URL is malformed")
+		return "", nil, fmt.Errorf("media data URL is malformed")
 	}
 	if !strings.Contains(header, ";base64") {
-		return fmt.Errorf("image data URL must be base64 encoded")
+		return "", nil, fmt.Errorf("media data URL must be base64 encoded")
 	}
 	mimeType, _, _ := strings.Cut(strings.TrimPrefix(header, "data:"), ";")
-	if _, ok := allowedInlineImageMIMETypes[mimeType]; !ok {
-		return fmt.Errorf("unsupported image format: %s", mimeType)
+	mimeType = strings.ToLower(strings.TrimSpace(mimeType))
+	if !isSupportedInlineMimeType(mimeType) {
+		return "", nil, fmt.Errorf("unsupported media format: %s", mimeType)
 	}
 
 	data = strings.TrimSpace(data)
 	if base64.StdEncoding.DecodedLen(len(data)) > config.DefaultMaxMediaSize {
-		return fmt.Errorf("image exceeds %d byte limit", config.DefaultMaxMediaSize)
+		return "", nil, fmt.Errorf("media exceeds %d byte limit", config.DefaultMaxMediaSize)
 	}
-	if _, err := base64.StdEncoding.DecodeString(data); err != nil {
-		return fmt.Errorf("invalid base64 image data")
+	decoded, err := base64.StdEncoding.DecodeString(data)
+	if err != nil {
+		return "", nil, fmt.Errorf("invalid base64 media data")
 	}
 
-	return nil
+	return mimeType, decoded, nil
+}
+
+func isSupportedInlineMimeType(mimeType string) bool {
+	if _, ok := allowedInlineImageMIMETypes[mimeType]; ok {
+		return true
+	}
+	return isInlineDocumentMimeType(mimeType)
+}
+
+func validateInlineDataURL(mediaURL string) error {
+	_, _, err := decodeInlineDataURL(mediaURL)
+	return err
 }
 
 // setContextUsagePayload adds context window usage stats to a pico payload.

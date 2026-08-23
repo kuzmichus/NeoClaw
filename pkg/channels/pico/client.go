@@ -250,7 +250,7 @@ func (c *PicoClientChannel) handleServerMessage(pc *picoConn, msg PicoMessage) {
 	}
 
 	content, _ := msg.Payload[PayloadKeyContent].(string)
-	media, err := parseInlineImageMedia(msg.Payload)
+	items, err := parseInlineMedia(msg.Payload)
 	if err != nil {
 		logger.WarnCF("pico_client", "Ignoring invalid media payload", map[string]any{
 			"error": err.Error(),
@@ -258,7 +258,11 @@ func (c *PicoClientChannel) handleServerMessage(pc *picoConn, msg PicoMessage) {
 		if strings.TrimSpace(content) == "" {
 			return
 		}
-		media = nil
+		items = nil
+	}
+	media := make([]string, 0, len(items))
+	for _, item := range items {
+		media = append(media, item.dataURL)
 	}
 	if strings.TrimSpace(content) == "" && len(media) == 0 {
 		return
