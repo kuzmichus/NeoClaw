@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	runtimeevents "github.com/sipeed/picoclaw/pkg/events"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	"github.com/sipeed/picoclaw/pkg/providers"
+	runtimeevents "github.com/kuzmichus/neoclaw/pkg/events"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
 )
 
 // legacyContextManager wraps the existing summarization/compression logic

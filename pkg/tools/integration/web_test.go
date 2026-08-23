@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/logger"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
 )
 
 const (

@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/skills"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg/skills"
 )
 
 type DraftGenerator interface {

@@ -12,10 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	runtimeevents "github.com/sipeed/picoclaw/pkg/events"
-	"github.com/sipeed/picoclaw/pkg/isolation"
-	"github.com/sipeed/picoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	runtimeevents "github.com/kuzmichus/neoclaw/pkg/events"
+	"github.com/kuzmichus/neoclaw/pkg/isolation"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
 )
 
 func TestProcessHook_HelperProcess(t *testing.T) {

@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	ppid "github.com/sipeed/picoclaw/pkg/pid"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	ppid "github.com/kuzmichus/neoclaw/pkg/pid"
 )
 
 func newPicoProxyRequest(method, path string) *http.Request {

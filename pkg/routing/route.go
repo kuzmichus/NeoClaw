@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sipeed/picoclaw/pkg/bus"
-	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg/bus"
+	"github.com/kuzmichus/neoclaw/pkg/config"
 )
 
 // SessionPolicy describes how a routed message should be mapped to a session.

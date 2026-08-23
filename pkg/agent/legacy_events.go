@@ -6,9 +6,9 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/sipeed/picoclaw/pkg/bus"
-	runtimeevents "github.com/sipeed/picoclaw/pkg/events"
-	"github.com/sipeed/picoclaw/pkg/logger"
+	"github.com/kuzmichus/neoclaw/pkg/bus"
+	runtimeevents "github.com/kuzmichus/neoclaw/pkg/events"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
 )
 
 const defaultEventSubscriberBuffer = 16

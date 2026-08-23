@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg/bus"
-	"github.com/sipeed/picoclaw/pkg/memory"
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/routing"
-	"github.com/sipeed/picoclaw/pkg/session"
+	"github.com/kuzmichus/neoclaw/pkg/bus"
+	"github.com/kuzmichus/neoclaw/pkg/memory"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/routing"
+	"github.com/kuzmichus/neoclaw/pkg/session"
 )
 
 // Compile-time interface satisfaction checks.

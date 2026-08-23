@@ -8,11 +8,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	runtimeevents "github.com/sipeed/picoclaw/pkg/events"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/providers/messageutil"
-	"github.com/sipeed/picoclaw/pkg/tools"
+	runtimeevents "github.com/kuzmichus/neoclaw/pkg/events"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/providers/messageutil"
+	"github.com/kuzmichus/neoclaw/pkg/tools"
 )
 
 // ====================== Config & Constants ======================

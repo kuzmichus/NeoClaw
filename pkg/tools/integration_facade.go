@@ -3,11 +3,11 @@ package tools
 import (
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 
-	"github.com/sipeed/picoclaw/pkg/audio/tts"
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/media"
-	"github.com/sipeed/picoclaw/pkg/skills"
-	integrationtools "github.com/sipeed/picoclaw/pkg/tools/integration"
+	"github.com/kuzmichus/neoclaw/pkg/audio/tts"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg/media"
+	"github.com/kuzmichus/neoclaw/pkg/skills"
+	integrationtools "github.com/kuzmichus/neoclaw/pkg/tools/integration"
 )
 
 type (

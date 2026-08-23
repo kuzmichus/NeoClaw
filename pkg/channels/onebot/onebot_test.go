@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg/media"
+	"github.com/kuzmichus/neoclaw/pkg/media"
 )
 
 func TestParseMessageSegments_BlocksLoopbackInboundMediaURL(t *testing.T) {

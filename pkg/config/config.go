@@ -15,10 +15,10 @@ import (
 
 	"github.com/caarlos0/env/v11"
 
-	"github.com/sipeed/picoclaw/pkg"
-	"github.com/sipeed/picoclaw/pkg/fileutil"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	providercommon "github.com/sipeed/picoclaw/pkg/providers/common"
+	"github.com/kuzmichus/neoclaw/pkg"
+	"github.com/kuzmichus/neoclaw/pkg/fileutil"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
+	providercommon "github.com/kuzmichus/neoclaw/pkg/providers/common"
 )
 
 // rrCounter is a global counter for round-robin load balancing across models.

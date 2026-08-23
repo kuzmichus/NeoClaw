@@ -15,10 +15,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/auth"
-	"github.com/sipeed/picoclaw/pkg/config"
-	ppid "github.com/sipeed/picoclaw/pkg/pid"
-	"github.com/sipeed/picoclaw/web/backend/utils"
+	"github.com/kuzmichus/neoclaw/pkg/auth"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	ppid "github.com/kuzmichus/neoclaw/pkg/pid"
+	"github.com/kuzmichus/neoclaw/web/backend/utils"
 )
 
 func startLongRunningProcess(t *testing.T) *exec.Cmd {

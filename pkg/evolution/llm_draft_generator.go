@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/skills"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/skills"
 )
 
 type LLMDraftGenerator struct {

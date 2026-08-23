@@ -17,9 +17,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/fileutil"
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/providers/messageutil"
+	"github.com/kuzmichus/neoclaw/pkg/fileutil"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/providers/messageutil"
 )
 
 const (
