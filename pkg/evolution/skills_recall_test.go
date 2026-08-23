@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg/evolution"
+	"github.com/kuzmichus/neoclaw/pkg/evolution"
 )
 
 func TestRecallSimilarSkills_ReturnsWorkspaceSkillFirst(t *testing.T) {

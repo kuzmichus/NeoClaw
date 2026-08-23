@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sipeed/picoclaw/cmd/picoclaw/internal"
-	"github.com/sipeed/picoclaw/cmd/picoclaw/internal/cliui"
-	"github.com/sipeed/picoclaw/pkg/auth"
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/cmd/picoclaw/internal"
+	"github.com/kuzmichus/neoclaw/cmd/picoclaw/internal/cliui"
+	"github.com/kuzmichus/neoclaw/pkg/auth"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
 )
 
 func statusCmd() {

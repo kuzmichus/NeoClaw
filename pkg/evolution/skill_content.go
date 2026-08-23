@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/sipeed/picoclaw/pkg/skills"
+	"github.com/kuzmichus/neoclaw/pkg/skills"
 )
 
 const (

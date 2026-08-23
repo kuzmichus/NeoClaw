@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/fileutil"
-	"github.com/sipeed/picoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg/fileutil"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
 )
 
 // CatalogModel represents a single model entry in a saved catalog.

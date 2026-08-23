@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/sipeed/picoclaw/pkg/migrate/internal"
-	"github.com/sipeed/picoclaw/pkg/migrate/sources/openclaw"
+	"github.com/kuzmichus/neoclaw/pkg/migrate/internal"
+	"github.com/kuzmichus/neoclaw/pkg/migrate/sources/openclaw"
 )
 
 type (

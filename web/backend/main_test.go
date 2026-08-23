@@ -11,10 +11,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/logger"
-	"github.com/sipeed/picoclaw/pkg/netbind"
-	"github.com/sipeed/picoclaw/web/backend/launcherconfig"
-	"github.com/sipeed/picoclaw/web/backend/middleware"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
+	"github.com/kuzmichus/neoclaw/pkg/netbind"
+	"github.com/kuzmichus/neoclaw/web/backend/launcherconfig"
+	"github.com/kuzmichus/neoclaw/web/backend/middleware"
 )
 
 func TestShouldEnableLauncherFileLogging(t *testing.T) {

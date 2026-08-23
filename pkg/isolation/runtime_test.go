@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg"
-	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg"
+	"github.com/kuzmichus/neoclaw/pkg/config"
 )
 
 func TestResolveInstanceRoot_UsesPicoclawHome(t *testing.T) {
