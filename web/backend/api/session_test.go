@@ -1762,3 +1762,124 @@ func TestHandleSessions_IgnoresMetaJSONInLegacyFallback(t *testing.T) {
 		t.Fatalf("len(items) = %d, want 0", len(items))
 	}
 }
+
+func TestHandleListAllSessions_IncludesNonPicoChannels(t *testing.T) {
+	configPath, cleanup := setupOAuthTestEnv(t)
+	defer cleanup()
+
+	dir := sessionsTestDir(t, configPath)
+	store, storeErr := memory.NewJSONLStore(dir)
+	if storeErr != nil {
+		t.Fatalf("NewJSONLStore() error = %v", storeErr)
+	}
+
+	sessionKey := "sk_v1_telegram_session"
+	if err := store.AddFullMessage(nil, sessionKey, providers.Message{
+		Role:    "user",
+		Content: "Hello from telegram",
+	}); err != nil {
+		t.Fatalf("AddFullMessage() error = %v", err)
+	}
+
+	scopeData, err := json.Marshal(session.SessionScope{
+		Version:    session.ScopeVersionV1,
+		AgentID:    "main",
+		Channel:    "telegram",
+		Account:    "default",
+		Dimensions: []string{"sender"},
+		Values: map[string]string{
+			"sender": "telegram:12345",
+		},
+	})
+	if err != nil {
+		t.Fatalf("Marshal(scope) error = %v", err)
+	}
+	if err := store.UpsertSessionMeta(nil, sessionKey, scopeData, nil); err != nil {
+		t.Fatalf("UpsertSessionMeta() error = %v", err)
+	}
+
+	h := NewHandler(configPath)
+	mux := http.NewServeMux()
+	h.RegisterRoutes(mux)
+
+	sessionID := sanitizeSessionKey(sessionKey)
+
+	allRec := httptest.NewRecorder()
+	allReq := httptest.NewRequest(http.MethodGet, "/api/sessions/all", nil)
+	mux.ServeHTTP(allRec, allReq)
+	if allRec.Code != http.StatusOK {
+		t.Fatalf("all status = %d, want %d, body=%s", allRec.Code, http.StatusOK, allRec.Body.String())
+	}
+
+	var items []sessionListItem
+	if err := json.Unmarshal(allRec.Body.Bytes(), &items); err != nil {
+		t.Fatalf("Unmarshal(all) error = %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("len(items) = %d, want 1", len(items))
+	}
+	if items[0].ID != sessionID {
+		t.Fatalf("items[0].ID = %q, want %q", items[0].ID, sessionID)
+	}
+	if items[0].Channel != "telegram" {
+		t.Fatalf("items[0].Channel = %q, want %q", items[0].Channel, "telegram")
+	}
+	if items[0].Title != "Hello from telegram" {
+		t.Fatalf("items[0].Title = %q, want %q", items[0].Title, "Hello from telegram")
+	}
+
+	picoRec := httptest.NewRecorder()
+	picoReq := httptest.NewRequest(http.MethodGet, "/api/sessions", nil)
+	mux.ServeHTTP(picoRec, picoReq)
+	if picoRec.Code != http.StatusOK {
+		t.Fatalf("pico list status = %d, want %d", picoRec.Code, http.StatusOK)
+	}
+
+	detailRec := httptest.NewRecorder()
+	detailReq := httptest.NewRequest(http.MethodGet, "/api/sessions/"+sessionID, nil)
+	mux.ServeHTTP(detailRec, detailReq)
+	if detailRec.Code != http.StatusOK {
+		t.Fatalf("detail status = %d, want %d, body=%s", detailRec.Code, http.StatusOK, detailRec.Body.String())
+	}
+
+	deleteRec := httptest.NewRecorder()
+	deleteReq := httptest.NewRequest(http.MethodDelete, "/api/sessions/"+sessionID, nil)
+	mux.ServeHTTP(deleteRec, deleteReq)
+	if deleteRec.Code != http.StatusNoContent {
+		t.Fatalf("delete status = %d, want %d, body=%s", deleteRec.Code, http.StatusNoContent, deleteRec.Body.String())
+	}
+
+	base := filepath.Join(dir, sessionID)
+	for _, path := range []string{base + ".jsonl", base + ".meta.json"} {
+		if _, err := os.Stat(path); !os.IsNotExist(err) {
+			t.Fatalf("Stat(%s) = %v, want not exist", path, err)
+		}
+	}
+}
+
+func TestHandleListAllSessions_EmptyDirectory(t *testing.T) {
+	configPath, cleanup := setupOAuthTestEnv(t)
+	defer cleanup()
+
+	sessionsTestDir(t, configPath)
+
+	h := NewHandler(configPath)
+	mux := http.NewServeMux()
+	h.RegisterRoutes(mux)
+
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/api/sessions/all", nil)
+	mux.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want %d, body=%s", rec.Code, http.StatusOK, rec.Body.String())
+	}
+
+	var items []sessionListItem
+	if err := json.Unmarshal(rec.Body.Bytes(), &items); err != nil {
+		t.Fatalf("Unmarshal() error = %v", err)
+	}
+	if len(items) != 0 {
+		t.Fatalf("len(items) = %d, want 0", len(items))
+	}
+}

@@ -1,6 +1,7 @@
 {
   "navigation": {
     "chat": "Chat",
+    "sessions": "Sessões",
     "model_group": "Modelos",
     "models": "Modelos",
     "credentials": "Credenciais",
@@ -144,6 +145,23 @@
       },
       "restartRequired": "Alterações de configuração requerem reiniciar o gateway para ter efeito."
     }
+  },
+  "sessions": {
+    "refresh": "Atualizar",
+    "startPhrase": "Frase inicial",
+    "channel": "Canal",
+    "messages": "Mensagens",
+    "updated": "Atualizado",
+    "empty": "Nenhuma sessão ainda",
+    "loading": "Carregando...",
+    "loadMore": "Carregar mais",
+    "loadFailed": "Falha ao carregar sessões",
+    "openInChat": "Abrir no Chat",
+    "unknownChannel": "Desconhecido",
+    "openFailed": "Falha ao abrir a sessão no chat",
+    "deleteFailed": "Falha ao excluir sessão",
+    "deleteTitle": "Excluir sessão?",
+    "deleteDescription": "A sessão \"{{phrase}}\" será excluída permanentemente."
   },
   "common": {
     "cancel": "Cancelar",

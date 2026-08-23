@@ -1,6 +1,7 @@
 {
   "navigation": {
     "chat": "চ্যাট",
+    "sessions": "সেশন",
     "model_group": "মডেল",
     "models": "মডেল",
     "credentials": "ক্রেডেনশিয়াল",
@@ -143,6 +144,23 @@
       },
       "restartRequired": "কনফিগারেশনের পরিবর্তন কার্যকর হতে গেটওয়ে পুনরায় চালু করা প্রয়োজন।"
     }
+  },
+  "sessions": {
+    "refresh": "রিফ্রেশ",
+    "startPhrase": "প্রারম্ভিক বাক্য",
+    "channel": "চ্যানেল",
+    "messages": "বার্তা",
+    "updated": "আপডেট হয়েছে",
+    "empty": "এখনও কোনো সেশন নেই",
+    "loading": "লোড হচ্ছে...",
+    "loadMore": "আরও লোড করুন",
+    "loadFailed": "সেশন লোড করতে ব্যর্থ",
+    "openInChat": "চ্যাটে খুলুন",
+    "unknownChannel": "অজানা",
+    "openFailed": "চ্যাটে সেশন খুলতে ব্যর্থ",
+    "deleteFailed": "সেশন মুছতে ব্যর্থ",
+    "deleteTitle": "সেশন মুছবেন?",
+    "deleteDescription": "\"{{phrase}}\" সেশনটি স্থায়ীভাবে মুছে ফেলা হবে।"
   },
   "common": {
     "cancel": "বাতিল",

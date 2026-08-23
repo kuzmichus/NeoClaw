@@ -1,6 +1,7 @@
 {
   "navigation": {
     "chat": "对话",
+    "sessions": "会话",
     "model_group": "模型",
     "models": "模型",
     "credentials": "凭据",
@@ -144,6 +145,23 @@
       },
       "restartRequired": "配置变更后需要重启服务才能生效。"
     }
+  },
+  "sessions": {
+    "refresh": "刷新",
+    "startPhrase": "起始消息",
+    "channel": "渠道",
+    "messages": "消息数",
+    "updated": "更新于",
+    "empty": "暂无会话",
+    "loading": "加载中...",
+    "loadMore": "加载更多",
+    "loadFailed": "加载会话失败",
+    "openInChat": "在对话中打开",
+    "unknownChannel": "未知",
+    "openFailed": "在对话中打开会话失败",
+    "deleteFailed": "删除会话失败",
+    "deleteTitle": "删除会话？",
+    "deleteDescription": "会话“{{phrase}}”将被永久删除。"
   },
   "common": {
     "cancel": "取消",

@@ -7,6 +7,7 @@ export interface SessionSummary {
   message_count: number
   created: string
   updated: string
+  channel?: string
 }
 
 export interface SessionDetail {
@@ -53,6 +54,22 @@ export async function getSessions(
   const res = await launcherFetch(`/api/sessions?${params.toString()}`)
   if (!res.ok) {
     throw new Error(`Failed to fetch sessions: ${res.status}`)
+  }
+  return res.json()
+}
+
+export async function getAllSessions(
+  offset: number = 0,
+  limit: number = 20,
+): Promise<SessionSummary[]> {
+  const params = new URLSearchParams({
+    offset: offset.toString(),
+    limit: limit.toString(),
+  })
+
+  const res = await launcherFetch(`/api/sessions/all?${params.toString()}`)
+  if (!res.ok) {
+    throw new Error(`Failed to fetch all sessions: ${res.status}`)
   }
   return res.json()
 }

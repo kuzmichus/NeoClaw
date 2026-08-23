@@ -1,6 +1,7 @@
 {
   "navigation": {
     "chat": "Чат",
+    "sessions": "Сессии",
     "model_group": "Модели",
     "models": "Модели",
     "credentials": "Учётные данные",
@@ -144,6 +145,23 @@
       },
       "restartRequired": "Изменения конфигурации вступят в силу после перезапуска Gateway."
     }
+  },
+  "sessions": {
+    "refresh": "Обновить",
+    "startPhrase": "Начальная фраза",
+    "channel": "Канал",
+    "messages": "Сообщений",
+    "updated": "Обновлён",
+    "empty": "Сессий пока нет",
+    "loading": "Загрузка...",
+    "loadMore": "Загрузить ещё",
+    "loadFailed": "Не удалось загрузить сессии",
+    "openInChat": "Открыть в чате",
+    "unknownChannel": "Неизвестно",
+    "openFailed": "Не удалось открыть сессию в чате",
+    "deleteFailed": "Не удалось удалить сеанс",
+    "deleteTitle": "Удалить сеанс?",
+    "deleteDescription": "Сеанс «{{phrase}}» будет удалён безвозвратно."
   },
   "common": {
     "cancel": "Отмена",
