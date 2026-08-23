@@ -271,23 +271,23 @@ func TestSend_ClosedConnection(t *testing.T) {
 	ch.Stop(ctx)
 }
 
-func TestParseInlineImageMedia_Valid(t *testing.T) {
-	media, err := parseInlineImageMedia(map[string]any{
+func TestParseInlineMedia_Valid(t *testing.T) {
+	media, err := parseInlineMedia(map[string]any{
 		"media": []any{
 			"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+X2ioAAAAASUVORK5CYII=",
 		},
 	})
 	if err != nil {
-		t.Fatalf("parseInlineImageMedia() error = %v", err)
+		t.Fatalf("parseInlineMedia() error = %v", err)
 	}
 	if len(media) != 1 {
 		t.Fatalf("len(media) = %d, want 1", len(media))
 	}
 }
 
-func TestParseInlineImageMedia_Attachments(t *testing.T) {
+func TestParseInlineMedia_Attachments(t *testing.T) {
 	imageURL := "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+X2ioAAAAASUVORK5CYII="
-	media, err := parseInlineImageMedia(map[string]any{
+	media, err := parseInlineMedia(map[string]any{
 		"attachments": []any{
 			map[string]any{
 				"type": "image",
@@ -296,9 +296,9 @@ func TestParseInlineImageMedia_Attachments(t *testing.T) {
 		},
 	})
 	if err != nil {
-		t.Fatalf("parseInlineImageMedia() error = %v", err)
+		t.Fatalf("parseInlineMedia() error = %v", err)
 	}
-	if len(media) != 1 || media[0] != imageURL {
+	if len(media) != 1 || media[0].dataURL != imageURL {
 		t.Fatalf("media = %#v, want attachment image payload", media)
 	}
 }
