@@ -31,12 +31,42 @@ function toChatAttachments({
     )
 
   const legacyMediaAttachments = (media ?? [])
-    .filter((item) => item.startsWith("data:image/"))
-    .map((url) => ({ type: "image" as const, url }))
+    .filter((item) => isImageMediaRef(item) || isDocumentMediaRef(item))
+    .map((url) =>
+      isImageMediaRef(url)
+        ? { type: "image" as const, url }
+        : {
+            type: "file" as const,
+            url,
+            filename: legacyDocumentFilename(url),
+          },
+    )
 
   const merged = [...(normalizedAttachments ?? []), ...legacyMediaAttachments]
 
   return merged.length > 0 ? merged : undefined
+}
+
+function isImageMediaRef(ref: string): boolean {
+  return ref.startsWith("data:image/")
+}
+
+function isDocumentMediaRef(ref: string): boolean {
+  return (
+    ref.startsWith("data:application/pdf") ||
+    ref.startsWith("data:text/plain") ||
+    ref.startsWith("data:text/markdown")
+  )
+}
+
+function legacyDocumentFilename(url: string): string {
+  if (url.startsWith("data:application/pdf")) {
+    return "document.pdf"
+  }
+  if (url.startsWith("data:text/markdown")) {
+    return "document.md"
+  }
+  return "document.txt"
 }
 
 export async function loadSessionMessages(

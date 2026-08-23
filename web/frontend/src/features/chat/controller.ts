@@ -331,7 +331,11 @@ export function sendChatMessage({
 
   const normalizedContent = content.trim()
   const normalizedAttachments = attachments
-    .filter((attachment) => attachment.type === "image" && attachment.url)
+    .filter(
+      (attachment) =>
+        (attachment.type === "image" || attachment.type === "file") &&
+        attachment.url,
+    )
     .map((attachment) => ({ ...attachment }))
 
   if (!normalizedContent && normalizedAttachments.length === 0) {
@@ -359,7 +363,14 @@ export function sendChatMessage({
   try {
     const payload: Record<string, unknown> = {
       content: normalizedContent,
-      media: normalizedAttachments.map((attachment) => attachment.url),
+      // Structured entries let newer gateways persist filenames/content types;
+      // older gateways still resolve image entries via their url field.
+      attachments: normalizedAttachments.map((attachment) => ({
+        type: attachment.type,
+        url: attachment.url,
+        filename: attachment.filename,
+        content_type: attachment.contentType,
+      })),
     }
 
     socket.send(
