@@ -30,6 +30,7 @@ import {
 } from "./message-code-block.utils"
 
 import { Button } from "@/components/ui/button"
+import { MessageMermaid } from "./message-mermaid"
 
 const CODE_LABEL_FONT_FAMILY =
   'ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", monospace'
@@ -235,6 +236,10 @@ export function MarkdownCodeBlock({
   node,
 }: MarkdownCodeBlockProps) {
   const { code, language } = extractCodeBlockFromPreNode(node)
+
+  if (language === "mermaid") {
+    return <MessageMermaid code={code} />
+  }
 
   return (
     <MessageCodeBlock
