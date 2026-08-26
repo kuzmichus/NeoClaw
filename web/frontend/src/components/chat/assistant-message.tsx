@@ -12,22 +12,38 @@ import { useTranslation } from "react-i18next"
 import ReactMarkdown from "react-markdown"
 import rehypeHighlight from "rehype-highlight"
 import rehypeRaw from "rehype-raw"
-import rehypeSanitize from "rehype-sanitize"
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize"
 import remarkGfm from "remark-gfm"
 
+import { ChatImage } from "@/components/chat/chat-image"
 import {
-  MessageCodeBlock,
   MarkdownCodeBlock,
+  MessageCodeBlock,
 } from "@/components/chat/message-code-block"
 import { Button } from "@/components/ui/button"
-import { formatMessageTime } from "@/hooks/use-pico-chat"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
+import { formatMessageTime } from "@/hooks/use-pico-chat"
 import { cn } from "@/lib/utils"
 import {
   type AssistantMessageKind,
   type ChatAttachment,
   type ChatToolCall,
 } from "@/store/chat"
+
+const CHAT_SANITIZE_SCHEMA = {
+  ...defaultSchema,
+  protocols: {
+    ...defaultSchema.protocols,
+    src: [...(defaultSchema.protocols?.src ?? []), "data"],
+  },
+  attributes: {
+    ...defaultSchema.attributes,
+    img: [
+      ...(defaultSchema.attributes?.img ?? []),
+      ["src", /^data:image\/(svg\+xml|png|jpe?g|gif|webp);/i],
+    ],
+  },
+}
 
 interface AssistantMessageProps {
   content: string
@@ -73,7 +89,7 @@ export function AssistantMessage({
   return (
     <div className="group flex w-full flex-col gap-1.5">
       {!isCollapsedBlock && (
-          <div className="text-muted-foreground/60 flex items-center justify-between gap-2 px-1 text-xs opacity-70">
+        <div className="text-muted-foreground/60 flex items-center justify-between gap-2 px-1 text-xs opacity-70">
           <div className="flex items-center gap-2">
             <span>PicoClaw</span>
             {trimmedModelName && (
@@ -114,7 +130,9 @@ export function AssistantMessage({
                 )}
                 <span>{collapsedLabel}</span>
                 {trimmedModelName && (
-                  <span className="text-muted-foreground/45">{trimmedModelName}</span>
+                  <span className="text-muted-foreground/45">
+                    {trimmedModelName}
+                  </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
@@ -161,11 +179,15 @@ export function AssistantMessage({
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[
                               rehypeRaw,
-                              rehypeSanitize,
+                              [
+                                rehypeSanitize,
+                                { schema: CHAT_SANITIZE_SCHEMA },
+                              ],
                               rehypeHighlight,
                             ]}
                             components={{
                               pre: MarkdownCodeBlock,
+                              img: ChatImage,
                             }}
                           >
                             {explanation}
@@ -194,7 +216,9 @@ export function AssistantMessage({
                             <MessageCodeBlock
                               code={toolArguments}
                               language="json"
-                              label={toolName || t("chat.toolCallArgumentsLabel")}
+                              label={
+                                toolName || t("chat.toolCallArgumentsLabel")
+                              }
                               className="my-0 shadow-none"
                               bodyClassName="px-3 py-2 text-[12px] leading-relaxed"
                             />
@@ -218,9 +242,14 @@ export function AssistantMessage({
             >
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
+                rehypePlugins={[
+                  rehypeRaw,
+                  [rehypeSanitize, { schema: CHAT_SANITIZE_SCHEMA }],
+                  rehypeHighlight,
+                ]}
                 components={{
                   pre: MarkdownCodeBlock,
+                  img: ChatImage,
                 }}
               >
                 {content}

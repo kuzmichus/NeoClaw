@@ -1,36 +1,32 @@
-import {
-  IconCheck,
-  IconChevronDown,
-  IconCopy,
-} from "@tabler/icons-react"
-import { useAtom } from "jotai"
+import { IconCheck, IconChevronDown, IconCopy } from "@tabler/icons-react"
 import hljs from "highlight.js/lib/core"
 import json from "highlight.js/lib/languages/json"
+import { useAtom } from "jotai"
 import {
-  type ComponentProps,
   type CSSProperties,
+  type ComponentProps,
   type ReactNode,
   useState,
 } from "react"
 import { useTranslation } from "react-i18next"
 
+import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
 import { codeBlockWrapAtom } from "@/store/code-block"
 
 import {
+  type MarkdownNode,
   extractCodeBlockFromPreNode,
   extractCodeBlockRenderState,
-  type MarkdownNode,
   splitCodeIntoLines,
   splitHighlightedHtmlIntoLines,
   splitRenderedCodeContentIntoLines,
   trimTrailingEmptyRenderedCodeLine,
   trimTrailingEmptyStringLine,
 } from "./message-code-block.utils"
-
-import { Button } from "@/components/ui/button"
 import { MessageMermaid } from "./message-mermaid"
+import { MessageSvgBlock } from "./message-svg-block"
 
 const CODE_LABEL_FONT_FAMILY =
   'ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", monospace'
@@ -45,6 +41,7 @@ interface MessageCodeBlockProps {
   bodyClassName?: string
   children?: ReactNode
   trimTrailingEmptyLine?: boolean
+  hideHeader?: boolean
 }
 
 interface MarkdownCodeBlockProps extends ComponentProps<"pre"> {
@@ -71,6 +68,7 @@ export function MessageCodeBlock({
   bodyClassName,
   children,
   trimTrailingEmptyLine = false,
+  hideHeader = false,
 }: MessageCodeBlockProps) {
   const { t } = useTranslation()
   const { copy, isCopied } = useCopyToClipboard()
@@ -97,16 +95,16 @@ export function MessageCodeBlock({
     ? splitHighlightedHtmlIntoLines(highlightedHtml)
     : null
   const codeLines = children
-    ? (trimTrailingEmptyLine
-        ? trimTrailingEmptyRenderedCodeLine(
-            splitRenderedCodeContentIntoLines(renderedCodeState.renderedContent),
-          )
-        : splitRenderedCodeContentIntoLines(renderedCodeState.renderedContent))
-    : (trimTrailingEmptyLine
-        ? trimTrailingEmptyStringLine(
-            highlightedLines ?? splitCodeIntoLines(code),
-          )
-        : (highlightedLines ?? splitCodeIntoLines(code)))
+    ? trimTrailingEmptyLine
+      ? trimTrailingEmptyRenderedCodeLine(
+          splitRenderedCodeContentIntoLines(renderedCodeState.renderedContent),
+        )
+      : splitRenderedCodeContentIntoLines(renderedCodeState.renderedContent)
+    : trimTrailingEmptyLine
+      ? trimTrailingEmptyStringLine(
+          highlightedLines ?? splitCodeIntoLines(code),
+        )
+      : (highlightedLines ?? splitCodeIntoLines(code))
   const lineNumberWidth = `${String(codeLines.length).length + 1}ch`
 
   return (
@@ -117,59 +115,64 @@ export function MessageCodeBlock({
         className,
       )}
     >
-      <div className="flex items-center justify-between gap-2 border-b border-[#d0d7de] bg-black/[0.03] px-3 py-2 dark:border-[#30363d] dark:bg-white/[0.03]">
-        <span
-          className="text-[11px] font-medium text-zinc-600 dark:text-zinc-400"
-          style={{ fontFamily: CODE_LABEL_FONT_FAMILY }}
-        >
-          {blockLabel}
-        </span>
-        <div className="flex items-center gap-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            className="h-7 text-zinc-600 hover:bg-zinc-300/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-            onClick={() => void copy(code)}
-            aria-label={copyLabel}
-            title={copyLabel}
+      {!hideHeader && (
+        <div className="flex items-center justify-between gap-2 border-b border-[#d0d7de] bg-black/[0.03] px-3 py-2 dark:border-[#30363d] dark:bg-white/[0.03]">
+          <span
+            className="text-[11px] font-medium text-zinc-600 dark:text-zinc-400"
+            style={{ fontFamily: CODE_LABEL_FONT_FAMILY }}
           >
-            {isCopied ? (
-              <IconCheck className="text-green-500" />
-            ) : (
-              <IconCopy />
-            )}
-            <span className="hidden sm:inline">{copyLabel}</span>
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            className="h-7 px-2 text-[11px] text-zinc-600 hover:bg-zinc-300/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-            onClick={() => setWrapLongLines((current) => !current)}
-            aria-pressed={wrapLongLines}
-            aria-label={wrapLabel}
-            title={wrapLabel}
-          >
-            {wrapLabel}
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            className="h-7 text-zinc-600 hover:bg-zinc-300/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-            onClick={() => setIsExpanded((expanded) => !expanded)}
-            aria-expanded={isExpanded}
-            aria-label={expandLabel}
-            title={expandLabel}
-          >
-            <IconChevronDown
-              className={cn("transition-transform duration-200", isExpanded && "rotate-180")}
-            />
-            <span className="hidden sm:inline">{expandLabel}</span>
-          </Button>
+            {blockLabel}
+          </span>
+          <div className="flex items-center gap-1">
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="h-7 text-zinc-600 hover:bg-zinc-300/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+              onClick={() => void copy(code)}
+              aria-label={copyLabel}
+              title={copyLabel}
+            >
+              {isCopied ? (
+                <IconCheck className="text-green-500" />
+              ) : (
+                <IconCopy />
+              )}
+              <span className="hidden sm:inline">{copyLabel}</span>
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="h-7 px-2 text-[11px] text-zinc-600 hover:bg-zinc-300/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+              onClick={() => setWrapLongLines((current) => !current)}
+              aria-pressed={wrapLongLines}
+              aria-label={wrapLabel}
+              title={wrapLabel}
+            >
+              {wrapLabel}
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="h-7 text-zinc-600 hover:bg-zinc-300/70 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+              onClick={() => setIsExpanded((expanded) => !expanded)}
+              aria-expanded={isExpanded}
+              aria-label={expandLabel}
+              title={expandLabel}
+            >
+              <IconChevronDown
+                className={cn(
+                  "transition-transform duration-200",
+                  isExpanded && "rotate-180",
+                )}
+              />
+              <span className="hidden sm:inline">{expandLabel}</span>
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {isExpanded && (
         <pre
@@ -183,7 +186,10 @@ export function MessageCodeBlock({
               "block bg-transparent p-0 text-inherit",
               children
                 ? renderedCodeState.className
-                : cn(highlightedHtml && "hljs", language && `language-${language}`),
+                : cn(
+                    highlightedHtml && "hljs",
+                    language && `language-${language}`,
+                  ),
             )}
           >
             {codeLines.map((line, index) => (
@@ -196,7 +202,7 @@ export function MessageCodeBlock({
                   } as CSSProperties
                 }
               >
-                <span className="sticky left-0 z-1 select-none bg-[#f6f8fa] text-right text-zinc-500/80 dark:bg-[#0d1117] dark:text-zinc-500">
+                <span className="sticky left-0 z-1 bg-[#f6f8fa] text-right text-zinc-500/80 select-none dark:bg-[#0d1117] dark:text-zinc-500">
                   {index + 1}
                 </span>
                 {!children && highlightedLines ? (
@@ -239,6 +245,10 @@ export function MarkdownCodeBlock({
 
   if (language === "mermaid") {
     return <MessageMermaid code={code} />
+  }
+
+  if (language === "svg") {
+    return <MessageSvgBlock code={code} />
   }
 
   return (
