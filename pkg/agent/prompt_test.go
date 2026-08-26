@@ -447,3 +447,72 @@ func TestContextBuilder_CollectsRegisteredPromptContributors(t *testing.T) {
 		t.Fatalf("system prompt missing contributor content: %q", messages[0].Content)
 	}
 }
+
+func TestChannelRichRenderContributor(t *testing.T) {
+	t.Setenv("PICOCLAW_BUILTIN_SKILLS", t.TempDir())
+
+	renderChannels := []string{"pico", "pico_client"}
+	skipChannels := []string{"", "telegram", "slack", "cli"}
+
+	for _, ch := range renderChannels {
+		parts, err := channelRichRenderPromptContributor{}.ContributePrompt(
+			context.Background(),
+			PromptBuildRequest{Channel: ch},
+		)
+		if err != nil {
+			t.Fatalf("ContributePrompt(channel=%q) error = %v", ch, err)
+		}
+		if len(parts) != 2 {
+			t.Fatalf("channel=%q: expected 2 rich-render parts, got %d", ch, len(parts))
+		}
+		ids := map[string]bool{}
+		for _, p := range parts {
+			ids[p.ID] = true
+			if p.Layer != PromptLayerContext || p.Slot != PromptSlotOutput {
+				t.Fatalf("channel=%q: part %q has wrong layer/slot: %s/%s", ch, p.ID, p.Layer, p.Slot)
+			}
+			if p.Cache != PromptCacheEphemeral {
+				t.Fatalf("channel=%q: part %q cache = %q, want ephemeral", ch, p.ID, p.Cache)
+			}
+			if !strings.Contains(p.Content, "MERMAID DIAGRAMS") && !strings.Contains(p.Content, "SVG IMAGES") {
+				t.Fatalf("channel=%q: part %q has unexpected content", ch, p.ID)
+			}
+		}
+		if !ids["context.output_policy.mermaid"] || !ids["context.output_policy.svg"] {
+			t.Fatalf("channel=%q: missing mermaid/svg part ids: %v", ch, ids)
+		}
+	}
+
+	for _, ch := range skipChannels {
+		parts, err := channelRichRenderPromptContributor{}.ContributePrompt(
+			context.Background(),
+			PromptBuildRequest{Channel: ch},
+		)
+		if err != nil {
+			t.Fatalf("ContributePrompt(channel=%q) error = %v", ch, err)
+		}
+		if len(parts) != 0 {
+			t.Fatalf("channel=%q: expected 0 parts, got %d", ch, len(parts))
+		}
+	}
+}
+
+func TestBuildMessages_RichRenderOnlyForPico(t *testing.T) {
+	t.Setenv("PICOCLAW_BUILTIN_SKILLS", t.TempDir())
+
+	picoMessages := NewContextBuilder(t.TempDir()).BuildMessagesFromPrompt(
+		PromptBuildRequest{Channel: "pico", CurrentMessage: "hi"},
+	)
+	if !strings.Contains(picoMessages[0].Content, "MERMAID DIAGRAMS") ||
+		!strings.Contains(picoMessages[0].Content, "SVG IMAGES") {
+		t.Fatalf("pico channel missing rich-render content: %q", picoMessages[0].Content)
+	}
+
+	teleMessages := NewContextBuilder(t.TempDir()).BuildMessagesFromPrompt(
+		PromptBuildRequest{Channel: "telegram", CurrentMessage: "hi"},
+	)
+	if strings.Contains(teleMessages[0].Content, "MERMAID DIAGRAMS") ||
+		strings.Contains(teleMessages[0].Content, "SVG IMAGES") {
+		t.Fatalf("telegram channel should not contain rich-render content: %q", teleMessages[0].Content)
+	}
+}

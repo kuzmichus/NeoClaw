@@ -5,7 +5,14 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/sipeed/picoclaw/pkg/config"
 	"github.com/sipeed/picoclaw/pkg/tools"
+)
+
+const (
+	mermaidRenderPolicy = `# MERMAID DIAGRAMS\nThe chat interface can render Mermaid diagrams. Whenever a diagram would help the user understand information more clearly (architecture, flows, sequences, state machines, relationships, timelines, comparisons), wrap valid Mermaid source in a fenced code block whose language tag is "mermaid". The diagram is shown to the user visually, with a toggle to view and copy the source code. Do not hesitate to use diagrams for clearer, more illustrative communication.`
+
+	svgRenderPolicy = `# SVG IMAGES\nThe chat interface can render SVG graphics. You can display an SVG image in two ways: (1) wrap valid SVG markup in a fenced code block whose language tag is "svg" — it will be shown to the user both visually and as source code, with a toggle and a "Copy code" button; (2) embed an inline image with a data URI, e.g. ` + "`![alt](data:image/svg+xml;base64,...)`" + `. Whenever an illustration, schematic, chart, icon, or any visual would make the answer clearer or more engaging, produce an SVG and do not hesitate to use it for more illustrative communication with the user.`
 )
 
 type toolDiscoveryPromptContributor struct {
@@ -153,6 +160,54 @@ func (c agentDiscoveryPromptContributor) ContributePrompt(
 			Content: content,
 			Stable:  false,
 			Cache:   PromptCacheNone,
+		},
+	}, nil
+}
+
+// channelRichRenderPromptContributor adds the Mermaid/SVG rich-rendering output
+// policy parts, but only for channels that can actually render them (the pico
+// dashboard and its client). Other channels (telegram, slack, cli, ...) must not
+// receive these instructions because their UIs cannot render the diagrams.
+type channelRichRenderPromptContributor struct{}
+
+func (c channelRichRenderPromptContributor) PromptSource() PromptSourceDescriptor {
+	return PromptSourceDescriptor{
+		ID:              PromptSourceOutputPolicy,
+		Owner:           "agent",
+		Description:     "Channel-aware rich rendering (Mermaid/SVG) output policy",
+		Allowed:         []PromptPlacement{{Layer: PromptLayerContext, Slot: PromptSlotOutput}},
+		StableByDefault: true,
+	}
+}
+
+func (c channelRichRenderPromptContributor) ContributePrompt(
+	_ context.Context,
+	req PromptBuildRequest,
+) ([]PromptPart, error) {
+	if req.Channel != config.ChannelPico && req.Channel != config.ChannelPicoClient {
+		return nil, nil
+	}
+
+	return []PromptPart{
+		{
+			ID:      "context.output_policy.mermaid",
+			Layer:   PromptLayerContext,
+			Slot:    PromptSlotOutput,
+			Source:  PromptSource{ID: PromptSourceOutputPolicy, Name: "mermaid_render"},
+			Title:   "mermaid diagram rendering",
+			Content: mermaidRenderPolicy,
+			Stable:  true,
+			Cache:   PromptCacheEphemeral,
+		},
+		{
+			ID:      "context.output_policy.svg",
+			Layer:   PromptLayerContext,
+			Slot:    PromptSlotOutput,
+			Source:  PromptSource{ID: PromptSourceOutputPolicy, Name: "svg_render"},
+			Title:   "svg image rendering",
+			Content: svgRenderPolicy,
+			Stable:  true,
+			Cache:   PromptCacheEphemeral,
 		},
 	}, nil
 }
