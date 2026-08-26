@@ -17,6 +17,7 @@ import (
 	"github.com/sipeed/picoclaw/pkg/logger"
 	"github.com/sipeed/picoclaw/pkg/providers"
 	"github.com/sipeed/picoclaw/pkg/tools"
+	toolshared "github.com/sipeed/picoclaw/pkg/tools/shared"
 	"github.com/sipeed/picoclaw/pkg/utils"
 )
 
@@ -51,6 +52,13 @@ func inferSkillNamesFromToolCall(ts *turnState, toolName string, toolArgs map[st
 	}
 	if filepath.Base(cleanPath) != "SKILL.md" {
 		return nil
+	}
+
+	// Fast path: derive the skill name directly from a ".../skills/<name>/SKILL.md"
+	// layout. This works regardless of workspace/root configuration, so the
+	// agent status panel can report "looking at skill <name>" reliably.
+	if name := skillNameFromSkillMDPath(cleanPath); name != "" {
+		return []string{name}
 	}
 
 	var roots []string
@@ -101,6 +109,61 @@ func inferSkillNamesFromToolCall(ts *turnState, toolName string, toolArgs map[st
 	}
 	sort.Strings(names)
 	return names
+}
+
+// skillNameFromSkillMDPath extracts the skill name from a path that ends with
+// ".../skills/<name>/SKILL.md". It returns "" when the path doesn't match.
+func skillNameFromSkillMDPath(cleanPath string) string {
+	const marker = "/skills/"
+	idx := strings.LastIndex(cleanPath, marker)
+	if idx < 0 {
+		return ""
+	}
+	rest := cleanPath[idx+len(marker):]
+	parts := strings.Split(rest, "/")
+	if len(parts) < 2 || parts[len(parts)-1] != "SKILL.md" {
+		return ""
+	}
+	name := strings.TrimSpace(parts[0])
+	if name == "" {
+		return ""
+	}
+	return name
+}
+
+// toolStatusForDisplay resolves a live agent-status phase/label for a tool call
+// so the WebUI can show what the agent is actually doing. Skills are detected via
+// the same heuristic used for skill inference (e.g. read_file on a SKILL.md), and
+// MCP tools are detected via their registry metadata. Everything else is a plain tool.
+func toolStatusForDisplay(
+	al *AgentLoop,
+	ts *turnState,
+	toolName string,
+	toolArgs map[string]any,
+) (phase, label string) {
+	if skillNames := inferSkillNamesFromToolCall(ts, toolName, toolArgs); len(skillNames) > 0 {
+		return "skill", skillNames[0]
+	}
+
+	label = toolName
+	phase = "tool"
+
+	if ts == nil || ts.agent == nil || ts.agent.Tools == nil {
+		return phase, label
+	}
+	tool, ok := ts.agent.Tools.Get(toolName)
+	if !ok {
+		return phase, label
+	}
+	provider, ok := tool.(toolshared.PromptMetadataProvider)
+	if !ok {
+		return phase, label
+	}
+	meta := provider.PromptMetadata()
+	if meta.Slot == toolshared.ToolPromptSlotMCP || strings.HasPrefix(meta.Source, "mcp:") {
+		phase = "mcp"
+	}
+	return phase, label
 }
 
 // ExecuteTools executes the tool loop, handling BeforeTool/ApproveTool/AfterTool hooks,
@@ -488,6 +551,11 @@ toolLoop:
 				Arguments: cloneEventArguments(toolArgs),
 			},
 		)
+
+		if al.channelManager != nil && ts.channel != "" {
+			statusPhase, statusLabel := toolStatusForDisplay(al, ts, toolName, toolArgs)
+			al.channelManager.SendAgentStatus(ts.channel, ts.chatID, statusPhase, statusLabel)
+		}
 
 		if shouldPublishToolFeedback(al.cfg, ts) && ts.channel != "pico" {
 			toolFeedbackMaxLen := al.cfg.Agents.Defaults.GetToolFeedbackMaxArgsLength()

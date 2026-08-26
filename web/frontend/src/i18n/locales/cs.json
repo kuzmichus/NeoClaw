@@ -58,7 +58,18 @@
       "step1": "Přemýšlím...",
       "step2": "Analyzuji váš požadavek...",
       "step3": "Připravuji odpověď...",
-      "step4": "Už brzy..."
+      "step4": "Už brzy...",
+      "step5": "Ještě chvíli...",
+      "step6": "Dodávám poslední lesk...",
+      "step7": "Kontroluji odpověď...",
+      "step8": "Dávám to dohromady...",
+      "step9": "Už skoro posílám..."
+    },
+    "status": {
+      "skill": "Prohlížím si dovednost {{name}}",
+      "mcp": "Volám MCP {{name}}",
+      "web": "Hledám na webu...",
+      "tool": "Volám nástroj {{name}}"
     },
     "reasoningLabel": "Uvažování",
     "toolCallsLabel": "Volání nástrojů",

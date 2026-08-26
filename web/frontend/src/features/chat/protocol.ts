@@ -6,7 +6,10 @@ import {
 } from "@/features/chat/assistant-message-state"
 import { normalizeUnixTimestamp } from "@/features/chat/state"
 import {
+  type AgentStatus,
+  type AgentStatusPhase,
   type ChatAttachment,
+  type ChatToolCall,
   type ContextUsage,
   updateChatStore,
 } from "@/store/chat"
@@ -93,6 +96,25 @@ function parseModelName(payload: Record<string, unknown>): string | undefined {
   return modelName || undefined
 }
 
+// toolCallFallbackStatus derives a best-effort agent status from a tool_calls
+// payload, used only when the backend hasn't sent an explicit agent.status
+// event. It prefers the human-readable explanation, then the tool name.
+function toolCallFallbackStatus(
+  toolCalls: ChatToolCall[] | undefined,
+): AgentStatus | null {
+  if (!toolCalls || toolCalls.length === 0) {
+    return null
+  }
+  const first = toolCalls[0]
+  const name = first.function?.name
+  const explanation = first.extraContent?.toolFeedbackExplanation
+  const label = (explanation ?? name ?? "").trim()
+  if (!label) {
+    return null
+  }
+  return { phase: "tool", label }
+}
+
 export function handlePicoMessage(
   message: PicoMessage,
   expectedSessionId: string,
@@ -111,7 +133,6 @@ export function handlePicoMessage(
         parseAssistantMessageCreateState(payload)
       const attachments = parseAttachments(payload)
       const contextUsage = parseContextUsage(payload)
-      const isPlaceholder = payload.placeholder === true
       const modelName = parseModelName(payload)
       const timestamp =
         message.timestamp !== undefined &&
@@ -133,11 +154,18 @@ export function handlePicoMessage(
             timestamp,
           },
         ],
-        isTyping:
-          !isPlaceholder &&
-          (kind === "normal" || message.type === "media.create")
-            ? false
-            : prev.isTyping,
+        // Keep the typing indicator alive for the whole turn. It is only
+        // cleared by an explicit `typing.stop` (or `error`), so the agent
+        // status panel stays visible through tool calls and intermediate
+        // messages until the final answer arrives.
+        isTyping: prev.isTyping,
+        // Fallback: if the backend hasn't sent an explicit agent.status for
+        // this tool call, surface the tool feedback explanation / name.
+        ...(prev.agentStatus == null && toolCalls && toolCalls.length > 0
+          ? {
+              agentStatus: toolCallFallbackStatus(toolCalls),
+            }
+          : {}),
         ...(contextUsage ? { contextUsage } : {}),
       }))
       break
@@ -216,12 +244,25 @@ export function handlePicoMessage(
     }
 
     case "typing.start":
-      updateChatStore({ isTyping: true })
+      updateChatStore({ isTyping: true, agentStatus: null })
       break
 
     case "typing.stop":
-      updateChatStore({ isTyping: false })
+      updateChatStore({ isTyping: false, agentStatus: null })
       break
+
+    case "agent.status": {
+      const phaseRaw = payload.phase
+      const phase: AgentStatusPhase =
+        typeof phaseRaw === "string" &&
+        ["thinking", "tool", "skill", "mcp", "web"].includes(phaseRaw)
+          ? (phaseRaw as AgentStatusPhase)
+          : "thinking"
+      const label =
+        typeof payload.label === "string" ? payload.label : ""
+      updateChatStore({ agentStatus: { phase, label } })
+      break
+    }
 
     case "error": {
       const requestId =
@@ -238,6 +279,7 @@ export function handlePicoMessage(
           ? prev.messages.filter((msg) => msg.id !== requestId)
           : prev.messages,
         isTyping: false,
+        agentStatus: null,
       }))
       break
     }

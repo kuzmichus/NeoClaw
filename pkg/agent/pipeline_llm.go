@@ -121,6 +121,14 @@ func (p *Pipeline) CallLLM(
 		}
 	}
 
+	if al.channelManager != nil && ts.channel != "" {
+		statusPhase := "thinking"
+		if exec.useNativeSearch {
+			statusPhase = "web"
+		}
+		al.channelManager.SendAgentStatus(ts.channel, ts.chatID, statusPhase, "")
+	}
+
 	al.emitEvent(
 		runtimeevents.KindAgentLLMRequest,
 		ts.eventMeta("runTurn", "turn.llm.request"),

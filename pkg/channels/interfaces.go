@@ -52,6 +52,14 @@ type PlaceholderCapable interface {
 	SendPlaceholder(ctx context.Context, chatID string) (messageID string, err error)
 }
 
+// StatusCapable — channels that can show a live agent activity status
+// (e.g. "looking at skill X", "calling MCP Y"). The phase describes what the
+// agent is doing; label carries a human-readable detail (tool/skill/MCP name).
+// Channels that don't implement this simply ignore status updates.
+type StatusCapable interface {
+	SendStatus(ctx context.Context, chatID, phase, label string) error
+}
+
 // StreamingCapable — channels that can show partial LLM output in real-time.
 // The channel SHOULD gracefully degrade if the platform rejects streaming
 // (e.g. Telegram bot without forum mode). In that case, Update becomes a no-op

@@ -358,6 +358,46 @@ func (m *Manager) InvokeTypingStop(channel, chatID string) {
 	}
 }
 
+// statusChannelFromKey extracts the channel name from a "channel:chatID" key
+// used by the typingStops/placeholder maps. It returns "" if the key is empty.
+func statusChannelFromKey(key any) string {
+	s, ok := key.(string)
+	if !ok || s == "" {
+		return ""
+	}
+	channel, _, found := strings.Cut(s, ":")
+	if !found {
+		return ""
+	}
+	return channel
+}
+
+// SendAgentStatus broadcasts a live agent activity status to the named channel
+// if it implements StatusCapable. It is a no-op for channels that don't support
+// status updates or when the channel isn't registered.
+func (m *Manager) SendAgentStatus(channel, chatID, phase, label string) {
+	m.mu.RLock()
+	ch, exists := m.channels[channel]
+	m.mu.RUnlock()
+
+	if !exists {
+		return
+	}
+
+	sc, ok := ch.(StatusCapable)
+	if !ok {
+		return
+	}
+
+	if err := sc.SendStatus(context.Background(), chatID, phase, label); err != nil {
+		logger.DebugCF("channels", "Failed to send agent status", map[string]any{
+			"channel": channel,
+			"phase":   phase,
+			"error":   err.Error(),
+		})
+	}
+}
+
 // RecordReactionUndo registers a reaction undo function for later invocation.
 // Implements PlaceholderRecorder.
 func (m *Manager) RecordReactionUndo(channel, chatID string, undo func()) {
@@ -373,9 +413,18 @@ func (m *Manager) preSend(ctx context.Context, name string, msg bus.OutboundMess
 	streamKey := streamSuppressionKey(name, chatID, msg.SessionKey)
 
 	// 1. Stop typing
-	if v, loaded := m.typingStops.LoadAndDelete(key); loaded {
-		if entry, ok := v.(typingEntry); ok {
-			entry.stop() // idempotent, safe
+	// For channels that render a live agent-status panel (StatusCapable, e.g. the
+	// Pico WebUI dashboard) we must NOT stop typing on every outbound message:
+	// auxiliary messages like thoughts, tool_calls and placeholders are emitted
+	// before/during tool execution, and stopping typing there would hide the
+	// status panel prematurely. For those channels typing is stopped only at the
+	// end of the agent turn (deferred InvokeTypingStop). Other channels keep the
+	// original behavior of clearing the native typing indicator on first send.
+	if _, isStatusPanel := ch.(StatusCapable); !isStatusPanel {
+		if v, loaded := m.typingStops.LoadAndDelete(key); loaded {
+			if entry, ok := v.(typingEntry); ok {
+				entry.stop() // idempotent, safe
+			}
 		}
 	}
 
@@ -517,9 +566,18 @@ func (m *Manager) preSendMedia(ctx context.Context, name string, msg bus.Outboun
 	streamKey := streamSuppressionKey(name, chatID, msg.SessionKey)
 
 	// 1. Stop typing
-	if v, loaded := m.typingStops.LoadAndDelete(key); loaded {
-		if entry, ok := v.(typingEntry); ok {
-			entry.stop() // idempotent, safe
+	// For channels that render a live agent-status panel (StatusCapable, e.g. the
+	// Pico WebUI dashboard) we must NOT stop typing on every outbound message:
+	// auxiliary messages like thoughts, tool_calls and placeholders are emitted
+	// before/during tool execution, and stopping typing there would hide the
+	// status panel prematurely. For those channels typing is stopped only at the
+	// end of the agent turn (deferred InvokeTypingStop). Other channels keep the
+	// original behavior of clearing the native typing indicator on first send.
+	if _, isStatusPanel := ch.(StatusCapable); !isStatusPanel {
+		if v, loaded := m.typingStops.LoadAndDelete(key); loaded {
+			if entry, ok := v.(typingEntry); ok {
+				entry.stop() // idempotent, safe
+			}
 		}
 	}
 
@@ -1833,6 +1891,14 @@ func (m *Manager) runTTLJanitor(ctx context.Context) {
 			m.typingStops.Range(func(key, value any) bool {
 				if entry, ok := value.(typingEntry); ok {
 					if now.Sub(entry.createdAt) > typingStopTTL {
+						// Channels with a live status panel (StatusCapable) stop
+						// typing only at turn end; never evict them here so long
+						// tool-using turns keep their status panel visible.
+						if channel := statusChannelFromKey(key); channel != "" {
+							if _, ok := m.channels[channel].(StatusCapable); ok {
+								return true
+							}
+						}
 						if _, loaded := m.typingStops.LoadAndDelete(key); loaded {
 							entry.stop() // idempotent, safe
 						}

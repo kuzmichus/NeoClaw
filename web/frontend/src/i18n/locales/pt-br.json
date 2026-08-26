@@ -58,7 +58,18 @@
       "step1": "Pensando...",
       "step2": "Analisando sua solicitação...",
       "step3": "Preparando resposta...",
-      "step4": "Quase lá..."
+      "step4": "Quase lá...",
+      "step5": "Só mais um pouco...",
+      "step6": "Dando o toque final...",
+      "step7": "Verificando a resposta...",
+      "step8": "Juntando tudo...",
+      "step9": "Quase enviando..."
+    },
+    "status": {
+      "skill": "Consultando skill {{name}}",
+      "mcp": "Chamando MCP {{name}}",
+      "web": "Pesquisando na web...",
+      "tool": "Chamando ferramenta {{name}}"
     },
     "reasoningLabel": "Raciocínio",
     "toolCallsLabel": "Chamadas de ferramentas",

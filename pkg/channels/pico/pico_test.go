@@ -288,6 +288,44 @@ func TestSend_ToolCallsMessageIncludesModelName(t *testing.T) {
 	}
 }
 
+func TestSendStatus_BroadcastsAgentStatus(t *testing.T) {
+	ch := newTestPicoChannel(t)
+
+	if err := ch.Start(context.Background()); err != nil {
+		t.Fatalf("Start() error = %v", err)
+	}
+	defer ch.Stop(context.Background())
+
+	clientConn, received, cleanup := newTestPicoWebSocket(t)
+	defer cleanup()
+	ch.addConnForTest(&picoConn{id: "conn-1", conn: clientConn, sessionID: "sess-1"})
+
+	if err := ch.SendStatus(context.Background(), "pico:sess-1", "skill", "cycling"); err != nil {
+		t.Fatalf("SendStatus() error = %v", err)
+	}
+
+	select {
+	case msg := <-received:
+		if msg.Type != TypeAgentStatus {
+			t.Fatalf("status message type = %q, want %q", msg.Type, TypeAgentStatus)
+		}
+		payload := msg.Payload
+		if got := payload[PayloadKeyPhase]; got != "skill" {
+			t.Fatalf("status phase = %#v, want %q", got, "skill")
+		}
+		if got := payload[PayloadKeyLabel]; got != "cycling" {
+			t.Fatalf("status label = %#v, want %q", got, "cycling")
+		}
+	case <-time.After(time.Second):
+		t.Fatal("expected agent.status message to be delivered")
+	}
+
+	// Empty phase defaults to "thinking".
+	if err := ch.SendStatus(context.Background(), "pico:sess-1", "", ""); err != nil {
+		t.Fatalf("SendStatus() error = %v", err)
+	}
+}
+
 func TestSendPlaceholder_EmitsNormalMessageWithoutKind(t *testing.T) {
 	ch := newTestPicoChannel(t)
 	ch.bc.Placeholder.Enabled = true

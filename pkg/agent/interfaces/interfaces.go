@@ -39,6 +39,10 @@ type ChannelManager interface {
 	// InvokeTypingStop signals that typing has stopped.
 	InvokeTypingStop(channel, chatID string)
 
+	// SendAgentStatus broadcasts a live agent activity status (phase + label)
+	// to the channel if it supports status updates. No-op otherwise.
+	SendAgentStatus(channel, chatID, phase, label string)
+
 	// SendMessage sends a text message to the specified channel and chat.
 	SendMessage(ctx context.Context, msg bus.OutboundMessage) error
 
