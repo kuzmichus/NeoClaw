@@ -337,6 +337,18 @@ Each part separated by the marker will be sent as an independent message.`,
 		})
 	}
 
+	// Mermaid diagram rendering capability
+	add(PromptPart{
+		ID:      "context.output_policy.mermaid",
+		Layer:   PromptLayerContext,
+		Slot:    PromptSlotOutput,
+		Source:  PromptSource{ID: PromptSourceOutputPolicy, Name: "mermaid_render"},
+		Title:   "mermaid diagram rendering",
+		Content: `# MERMAID DIAGRAMS\nThe chat interface can render Mermaid diagrams. Whenever a diagram would help the user understand information more clearly (architecture, flows, sequences, state machines, relationships, timelines, comparisons), wrap valid Mermaid source in a fenced code block whose language tag is "mermaid". The diagram is shown to the user visually, with a toggle to view and copy the source code. Do not hesitate to use diagrams for clearer, more illustrative communication.`,
+		Stable:  true,
+		Cache:   PromptCacheEphemeral,
+	})
+
 	stack.Seal()
 	return stack.Parts()
 }
