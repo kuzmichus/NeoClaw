@@ -524,6 +524,23 @@ func (c *PicoChannel) StartTyping(ctx context.Context, chatID string) (func(), e
 	}, nil
 }
 
+// SendStatus implements channels.StatusCapable. It broadcasts a live agent
+// activity update (phase + label) so the WebUI can show what the agent is
+// currently doing (e.g. "looking at skill X", "calling MCP Y") instead of a
+// generic typing indicator.
+func (c *PicoChannel) SendStatus(ctx context.Context, chatID, phase, label string) error {
+	if phase == "" {
+		phase = "thinking"
+	}
+	payload := map[string]any{
+		PayloadKeyPhase: phase,
+	}
+	if label != "" {
+		payload[PayloadKeyLabel] = label
+	}
+	return c.broadcastToSession(chatID, newMessage(TypeAgentStatus, payload))
+}
+
 // SendPlaceholder implements channels.PlaceholderCapable.
 // It sends a placeholder message via the Pico Protocol that will later be
 // edited to the actual response via EditMessage (channels.MessageEditor).

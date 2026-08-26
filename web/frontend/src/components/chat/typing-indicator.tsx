@@ -1,13 +1,48 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
-export function TypingIndicator() {
+import type { AgentStatus } from "@/store/chat"
+
+const ACTIVE_PHASES: AgentStatus["phase"][] = ["tool", "skill", "mcp", "web"]
+
+function resolveStatusLabel(
+  status: AgentStatus | null | undefined,
+  t: (key: string, params?: Record<string, unknown>) => string,
+): string | null {
+  if (!status || !ACTIVE_PHASES.includes(status.phase)) {
+    return null
+  }
+  switch (status.phase) {
+    case "skill":
+      return t("chat.status.skill", { name: status.label })
+    case "mcp":
+      return t("chat.status.mcp", { name: status.label })
+    case "web":
+      return t("chat.status.web")
+    case "tool":
+    default:
+      return t("chat.status.tool", { name: status.label })
+  }
+}
+
+export function TypingIndicator({
+  status,
+}: {
+  status?: AgentStatus | null
+}) {
   const { t } = useTranslation()
+  const activeLabel = resolveStatusLabel(status, t)
+
   const thinkingSteps = [
     t("chat.thinking.step1"),
     t("chat.thinking.step2"),
     t("chat.thinking.step3"),
     t("chat.thinking.step4"),
+    t("chat.thinking.step5"),
+    t("chat.thinking.step6"),
+    t("chat.thinking.step7"),
+    t("chat.thinking.step8"),
+    t("chat.thinking.step9"),
   ]
   const [stepIndex, setStepIndex] = useState(0)
 
@@ -18,6 +53,8 @@ export function TypingIndicator() {
     }, 3000)
     return () => clearInterval(interval)
   }, [thinkingSteps.length])
+
+  const label = activeLabel ?? thinkingSteps[stepIndex]
 
   return (
     <div className="flex w-full flex-col gap-1.5">
@@ -33,10 +70,10 @@ export function TypingIndicator() {
         </div>
 
         <p
-          key={stepIndex}
+          key={label}
           className="text-muted-foreground animate-[fadeSlideIn_0.4s_ease-out] text-xs"
         >
-          {thinkingSteps[stepIndex]}
+          {label}
         </p>
       </div>
     </div>

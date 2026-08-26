@@ -38,6 +38,13 @@ export interface ChatToolCall {
 
 export type AssistantMessageKind = "normal" | "thought" | "tool_calls"
 
+export type AgentStatusPhase = "thinking" | "tool" | "skill" | "mcp" | "web"
+
+export interface AgentStatus {
+  phase: AgentStatusPhase
+  label: string
+}
+
 export interface ChatMessage {
   id: string
   role: "user" | "assistant"
@@ -71,6 +78,7 @@ export interface ChatStoreState {
   activeSessionId: string
   hasHydratedActiveSession: boolean
   contextUsage?: ContextUsage
+  agentStatus?: AgentStatus | null
 }
 
 type ChatStorePatch = Partial<ChatStoreState>
@@ -81,6 +89,7 @@ const DEFAULT_CHAT_STATE: ChatStoreState = {
   isTyping: false,
   activeSessionId: getInitialActiveSessionId(),
   hasHydratedActiveSession: false,
+  agentStatus: null,
 }
 
 export const chatAtom = atom<ChatStoreState>(DEFAULT_CHAT_STATE)

@@ -58,7 +58,18 @@
       "step1": "Thinking...",
       "step2": "Analyzing your request...",
       "step3": "Preparing response...",
-      "step4": "Almost there..."
+      "step4": "Almost there...",
+      "step5": "Just a bit more...",
+      "step6": "Adding final polish...",
+      "step7": "Checking the answer...",
+      "step8": "Putting it all together...",
+      "step9": "Almost sending..."
+    },
+    "status": {
+      "skill": "Looking at skill {{name}}",
+      "mcp": "Calling MCP {{name}}",
+      "web": "Searching the web...",
+      "tool": "Calling tool {{name}}"
     },
     "reasoningLabel": "Reasoning",
     "toolCallsLabel": "Tool calls",

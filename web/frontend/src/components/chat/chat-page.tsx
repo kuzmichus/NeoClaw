@@ -133,6 +133,7 @@ export function ChatPage() {
     isTyping,
     activeSessionId,
     contextUsage,
+    agentStatus,
     sendMessage,
     switchSession,
     newChat,
@@ -424,7 +425,7 @@ export function ChatPage() {
             )
           })}
 
-          {isTyping && <TypingIndicator />}
+          {isTyping && <TypingIndicator status={agentStatus} />}
         </div>
       </div>
 
