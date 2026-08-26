@@ -349,6 +349,18 @@ Each part separated by the marker will be sent as an independent message.`,
 		Cache:   PromptCacheEphemeral,
 	})
 
+	// SVG image rendering capability
+	add(PromptPart{
+		ID:      "context.output_policy.svg",
+		Layer:   PromptLayerContext,
+		Slot:    PromptSlotOutput,
+		Source:  PromptSource{ID: PromptSourceOutputPolicy, Name: "svg_render"},
+		Title:   "svg image rendering",
+		Content: "# SVG IMAGES\nThe chat interface can render SVG graphics. You can display an SVG image in two ways: (1) wrap valid SVG markup in a fenced code block whose language tag is \"svg\" — it will be shown to the user both visually and as source code, with a toggle and a \"Copy code\" button; (2) embed an inline image with a data URI, e.g. `![alt](data:image/svg+xml;base64,...)`. Whenever an illustration, schematic, chart, icon, or any visual would make the answer clearer or more engaging, produce an SVG and do not hesitate to use it for more illustrative communication with the user.",
+		Stable:  true,
+		Cache:   PromptCacheEphemeral,
+	})
+
 	stack.Seal()
 	return stack.Parts()
 }
