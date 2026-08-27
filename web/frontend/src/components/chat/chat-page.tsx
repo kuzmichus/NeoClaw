@@ -39,6 +39,8 @@ import { useChatModels } from "@/hooks/use-chat-models"
 import { useGateway } from "@/hooks/use-gateway"
 import { usePicoChat } from "@/hooks/use-pico-chat"
 import { useSessionHistory } from "@/hooks/use-session-history"
+import { useVoiceRecorder } from "@/features/chat/use-voice-recorder"
+import { toast } from "sonner"
 import type { AssistantDetailVisibility } from "@/store/chat"
 import type { ConnectionState } from "@/store/chat"
 import type { ChatAttachment } from "@/store/chat"
@@ -110,6 +112,7 @@ export function ChatPage() {
   const [input, setInput] = useState("")
   const [attachments, setAttachments] = useState<ChatAttachment[]>([])
   const [isDragActive, setIsDragActive] = useState(false)
+
   const [assistantDetailVisibility, setAssistantDetailVisibility] = useAtom(
     assistantDetailVisibilityAtom,
   )
@@ -138,6 +141,19 @@ export function ChatPage() {
     switchSession,
     newChat,
   } = usePicoChat()
+
+  const voiceRecorder = useVoiceRecorder((audio) => {
+    if (sendMessage({ content: "", attachments: [audio] })) {
+      setInput("")
+      setAttachments([])
+    }
+  })
+
+  useEffect(() => {
+    if (voiceRecorder.error) {
+      toast.error(voiceRecorder.error)
+    }
+  }, [voiceRecorder.error])
 
   const { state: gwState } = useGateway()
   const isGatewayRunning = gwState === "running"
@@ -443,6 +459,9 @@ export function ChatPage() {
         attachments={attachments}
         onInputChange={setInput}
         onAddAttachments={handleAddAttachments}
+        onToggleRecord={voiceRecorder.toggle}
+        isRecording={voiceRecorder.isRecording}
+        recordingSupported={voiceRecorder.isSupported}
         onPaste={handleComposerPaste}
         onDragEnter={handleComposerDragEnter}
         onDragLeave={handleComposerDragLeave}
