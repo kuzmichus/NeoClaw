@@ -127,6 +127,77 @@ func TestHandleMessageSend_MaterializesDocumentAttachment(t *testing.T) {
 	}
 }
 
+func TestHandleMessageSend_AcceptsAudioVoiceAttachment(t *testing.T) {
+	ch, msgBus, store := newTestPicoChannelWithMediaStore(t)
+
+	payload := "fake-opus-bytes"
+	ch.handleMessageSend(&picoConn{id: "conn-1", sessionID: "sess-audio"}, PicoMessage{
+		Type:      TypeMessageSend,
+		ID:        "msg-audio-1",
+		SessionID: "sess-audio",
+		Payload: map[string]any{
+			"attachments": []any{
+				map[string]any{
+					"type":         "audio",
+					"url":          "data:audio/webm;base64," + base64.StdEncoding.EncodeToString([]byte(payload)),
+					"filename":     "voice-message.webm",
+					"content_type": "audio/webm",
+				},
+			},
+		},
+	})
+
+	select {
+	case inbound := <-msgBus.InboundChan():
+		if len(inbound.Media) != 1 {
+			t.Fatalf("len(media) = %d, want 1", len(inbound.Media))
+		}
+		ref := inbound.Media[0]
+		if !strings.HasPrefix(ref, "media://") {
+			t.Fatalf("media[0] = %q, want media:// ref", ref)
+		}
+		localPath, meta, err := store.ResolveWithMeta(ref)
+		if err != nil {
+			t.Fatalf("ResolveWithMeta() error = %v", err)
+		}
+		if meta.ContentType != "audio/webm" {
+			t.Fatalf("meta.ContentType = %q, want audio/webm", meta.ContentType)
+		}
+		data, err := os.ReadFile(localPath)
+		if err != nil {
+			t.Fatalf("ReadFile(%q) error = %v", localPath, err)
+		}
+		if string(data) != payload {
+			t.Fatalf("stored file = %q, want %q", data, payload)
+		}
+	case <-time.After(time.Second):
+		t.Fatal("expected inbound pico message with audio")
+	}
+}
+
+func TestIsSupportedInlineMimeType_AcceptsAudio(t *testing.T) {
+	allowed := []string{
+		"audio/webm",
+		"audio/ogg",
+		"audio/mpeg",
+		"audio/wav",
+		"audio/x-m4a",
+		"audio/flac",
+		"audio/aac",
+	}
+	for _, mime := range allowed {
+		if !isSupportedInlineMimeType(mime) {
+			t.Fatalf("isSupportedInlineMimeType(%q) = false, want true", mime)
+		}
+	}
+	if !isSupportedInlineMimeType("audio/unknown-subtype") {
+		t.Fatalf("isSupportedInlineMimeType should accept any audio/* prefix")
+	}
+	if isSupportedInlineMimeType("application/x-weird-audio") {
+		t.Fatalf("isSupportedInlineMimeType should reject non-audio mime")
+	}
+}
+
 func TestHandleMessageSend_KeepsImagesInline(t *testing.T) {
 	ch, msgBus, _ := newTestPicoChannelWithMediaStore(t)
 

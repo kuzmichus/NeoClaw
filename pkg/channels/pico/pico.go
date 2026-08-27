@@ -52,6 +52,34 @@ var inlineAttachmentTypes = map[string]struct{}{
 	"image":    {},
 	"file":     {},
 	"document": {},
+	"audio":    {},
+}
+
+// allowedInlineAudioMIMETypes lists the audio MIME types that may be sent as an
+// inline media/attachment payload (e.g. voice messages recorded in the
+// dashboard). Other audio types are rejected by isSupportedInlineMimeType.
+var allowedInlineAudioMIMETypes = map[string]struct{}{
+	"audio/webm":     {},
+	"audio/ogg":      {},
+	"audio/mpeg":     {},
+	"audio/wav":      {},
+	"audio/x-wav":    {},
+	"audio/x-m4a":    {},
+	"audio/mp4":      {},
+	"audio/flac":     {},
+	"audio/x-flac":   {},
+	"audio/aac":      {},
+	"audio/x-ms-wma": {},
+	"audio/amr":      {},
+}
+
+// isInlineAudioMimeType reports whether the MIME type may be sent as an audio
+// attachment.
+func isInlineAudioMimeType(mimeType string) bool {
+	if _, ok := allowedInlineAudioMIMETypes[mimeType]; ok {
+		return true
+	}
+	return strings.HasPrefix(mimeType, "audio/")
 }
 
 // isInlineDocumentMimeType reports whether the MIME type may be sent as a
@@ -1669,6 +1697,9 @@ func decodeInlineDataURL(mediaURL string) (string, []byte, error) {
 
 func isSupportedInlineMimeType(mimeType string) bool {
 	if _, ok := allowedInlineImageMIMETypes[mimeType]; ok {
+		return true
+	}
+	if isInlineAudioMimeType(mimeType) {
 		return true
 	}
 	return isInlineDocumentMimeType(mimeType)

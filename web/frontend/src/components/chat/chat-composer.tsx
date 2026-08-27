@@ -1,7 +1,9 @@
 import {
   IconArrowUp,
   IconFile,
+  IconMicrophone,
   IconPaperclip,
+  IconPlayerStop,
   IconX,
 } from "@tabler/icons-react"
 import {
@@ -35,6 +37,9 @@ interface ChatComposerProps {
   attachments: ChatAttachment[]
   onInputChange: (value: string) => void
   onAddAttachments: () => void
+  onToggleRecord: () => void
+  isRecording: boolean
+  recordingSupported: boolean
   onPaste: (event: ReactClipboardEvent<HTMLTextAreaElement>) => void
   onDragEnter: (event: ReactDragEvent<HTMLDivElement>) => void
   onDragLeave: (event: ReactDragEvent<HTMLDivElement>) => void
@@ -54,6 +59,9 @@ export function ChatComposer({
   attachments,
   onInputChange,
   onAddAttachments,
+  onToggleRecord,
+  isRecording,
+  recordingSupported,
   onPaste,
   onDragEnter,
   onDragLeave,
@@ -195,6 +203,34 @@ export function ChatComposer({
               >
                 <IconPaperclip className="size-4" />
               </Button>
+
+              {recordingSupported && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "h-8 w-8 rounded-full",
+                    isRecording
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                  onClick={onToggleRecord}
+                  disabled={!canInput}
+                  aria-label={
+                    isRecording ? t("chat.stopRecording") : t("chat.recordVoice")
+                  }
+                  title={
+                    isRecording ? t("chat.stopRecording") : t("chat.recordVoice")
+                  }
+                >
+                  {isRecording ? (
+                    <IconPlayerStop className="size-4" />
+                  ) : (
+                    <IconMicrophone className="size-4" />
+                  )}
+                </Button>
+              )}
             </div>
 
             <div className="flex items-center gap-1.5">
