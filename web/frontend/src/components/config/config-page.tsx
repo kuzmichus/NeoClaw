@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
 
 import { patchAppConfig, resetAppConfig } from "@/api/channels"
+import { getModels } from "@/api/models"
 import { launcherFetch } from "@/api/http"
 import { postLauncherDashboardSetup } from "@/api/launcher-auth"
 import {
@@ -25,6 +26,7 @@ import {
   LauncherSection,
   MCPSection,
   RuntimeSection,
+  VoiceSection,
 } from "@/components/config/config-sections"
 import {
   type CoreConfigForm,
@@ -39,6 +41,7 @@ import {
   parseIntField,
   parseJSONObjectField,
   parseMultilineList,
+  parseJSONObjectFieldAny,
 } from "@/components/config/form-model"
 import { PageHeader } from "@/components/page-header"
 import {
@@ -142,6 +145,19 @@ export function ConfigPage() {
     queryFn: getSystemVersionInfo,
     staleTime: 5 * 60 * 1000,
   })
+
+  const { data: modelsData } = useQuery({
+    queryKey: ["models"],
+    queryFn: getModels,
+    staleTime: 30 * 1000,
+  })
+
+  const voiceModelOptions = (modelsData?.models ?? [])
+    .filter((model) => model.model_name && model.model_name.trim() !== "")
+    .map((model) => ({
+      value: model.model_name,
+      label: model.model_name,
+    }))
 
   const {
     data: autoStartStatus,
@@ -632,6 +648,17 @@ export function ConfigPage() {
             enabled: form.devicesEnabled,
             monitor_usb: form.monitorUSB,
           },
+          voice: {
+            model_name: form.voiceSTTModel.trim() || null,
+            tts_model_name: form.voiceTTSModel.trim() || null,
+            echo_transcription: form.voiceEchoTranscription,
+            elevenlabs_api_key:
+              form.voiceElevenLabsAPIKey.trim() || null,
+            extra_body: parseJSONObjectFieldAny(
+              form.voiceExtraText,
+              "Voice extra",
+            ),
+          },
         })
 
         setBaseline(form)
@@ -846,6 +873,12 @@ export function ConfigPage() {
                   saving
                 }
                 onAutoStartChange={setAutoStartEnabled}
+              />
+
+              <VoiceSection
+                form={form}
+                onFieldChange={updateField}
+                modelOptions={voiceModelOptions}
               />
 
               {!isDirty && actionButtons}
