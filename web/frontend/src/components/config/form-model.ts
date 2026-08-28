@@ -40,6 +40,11 @@ export interface CoreConfigForm {
   evolutionMinSuccessRatio: string
   evolutionColdPathTrigger: string
   evolutionColdPathTimesText: string
+  voiceSTTModel: string
+  voiceTTSModel: string
+  voiceEchoTranscription: boolean
+  voiceElevenLabsAPIKey: string
+  voiceExtraText: string
 }
 
 export type MCPServerType = "http" | "sse" | "stdio"
@@ -159,6 +164,11 @@ export const EMPTY_FORM: CoreConfigForm = {
   evolutionMinSuccessRatio: "0.7",
   evolutionColdPathTrigger: "after_turn",
   evolutionColdPathTimesText: "",
+  voiceSTTModel: "",
+  voiceTTSModel: "",
+  voiceEchoTranscription: false,
+  voiceElevenLabsAPIKey: "",
+  voiceExtraText: "",
 }
 
 export const EMPTY_LAUNCHER_FORM: LauncherForm = {
@@ -296,6 +306,7 @@ export function buildFormFromConfig(config: unknown): CoreConfigForm {
   const heartbeat = asRecord(root.heartbeat)
   const devices = asRecord(root.devices)
   const evolution = asRecord(root.evolution)
+  const voice = asRecord(root.voice)
   const tools = asRecord(root.tools)
   const mcp = asRecord(tools.mcp)
   const mcpDiscovery = asRecord(mcp.discovery)
@@ -440,6 +451,14 @@ export function buildFormFromConfig(config: unknown): CoreConfigForm {
           .filter((value): value is string => typeof value === "string")
           .join("\n")
       : EMPTY_FORM.evolutionColdPathTimesText,
+    voiceSTTModel: asString(voice.model_name),
+    voiceTTSModel: asString(voice.tts_model_name),
+    voiceEchoTranscription: asBool(voice.echo_transcription),
+    voiceElevenLabsAPIKey: asString(voice.elevenlabs_api_key),
+    voiceExtraText:
+      voice.extra_body === undefined
+        ? ""
+        : JSON.stringify(voice.extra_body, null, 2),
   }
 }
 
@@ -528,4 +547,27 @@ export function parseJSONObjectField(
     result[key] = value
   }
   return result
+}
+
+export function parseJSONObjectFieldAny(
+  rawValue: string,
+  label: string,
+): Record<string, unknown> {
+  const trimmed = rawValue.trim()
+  if (trimmed === "") {
+    return {}
+  }
+
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(trimmed)
+  } catch {
+    throw new Error(`${label} must be valid JSON.`)
+  }
+
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error(`${label} must be a JSON object.`)
+  }
+
+  return parsed as Record<string, unknown>
 }
