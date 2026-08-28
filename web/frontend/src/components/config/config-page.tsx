@@ -857,6 +857,12 @@ export function ConfigPage() {
 
               <EvolutionSection form={form} onFieldChange={updateField} />
 
+              <VoiceSection
+                form={form}
+                onFieldChange={updateField}
+                modelOptions={voiceModelOptions}
+              />
+
               <MCPSection
                 form={form}
                 onFieldChange={updateField}
@@ -881,12 +887,6 @@ export function ConfigPage() {
                   saving
                 }
                 onAutoStartChange={setAutoStartEnabled}
-              />
-
-              <VoiceSection
-                form={form}
-                onFieldChange={updateField}
-                modelOptions={voiceModelOptions}
               />
 
               {!isDirty && actionButtons}
