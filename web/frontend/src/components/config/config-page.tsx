@@ -654,10 +654,13 @@ export function ConfigPage() {
             echo_transcription: form.voiceEchoTranscription,
             elevenlabs_api_key:
               form.voiceElevenLabsAPIKey.trim() || null,
-            extra_body: parseJSONObjectFieldAny(
-              form.voiceExtraText,
-              "Voice extra",
-            ),
+            extra_body: (() => {
+              const extra = parseJSONObjectFieldAny(
+                form.voiceExtraText,
+                "Voice extra",
+              )
+              return Object.keys(extra).length === 0 ? null : extra
+            })(),
           },
         })
 
