@@ -157,7 +157,6 @@ export function ConfigPage() {
       (model) =>
         model.model_name &&
         model.model_name.trim() !== "" &&
-        model.enabled &&
         model.status === "available",
     )
     .map((model) => ({
