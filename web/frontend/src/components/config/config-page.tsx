@@ -153,7 +153,13 @@ export function ConfigPage() {
   })
 
   const voiceModelOptions = (modelsData?.models ?? [])
-    .filter((model) => model.model_name && model.model_name.trim() !== "")
+    .filter(
+      (model) =>
+        model.model_name &&
+        model.model_name.trim() !== "" &&
+        model.enabled &&
+        model.status === "available",
+    )
     .map((model) => ({
       value: model.model_name,
       label: model.model_name,
