@@ -19,10 +19,10 @@ import (
 
 	"github.com/creack/pty"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/constants"
-	"github.com/sipeed/picoclaw/pkg/isolation"
-	"github.com/sipeed/picoclaw/pkg/logger"
+	"github.com/kuzmichus/neoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/pkg/constants"
+	"github.com/kuzmichus/neoclaw/pkg/isolation"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
 )
 
 var (

@@ -3,9 +3,9 @@ package version
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/sipeed/picoclaw/cmd/picoclaw/internal"
-	"github.com/sipeed/picoclaw/cmd/picoclaw/internal/cliui"
-	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/kuzmichus/neoclaw/cmd/picoclaw/internal"
+	"github.com/kuzmichus/neoclaw/cmd/picoclaw/internal/cliui"
+	"github.com/kuzmichus/neoclaw/pkg/config"
 )
 
 func NewVersionCommand() *cobra.Command {

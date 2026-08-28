@@ -15,10 +15,10 @@ import (
 
 	"github.com/caarlos0/env/v11"
 
-	"github.com/sipeed/picoclaw/pkg"
-	"github.com/sipeed/picoclaw/pkg/fileutil"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	providercommon "github.com/sipeed/picoclaw/pkg/providers/common"
+	"github.com/kuzmichus/neoclaw/pkg"
+	"github.com/kuzmichus/neoclaw/pkg/fileutil"
+	"github.com/kuzmichus/neoclaw/pkg/logger"
+	providercommon "github.com/kuzmichus/neoclaw/pkg/providers/common"
 )
 
 // rrCounter is a global counter for round-robin load balancing across models.
@@ -761,10 +761,11 @@ type DevicesConfig struct {
 }
 
 type VoiceConfig struct {
-	ModelName         string `json:"model_name,omitempty"         env:"PICOCLAW_VOICE_MODEL_NAME"`
-	TTSModelName      string `json:"tts_model_name,omitempty"     env:"PICOCLAW_VOICE_TTS_MODEL_NAME"`
-	EchoTranscription bool   `json:"echo_transcription"           env:"PICOCLAW_VOICE_ECHO_TRANSCRIPTION"`
-	ElevenLabsAPIKey  string `json:"elevenlabs_api_key,omitempty" env:"PICOCLAW_VOICE_ELEVENLABS_API_KEY"`
+	ModelName         string         `json:"model_name,omitempty"         env:"PICOCLAW_VOICE_MODEL_NAME"`
+	TTSModelName      string         `json:"tts_model_name,omitempty"     env:"PICOCLAW_VOICE_TTS_MODEL_NAME"`
+	EchoTranscription bool           `json:"echo_transcription"           env:"PICOCLAW_VOICE_ECHO_TRANSCRIPTION"`
+	ElevenLabsAPIKey  string         `json:"elevenlabs_api_key,omitempty" env:"PICOCLAW_VOICE_ELEVENLABS_API_KEY"`
+	ExtraBody         map[string]any `json:"extra_body,omitempty"         env:"PICOCLAW_VOICE_EXTRA_BODY"`
 }
 
 type ModelStreamingConfig struct {

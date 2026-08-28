@@ -16,8 +16,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/providers/common"
-	"github.com/sipeed/picoclaw/pkg/providers/protocoltypes"
+	"github.com/kuzmichus/neoclaw/pkg/providers/common"
+	"github.com/kuzmichus/neoclaw/pkg/providers/protocoltypes"
 )
 
 type (

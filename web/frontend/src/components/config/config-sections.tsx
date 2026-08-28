@@ -1323,3 +1323,151 @@ export function DevicesSection({
     </ConfigSectionCard>
   )
 }
+
+export interface VoiceModelOption {
+  value: string
+  label: string
+}
+
+interface VoiceSectionProps {
+  form: CoreConfigForm
+  onFieldChange: UpdateCoreField
+  modelOptions: VoiceModelOption[]
+}
+
+export function VoiceSection({
+  form,
+  onFieldChange,
+  modelOptions,
+}: VoiceSectionProps) {
+  const { t } = useTranslation()
+  const [extraError, setExtraError] = useState<string | null>(null)
+
+  const handleExtraChange = (raw: string) => {
+    onFieldChange("voiceExtraText", raw)
+    if (raw.trim() === "") {
+      setExtraError(null)
+      return
+    }
+    try {
+      const parsed: unknown = JSON.parse(raw)
+      if (
+        !parsed ||
+        typeof parsed !== "object" ||
+        Array.isArray(parsed)
+      ) {
+        throw new Error("not-an-object")
+      }
+      setExtraError(null)
+    } catch {
+      setExtraError(t("pages.config.voice_extra_invalid_json"))
+    }
+  }
+
+  return (
+    <ConfigSectionCard
+      title={t("pages.config.sections.voice")}
+      description={t("pages.config.voice_section_hint")}
+    >
+      <Field
+        label={t("pages.config.voice_stt_model")}
+        hint={t("pages.config.voice_stt_model_hint")}
+        layout="setting-row"
+      >
+        <Select
+          value={form.voiceSTTModel || "__none__"}
+          onValueChange={(value) =>
+            onFieldChange("voiceSTTModel", value === "__none__" ? "" : value)
+          }
+        >
+          <SelectTrigger aria-label={t("pages.config.voice_stt_model")}>
+            <SelectValue
+              placeholder={t("pages.config.voice_model_none")}
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="__none__">
+              {t("pages.config.voice_model_none")}
+            </SelectItem>
+            {modelOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </Field>
+
+      <Field
+        label={t("pages.config.voice_tts_model")}
+        hint={t("pages.config.voice_tts_model_hint")}
+        layout="setting-row"
+      >
+        <Select
+          value={form.voiceTTSModel || "__none__"}
+          onValueChange={(value) =>
+            onFieldChange("voiceTTSModel", value === "__none__" ? "" : value)
+          }
+        >
+          <SelectTrigger aria-label={t("pages.config.voice_tts_model")}>
+            <SelectValue
+              placeholder={t("pages.config.voice_model_none")}
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="__none__">
+              {t("pages.config.voice_model_none")}
+            </SelectItem>
+            {modelOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </Field>
+
+      <SwitchCardField
+        label={t("pages.config.voice_echo_transcription")}
+        hint={t("pages.config.voice_echo_transcription_hint")}
+        layout="setting-row"
+        checked={form.voiceEchoTranscription}
+        onCheckedChange={(checked) =>
+          onFieldChange("voiceEchoTranscription", checked)
+        }
+      />
+
+      <Field
+        label={t("pages.config.voice_elevenlabs_api_key")}
+        hint={t("pages.config.voice_elevenlabs_api_key_hint")}
+        layout="setting-row"
+        controlClassName="md:max-w-md"
+      >
+        <Input
+          type="password"
+          value={form.voiceElevenLabsAPIKey}
+          autoComplete="new-password"
+          placeholder={t("pages.config.voice_elevenlabs_api_key_placeholder")}
+          onChange={(e) =>
+            onFieldChange("voiceElevenLabsAPIKey", e.target.value)
+          }
+        />
+      </Field>
+
+      <Field
+        label={t("pages.config.voice_extra")}
+        hint={t("pages.config.voice_extra_hint")}
+        layout="setting-row"
+        controlClassName="md:max-w-2xl"
+        error={extraError ?? undefined}
+      >
+        <Textarea
+          value={form.voiceExtraText}
+          placeholder={'{\n  "voice": "alloy",\n  "response_format": "mp3"\n}'}
+          className="min-h-[120px] font-mono text-xs"
+          onChange={(e) => handleExtraChange(e.target.value)}
+        />
+      </Field>
+    </ConfigSectionCard>
+  )
+}

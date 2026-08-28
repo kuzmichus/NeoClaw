@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"path/filepath"
 
-	"github.com/sipeed/picoclaw/pkg"
+	"github.com/kuzmichus/neoclaw/pkg"
 )
 
 // DefaultConfig returns the default configuration for PicoClaw.

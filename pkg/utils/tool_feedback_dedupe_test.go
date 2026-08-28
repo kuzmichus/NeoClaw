@@ -3,7 +3,7 @@ package utils
 import (
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg/providers"
+	"github.com/kuzmichus/neoclaw/pkg/providers"
 )
 
 func TestToolCallExplanationDuplicatesContent(t *testing.T) {
