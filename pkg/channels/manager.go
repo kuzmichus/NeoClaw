@@ -95,6 +95,7 @@ type Manager struct {
 	mux                       *dynamicServeMux
 	httpServer                *http.Server
 	httpListeners             []net.Listener
+	extraRoutes               []routeEntry
 	mu                        sync.RWMutex
 	placeholders              sync.Map          // "channel:chatID" → placeholderID (string)
 	typingStops               sync.Map          // "channel:chatID" → func()
@@ -106,6 +107,13 @@ type Manager struct {
 
 type mediaStoreSetter interface {
 	SetMediaStore(s media.MediaStore)
+}
+
+// routeEntry is a deferred HTTP route registration applied once the shared
+// gateway mux has been created by SetupHTTPServerListeners.
+type routeEntry struct {
+	pattern string
+	handler http.HandlerFunc
 }
 
 // ManagerOption configures a channel Manager.
@@ -1191,6 +1199,15 @@ func (m *Manager) SetupHTTPServer(addr string, healthServer *health.Server) {
 func (m *Manager) SetupHTTPServerListeners(listeners []net.Listener, addr string, healthServer *health.Server) {
 	m.mux = newDynamicServeMux()
 
+	// Apply any routes registered before the shared mux existed.
+	m.mu.Lock()
+	extra := m.extraRoutes
+	m.extraRoutes = nil
+	m.mu.Unlock()
+	for _, e := range extra {
+		m.mux.HandleFunc(e.pattern, e.handler)
+	}
+
 	// Register health endpoints
 	if healthServer != nil {
 		healthServer.RegisterOnMux(m.mux)
@@ -1241,6 +1258,20 @@ func (m *Manager) registerChannelHTTPHandler(name string, ch Channel) {
 			"path":    hc.HealthPath(),
 		})
 	}
+}
+
+// RegisterRoute registers an extra HTTP handler on the shared gateway mux,
+// for non-channel endpoints (e.g. cron management). It may be called before
+// or after SetupHTTPServerListeners; if the mux does not exist yet the
+// registration is deferred until the next setup.
+func (m *Manager) RegisterRoute(pattern string, handler http.HandlerFunc) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.mux == nil {
+		m.extraRoutes = append(m.extraRoutes, routeEntry{pattern: pattern, handler: handler})
+		return
+	}
+	m.mux.HandleFunc(pattern, handler)
 }
 
 // unregisterChannelHTTPHandler removes the webhook/health handlers for a

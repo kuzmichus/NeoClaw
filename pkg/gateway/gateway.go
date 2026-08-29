@@ -497,6 +497,8 @@ func setupAndStartServices(
 		runningServices.HealthServer,
 	)
 
+	runningServices.registerCronRoutes(agentLoop)
+
 	if err = runningServices.ChannelManager.StartAll(context.Background()); err != nil {
 		return nil, fmt.Errorf("error starting channels: %w", err)
 	}
