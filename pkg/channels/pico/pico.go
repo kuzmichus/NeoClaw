@@ -24,6 +24,7 @@ import (
 	"github.com/kuzmichus/neoclaw/pkg/identity"
 	"github.com/kuzmichus/neoclaw/pkg/logger"
 	"github.com/kuzmichus/neoclaw/pkg/media"
+	"github.com/kuzmichus/neoclaw/pkg/session"
 	"github.com/kuzmichus/neoclaw/pkg/utils"
 )
 
@@ -1344,6 +1345,14 @@ func (c *PicoChannel) handleMessageSend(pc *picoConn, msg PicoMessage) {
 		SenderID:  senderID,
 		MessageID: msg.ID,
 		Raw:       metadata,
+	}
+
+	// When the client resumes an existing session it passes the stored
+	// opaque session key (sk_v1_…) as the pico session id. Use it directly
+	// as the agent session key so history is recovered; otherwise the agent
+	// would re-derive a different key from "pico:<key>" and start fresh.
+	if session.IsExplicitSessionKey(sessionID) {
+		inboundCtx.SessionKey = sessionID
 	}
 
 	c.HandleInboundContext(c.ctx, chatID, content, media, inboundCtx, sender)

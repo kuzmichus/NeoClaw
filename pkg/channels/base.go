@@ -310,6 +310,12 @@ func (c *BaseChannel) HandleMessageWithContext(
 		Media:      media,
 		MediaScope: scope,
 	}
+	// Honor an explicit session key (e.g. an opaque sk_v1_… key supplied by a
+	// client when resuming a session) so the agent reuses the existing history
+	// rather than hashing the chat id into a fresh key.
+	if inboundCtx.SessionKey != "" {
+		msg.SessionKey = inboundCtx.SessionKey
+	}
 	msg = bus.NormalizeInboundMessage(msg)
 
 	// Auto-trigger typing indicator, message reaction, and placeholder before publishing.
