@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kuzmichus/neoclaw/pkg/agent"
 	"github.com/kuzmichus/neoclaw/pkg/config"
 	"github.com/kuzmichus/neoclaw/pkg/memory"
 	"github.com/kuzmichus/neoclaw/pkg/providers"
@@ -26,6 +27,7 @@ func (h *Handler) registerSessionRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/sessions/all", h.handleListAllSessions)
 	mux.HandleFunc("GET /api/sessions/{id}", h.handleGetSession)
 	mux.HandleFunc("DELETE /api/sessions/{id}", h.handleDeleteSession)
+	mux.HandleFunc("GET /api/sessions/{id}/prompt", h.handleGetSessionPrompt)
 }
 
 // sessionFile mirrors the on-disk session JSON structure from pkg/session.
@@ -46,6 +48,19 @@ type sessionListItem struct {
 	Created      string `json:"created"`
 	Updated      string `json:"updated"`
 	Channel      string `json:"channel,omitempty"`
+}
+
+// sessionPromptMessage is a single reconstructed message from the LLM request.
+type sessionPromptMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
+// sessionPromptResponse is returned by GET /api/sessions/{id}/prompt.
+type sessionPromptResponse struct {
+	ID       string                 `json:"id"`
+	Messages []sessionPromptMessage `json:"messages"`
+	Note     string                 `json:"note,omitempty"`
 }
 
 type sessionChatMessage struct {
@@ -1044,25 +1059,13 @@ func (h *Handler) handleListAllSessions(w http.ResponseWriter, r *http.Request) 
 	writeSessionListPage(w, r, items)
 }
 
-// handleGetSession returns the full message history for a specific session.
-//
-//	GET /api/sessions/{id}
-func (h *Handler) handleGetSession(w http.ResponseWriter, r *http.Request) {
-	sessionID := r.PathValue("id")
-	if sessionID == "" {
-		http.Error(w, "missing session id", http.StatusBadRequest)
-		return
-	}
-
-	dir, toolFeedbackMaxArgsLength, err := h.sessionRuntimeSettings()
-	if err != nil {
-		http.Error(w, "failed to resolve sessions directory", http.StatusInternalServerError)
-		return
-	}
-
+// loadSessionByID resolves a session by public ID across Pico, legacy Pico and
+// any-channel JSONL stores, returning the canonical ref and parsed session file.
+// It mirrors the lookup precedence used by the session detail endpoint.
+func (h *Handler) loadSessionByID(dir, sessionID string) (picoJSONLSessionRef, sessionFile, error) {
 	ref, refErr := h.findPicoJSONLSession(dir, sessionID)
 	var sess sessionFile
-	err = refErr
+	err := refErr
 	if refErr == nil {
 		sess, err = h.readJSONLSession(dir, ref.Key)
 	}
@@ -1087,13 +1090,36 @@ func (h *Handler) handleGetSession(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if err != nil {
-			if errors.Is(err, os.ErrNotExist) {
-				http.Error(w, "session not found", http.StatusNotFound)
-			} else {
-				http.Error(w, "failed to parse session", http.StatusInternalServerError)
-			}
-			return
+			return picoJSONLSessionRef{}, sessionFile{}, err
 		}
+	}
+	return ref, sess, nil
+}
+
+// handleGetSession returns the full message history for a specific session.
+//
+//	GET /api/sessions/{id}
+func (h *Handler) handleGetSession(w http.ResponseWriter, r *http.Request) {
+	sessionID := r.PathValue("id")
+	if sessionID == "" {
+		http.Error(w, "missing session id", http.StatusBadRequest)
+		return
+	}
+
+	dir, toolFeedbackMaxArgsLength, err := h.sessionRuntimeSettings()
+	if err != nil {
+		http.Error(w, "failed to resolve sessions directory", http.StatusInternalServerError)
+		return
+	}
+
+	_, sess, err := h.loadSessionByID(dir, sessionID)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			http.Error(w, "session not found", http.StatusNotFound)
+		} else {
+			http.Error(w, "failed to parse session", http.StatusInternalServerError)
+		}
+		return
 	}
 
 	for i := range sess.Messages {
@@ -1111,6 +1137,82 @@ func (h *Handler) handleGetSession(w http.ResponseWriter, r *http.Request) {
 		"created":  sess.Created.Format(time.RFC3339),
 		"updated":  sess.Updated.Format(time.RFC3339),
 	})
+}
+
+// handleGetSessionPrompt returns the assembled prompt that would be sent to the
+// LLM for a session: the system prompt, any compressed summary, and the active
+// message history. It reconstructs the live request payload (minus tool-call
+// schemas) so users can inspect what the model actually receives.
+//
+//	GET /api/sessions/{id}/prompt
+func (h *Handler) handleGetSessionPrompt(w http.ResponseWriter, r *http.Request) {
+	sessionID := r.PathValue("id")
+	if sessionID == "" {
+		http.Error(w, "missing session id", http.StatusBadRequest)
+		return
+	}
+
+	dir, err := h.sessionsDir()
+	if err != nil {
+		http.Error(w, "failed to resolve sessions directory", http.StatusInternalServerError)
+		return
+	}
+
+	_, sess, err := h.loadSessionByID(dir, sessionID)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			http.Error(w, "session not found", http.StatusNotFound)
+		} else {
+			http.Error(w, "failed to parse session", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	cfg, err := config.LoadConfig(h.configPath)
+	if err != nil {
+		http.Error(w, "failed to load config", http.StatusInternalServerError)
+		return
+	}
+	workspace := resolveWorkspace(cfg.Agents.Defaults.Workspace)
+	budget := cfg.Agents.Defaults.ContextWindow
+	if budget <= 0 {
+		budget = 200000
+	}
+
+	summary := agent.ResolveSessionSummary(workspace, sess.Key, budget, sess.Summary)
+	messages := agent.BuildSessionPromptView(workspace, sess.Messages, summary)
+
+	out := sessionPromptResponse{
+		ID:   sessionID,
+		Note: "Tool-call schemas and over-budget history trimming are not included in this reconstruction.",
+	}
+	for _, msg := range messages {
+		out.Messages = append(out.Messages, sessionPromptMessage{
+			Role:    msg.Role,
+			Content: msg.Content,
+		})
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(out)
+}
+
+// resolveWorkspace returns an absolute workspace path, expanding a leading "~"
+// and falling back to the default location when empty.
+func resolveWorkspace(workspace string) string {
+	if workspace == "" {
+		home, _ := os.UserHomeDir()
+		workspace = filepath.Join(home, ".picoclaw", "workspace")
+	}
+	if len(workspace) > 0 && workspace[0] == '~' {
+		home, _ := os.UserHomeDir()
+		if len(workspace) > 1 && workspace[1] == '/' {
+			workspace = home + workspace[1:]
+		} else {
+			workspace = home
+		}
+	}
+	return workspace
 }
 
 // handleDeleteSession deletes a specific session.
