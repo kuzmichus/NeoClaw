@@ -317,7 +317,7 @@ export function SessionsPage() {
           }
         }}
       >
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-4xl w-[95vw] max-h-[85vh] overflow-hidden">
           <DialogHeader>
             <DialogTitle>{t("sessions.promptTitle")}</DialogTitle>
             <DialogDescription>{promptSession?.title}</DialogDescription>
@@ -327,14 +327,14 @@ export function SessionsPage() {
               {t("sessions.loading")}
             </div>
           ) : promptData ? (
-            <ScrollArea className="max-h-[60vh] pr-3">
+            <ScrollArea className="max-h-[70vh] w-full overflow-x-hidden pr-3">
               <div className="flex flex-col gap-3">
                 {promptData.messages.map((msg, i) => (
-                  <div key={i} className="rounded-lg border p-3">
+                  <div key={i} className="min-w-0 rounded-lg border p-3">
                     <Badge variant="secondary" className="mb-2">
                       {msg.role}
                     </Badge>
-                    <pre className="whitespace-pre-wrap break-words text-xs">
+                    <pre className="min-w-0 whitespace-pre-wrap break-words text-xs">
                       {msg.content}
                     </pre>
                   </div>
