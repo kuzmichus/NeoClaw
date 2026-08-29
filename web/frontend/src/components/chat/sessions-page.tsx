@@ -317,7 +317,7 @@ export function SessionsPage() {
           }
         }}
       >
-        <DialogContent className="!flex w-[95vw] max-w-[1400px] max-h-[90vh] flex-col gap-4 overflow-hidden">
+        <DialogContent className="!flex !w-[95vw] !max-w-[1600px] max-h-[90vh] flex-col gap-4 overflow-hidden">
           <DialogHeader>
             <DialogTitle>{t("sessions.promptTitle")}</DialogTitle>
             <DialogDescription>{promptSession?.title}</DialogDescription>
