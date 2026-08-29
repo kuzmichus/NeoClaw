@@ -1,4 +1,5 @@
 import {
+  IconFileText,
   IconHistory,
   IconMessageCircle,
   IconRefresh,
@@ -11,9 +12,11 @@ import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 
 import {
+  type SessionPrompt,
   type SessionSummary,
   deleteSession,
   getAllSessions,
+  getSessionPrompt,
 } from "@/api/sessions"
 import { PageHeader } from "@/components/page-header"
 import {
@@ -28,6 +31,13 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { switchChatSession } from "@/features/chat/controller"
 
@@ -46,6 +56,10 @@ export function SessionsPage() {
     null,
   )
   const [isDeleting, setIsDeleting] = useState(false)
+
+  const [promptSession, setPromptSession] = useState<SessionSummary | null>(null)
+  const [promptData, setPromptData] = useState<SessionPrompt | null>(null)
+  const [isLoadingPrompt, setIsLoadingPrompt] = useState(false)
 
   const loadSessions = useCallback(
     async (reset: boolean) => {
@@ -86,6 +100,20 @@ export function SessionsPage() {
       await navigate({ to: "/" })
     } catch {
       toast.error(t("sessions.openFailed"))
+    }
+  }
+
+  const handleViewPrompt = async (session: SessionSummary) => {
+    setPromptSession(session)
+    setPromptData(null)
+    setIsLoadingPrompt(true)
+    try {
+      const data = await getSessionPrompt(session.id)
+      setPromptData(data)
+    } catch {
+      toast.error(t("sessions.promptFailed"))
+    } finally {
+      setIsLoadingPrompt(false)
     }
   }
 
@@ -190,6 +218,18 @@ export function SessionsPage() {
                         <Button
                           variant="ghost"
                           size="icon"
+                          aria-label={t("sessions.viewPrompt")}
+                          title={t("sessions.viewPrompt")}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            void handleViewPrompt(session)
+                          }}
+                        >
+                          <IconFileText className="size-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           aria-label={t("sessions.openInChat")}
                           title={t("sessions.openInChat")}
                           onClick={(e) => {
@@ -268,6 +308,49 @@ export function SessionsPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog
+        open={promptSession !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPromptSession(null)
+          }
+        }}
+      >
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{t("sessions.promptTitle")}</DialogTitle>
+            <DialogDescription>{promptSession?.title}</DialogDescription>
+          </DialogHeader>
+          {isLoadingPrompt ? (
+            <div className="text-muted-foreground py-8 text-center">
+              {t("sessions.loading")}
+            </div>
+          ) : promptData ? (
+            <ScrollArea className="max-h-[60vh] pr-3">
+              <div className="flex flex-col gap-3">
+                {promptData.messages.map((msg, i) => (
+                  <div key={i} className="rounded-lg border p-3">
+                    <Badge variant="secondary" className="mb-2">
+                      {msg.role}
+                    </Badge>
+                    <pre className="whitespace-pre-wrap break-words text-xs">
+                      {msg.content}
+                    </pre>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          ) : (
+            <div className="text-destructive py-8 text-center">
+              {t("sessions.promptFailed")}
+            </div>
+          )}
+          {promptData?.note && (
+            <p className="text-muted-foreground text-xs">{promptData.note}</p>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
