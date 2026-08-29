@@ -1179,8 +1179,7 @@ func (h *Handler) handleGetSessionPrompt(w http.ResponseWriter, r *http.Request)
 		budget = 200000
 	}
 
-	summary := agent.ResolveSessionSummary(workspace, sess.Key, budget, sess.Summary)
-	messages := agent.BuildSessionPromptView(workspace, sess.Messages, summary)
+	messages := agent.BuildSessionPromptView(workspace, sess.Key, budget, sess.Messages, sess.Summary)
 
 	out := sessionPromptResponse{
 		ID:   sessionID,

@@ -13,7 +13,7 @@ func TestBuildSessionPromptView(t *testing.T) {
 		{Role: "assistant", Content: "hi there"},
 	}
 
-	msgs := BuildSessionPromptView(t.TempDir(), history, "prior summary")
+	msgs := BuildSessionPromptView(t.TempDir(), "session-test", 200000, history, "prior summary")
 
 	if len(msgs) == 0 {
 		t.Fatal("expected at least one message")
