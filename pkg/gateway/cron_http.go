@@ -107,7 +107,8 @@ func (a *cronAPI) validateCommand(channel, to, command string) error {
 	if !cfg.Tools.Cron.AllowCommand {
 		return errors.New("command execution is disabled (tools.cron.allow_command)")
 	}
-	if !constants.IsInternalChannel(channel) && !isCronCommandAllowedRemote(channel, to, cfg.Tools.Cron.CommandAllowedRemotes) {
+	allowedRemotes := cfg.Tools.Cron.CommandAllowedRemotes
+	if !constants.IsInternalChannel(channel) && !isCronCommandAllowedRemote(channel, to, allowedRemotes) {
 		return errors.New("command execution is restricted to internal channels or configured remote channels")
 	}
 	return nil
