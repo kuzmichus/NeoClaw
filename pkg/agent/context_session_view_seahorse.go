@@ -19,7 +19,12 @@ import (
 // When seahorse is unavailable for the workspace, or holds no data for the
 // session, it falls back to the raw JSONL history and meta summary so the view
 // still reproduces the uncompressed portion of the conversation.
-func resolveSessionContext(workspace, sessionKey string, budget int, fallbackHistory []providers.Message, fallbackSummary string) ([]providers.Message, string) {
+func resolveSessionContext(
+	workspace, sessionKey string,
+	budget int,
+	fallbackHistory []providers.Message,
+	fallbackSummary string,
+) ([]providers.Message, string) {
 	if budget <= 0 {
 		budget = 200000
 	}
@@ -38,7 +43,11 @@ func resolveSessionContext(workspace, sessionKey string, budget int, fallbackHis
 	}
 	defer engine.Close()
 
-	result, err := engine.Assemble(context.Background(), sessionKey, seahorse.AssembleInput{Budget: budget})
+	result, err := engine.Assemble(
+		context.Background(),
+		sessionKey,
+		seahorse.AssembleInput{Budget: budget},
+	)
 	if err != nil || result == nil {
 		return fallbackHistory, fallbackSummary
 	}

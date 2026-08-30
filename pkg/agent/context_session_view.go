@@ -16,8 +16,19 @@ import "github.com/kuzmichus/neoclaw/pkg/providers"
 // Tool-call schemas are intentionally omitted (they require the live agent's
 // tool registry) and over-budget history trimming is not reproduced, since this
 // view is meant for human inspection of the conversation context.
-func BuildSessionPromptView(workspace, sessionKey string, budget int, fallbackHistory []providers.Message, fallbackSummary string) []providers.Message {
-	history, summary := resolveSessionContext(workspace, sessionKey, budget, fallbackHistory, fallbackSummary)
+func BuildSessionPromptView(
+	workspace, sessionKey string,
+	budget int,
+	fallbackHistory []providers.Message,
+	fallbackSummary string,
+) []providers.Message {
+	history, summary := resolveSessionContext(
+		workspace,
+		sessionKey,
+		budget,
+		fallbackHistory,
+		fallbackSummary,
+	)
 	cb := NewContextBuilder(workspace)
 	req := PromptBuildRequest{
 		History: history,
