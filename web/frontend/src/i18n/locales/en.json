@@ -184,7 +184,10 @@
     "openFailed": "Failed to open this session in chat",
     "deleteFailed": "Failed to delete session",
     "deleteTitle": "Delete session?",
-    "deleteDescription": "The session \"{{phrase}}\" will be permanently deleted."
+    "deleteDescription": "The session \"{{phrase}}\" will be permanently deleted.",
+    "viewPrompt": "View prompt sent to AI",
+    "promptTitle": "Prompt sent to the AI",
+    "promptFailed": "Failed to load session prompt"
   },
   "common": {
     "cancel": "Cancel",

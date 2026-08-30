@@ -69,6 +69,43 @@ func TestHandleMessageSend_ForwardsMessageMetadata(t *testing.T) {
 	}
 }
 
+func TestHandleMessageSend_ResumesExplicitSessionKey(t *testing.T) {
+	msgBus := bus.NewMessageBus()
+	bc := &config.Channel{Type: config.ChannelPico, Enabled: true}
+	cfg := &config.PicoSettings{}
+	cfg.SetToken("test-token")
+	ch, err := NewPicoChannel(bc, cfg, msgBus)
+	if err != nil {
+		t.Fatalf("NewPicoChannel: %v", err)
+	}
+	ch.ctx = context.Background()
+
+	// A client resuming a stored session passes the opaque key (sk_v1_…) as the
+	// pico session id. The agent must reuse that exact key to recover history
+	// instead of hashing "pico:<key>" into a fresh session.
+	const storedKey = "sk_v1_abc123def456abc123def456abc123def456abc123def456abc123def456ab"
+	ch.handleMessageSend(&picoConn{id: "conn-1", sessionID: storedKey}, PicoMessage{
+		Type:      TypeMessageSend,
+		ID:        "msg-1",
+		SessionID: storedKey,
+		Payload: map[string]any{
+			PayloadKeyContent: "continue where we left off",
+		},
+	})
+
+	select {
+	case inbound := <-msgBus.InboundChan():
+		if inbound.SessionKey != storedKey {
+			t.Fatalf("SessionKey = %q, want %q", inbound.SessionKey, storedKey)
+		}
+		if got := inbound.Context.Raw["session_id"]; got != storedKey {
+			t.Fatalf("session_id raw = %q, want %q", got, storedKey)
+		}
+	case <-time.After(time.Second):
+		t.Fatal("expected inbound pico message")
+	}
+}
+
 func TestFinalizeTrackedToolFeedbackMessage_StopsTrackingBeforeEdit(t *testing.T) {
 	ch := &PicoChannel{
 		progress: channels.NewToolFeedbackAnimator(nil),

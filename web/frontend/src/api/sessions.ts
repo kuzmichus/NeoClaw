@@ -82,6 +82,27 @@ export async function getSessionHistory(id: string): Promise<SessionDetail> {
   return res.json()
 }
 
+export interface SessionPromptMessage {
+  role: string
+  content: string
+}
+
+export interface SessionPrompt {
+  id: string
+  messages: SessionPromptMessage[]
+  note?: string
+}
+
+export async function getSessionPrompt(id: string): Promise<SessionPrompt> {
+  const res = await launcherFetch(
+    `/api/sessions/${encodeURIComponent(id)}/prompt`,
+  )
+  if (!res.ok) {
+    throw new Error(`Failed to fetch session prompt ${id}: ${res.status}`)
+  }
+  return res.json()
+}
+
 export async function deleteSession(id: string): Promise<void> {
   const res = await launcherFetch(`/api/sessions/${encodeURIComponent(id)}`, {
     method: "DELETE",

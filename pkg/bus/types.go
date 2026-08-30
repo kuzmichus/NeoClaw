@@ -26,6 +26,11 @@ type InboundContext struct {
 	SenderID  string `json:"sender_id"`
 	MessageID string `json:"message_id,omitempty"`
 
+	// SessionKey, when set, overrides the scope-derived agent session key.
+	// Clients pass the stored opaque key (sk_v1_…) when resuming a session so
+	// the agent recovers its history instead of re-deriving a new key.
+	SessionKey string `json:"session_key,omitempty"`
+
 	Mentioned bool `json:"mentioned,omitempty"`
 
 	ReplyToMessageID string `json:"reply_to_message_id,omitempty"`
