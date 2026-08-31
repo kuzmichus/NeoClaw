@@ -105,7 +105,11 @@ export function AppHeader() {
         </SidebarTrigger>
         <div className="hidden w-36 shrink-0 items-center sm:flex">
           <Link to="/">
-            <img className="w-full" src="/logo_with_text.png" alt="Logo" />
+            <picture>
+              <source srcSet="/logo.svg" type="image/svg+xml" />
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img className="w-full" src="/logo.png" alt="Logo" />
+            </picture>
           </Link>
         </div>
       </div>
